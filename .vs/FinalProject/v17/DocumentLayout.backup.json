@@ -1,0 +1,132 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\HKI 2024-2025\\FinalProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\roompost\\searchroom.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\searchroom.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\controllers\\api\\districtcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\api\\districtcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\viewmodels\\roompostvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\viewmodels\\roompostvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RoomPostVM.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\ViewModels\\RoomPostVM.cs",
+              "RelativeDocumentMoniker": "FinalProject\\ViewModels\\RoomPostVM.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\ViewModels\\RoomPostVM.cs",
+              "RelativeToolTip": "FinalProject\\ViewModels\\RoomPostVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-21T14:44:55.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SearchRoom.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T14:11:57.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DistrictController.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\API\\DistrictController.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Controllers\\API\\DistrictController.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\API\\DistrictController.cs",
+              "RelativeToolTip": "FinalProject\\Controllers\\API\\DistrictController.cs",
+              "ViewState": "AgIAAEABAAAAAAAAAAAAAEsBAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-21T13:38:30.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACoAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T13:26:14.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ViewState": "AgIAADoAAAAAAAAAAAAgwGAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-21T13:20:25.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RoomPostController.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\RoomPostController.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Controllers\\RoomPostController.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\RoomPostController.cs",
+              "RelativeToolTip": "FinalProject\\Controllers\\RoomPostController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAA4wBYAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-21T13:20:15.795Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1144,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

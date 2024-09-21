@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "FinalProject.Controllers.API.DistrictController",
+    "Method": "GetDistricts",
+    "RelativePath": "api/districts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProject.Controllers.API.DistrictController",
+    "Method": "GetWards",
+    "RelativePath": "api/districts/{districtId}/wards",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,135 @@
+﻿@model FinalProject.ViewModels.RoomDetailAndImagesVM
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+@{
+    ViewData["Title"] = "Property Detail";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+@section BreadCum 
+{
+    <div class="hero page-inner overlay"
+        style="background-image: url('@Url.Content("~/images/hero_bg_3.jpg")')">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-9 text-center mt-5">
+                    <h1 class="heading" data-aos="fade-up">
+                        @Model.RoomDetail.RoomAddress
+                    </h1>
+
+                    @* <nav aria-label="breadcrumb"
+                         data-aos="fade-up"
+                         data-aos-delay="200">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >Home</a></li>
+                            <li class="breadcrumb-item">
+                                <a asp-controller="RoomPost" asp-action="Index" asp-route-id="" >Properties</a>
+                            </li>
+                            <li class="breadcrumb-item active text-white-50"
+                                aria-current="page">
+                                @Model.RoomDetail.RoomAddress
+                            </li>
+                        </ol>
+                    </nav> *@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="section">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-7">
+                <div class="img-property-slide-wrap">
+                    <div class="img-property-slide">
+                        @foreach (var image in Model.RoomImages)
+                        {
+                            <img src="~/img/Room/@image.RoomImage" alt="Image" class="img-fluid" />
+                        }
+                    </div>
+                </div> 
+            </div>
+            <div class="col-lg-4">
+                <h2 class="heading text-primary">@Model.RoomDetail.RoomName</h2>
+                <p class="meta">@Model.RoomDetail.RoomAddress</p>
+                <div class="specs d-flex mb-4">
+                    <span class="d-block d-flex align-items-center me-3">
+                        <span class="fas fa-user me-2"></span>
+                        <span class="caption">@Model.RoomDetail.Quantity people</span>
+                    </span>
+                    <span class="d-block d-flex align-items-center">
+                        <span class="fas fa-ruler-horizontal me-2"></span>
+                        <span class="caption">@Model.RoomDetail.RoomSize m²</span>
+                    </span>
+                </div>
+                <div class="price mb-2"><span>@Model.RoomDetail.RoomPrice.ToString("N0") ₫</span></div>
+                <h2 class="heading text-primary">Thông Tin Mô Tả</h2>
+                <p class="text-black-50">
+                    @Model.RoomDetail.RoomDescription
+                </p>
+                <h2 class="heading text-primary">Tiện Ích</h2>
+                <p class="meta">@Model.RoomDetail.UtilityNames</p>
+                <p class="text-black-50">
+                    @Model.RoomDetail.UtilityDescriptions
+                </p>
+
+                <div class="d-block agent-box p-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="img me-3">
+                            @if (Model.RoomDetail.Gender != null && Model.RoomDetail.Gender.Equals("Nữ", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <img src="~/img/User/woman.jpg"
+                                     alt="User_Image"
+                                     class="img-fluid" />
+                            }
+                            else
+                            {
+                                <img src="~/img/User/man.jpg"
+                                     alt="User_Image"
+                                     class="img-fluid" />
+                            }
+                        </div>
+                        <div class="text">
+                            <h3 style="font-size: 1.5rem; font-weight: bold;" class="mb-0">@Model.RoomDetail.FullName</h3>
+                        </div>
+                    </div>
+
+                    <div class="text">
+                   @*      <h3 class="mb-0">@Model.FullName</h3>
+                        <div class="meta mb-3"></div> *@
+                        <h3 class="mb-0">Thông Tin Liên Hệ</h3>
+                        <div class="meta mb-3"></div>
+                        <p>
+                            <span class="me-2">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            @Model.RoomDetail.Email
+                        </p>
+                        <p>
+                            <span class="me-2">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                            @Model.RoomDetail.Phone
+                        </p>
+                        <ul class="list-unstyled social dark-hover d-flex">
+                            <li class="me-1">
+                                <a href="#"><span class="icon-instagram"></span></a>
+                            </li>
+                            <li class="me-1">
+                                <a href="#"><span class="icon-twitter"></span></a>
+                            </li>
+                            <li class="me-1">
+                                <a href="#"><span class="icon-facebook"></span></a>
+                            </li>
+                            <li class="me-1">
+                                <a href="#"><span class="icon-linkedin"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
