@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TWE/nwbV9Ow=",
+  "dgSpecHash": "DwcCEbh0EIc=",
   "success": true,
-  "projectFilePath": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\FinalProject.csproj",
+  "projectFilePath": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\FinalProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

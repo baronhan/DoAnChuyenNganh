@@ -1,30 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\HKI 2024-2025\\FinalProject\\",
+  "WorkspaceRootPath": "D:\\HKI 2024-2025\\SmartRoomManagement\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\roompost\\searchroom.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\searchroom.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\controllers\\api\\districtcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\api\\districtcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\viewmodels\\roompostvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\viewmodels\\roompostvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\finalproject\\finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\models\\viewcomponents\\searchviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\models\\viewcomponents\\searchviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RoomPostVM.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\ViewModels\\RoomPostVM.cs",
-              "RelativeDocumentMoniker": "FinalProject\\ViewModels\\RoomPostVM.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\ViewModels\\RoomPostVM.cs",
-              "RelativeToolTip": "FinalProject\\ViewModels\\RoomPostVM.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T14:44:55.955Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SearchRoom.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\SearchRoom.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAfAAAAAAAAAA==",
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T14:11:57.462Z",
+              "WhenOpened": "2024-09-22T14:56:26.383Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DistrictController.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\API\\DistrictController.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Controllers\\API\\DistrictController.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\API\\DistrictController.cs",
-              "RelativeToolTip": "FinalProject\\Controllers\\API\\DistrictController.cs",
-              "ViewState": "AgIAAEABAAAAAAAAAAAAAEsBAAA8AAAAAAAAAA==",
+              "Title": "SearchViewComponent.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
+              "RelativeToolTip": "FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T13:38:30.478Z",
+              "WhenOpened": "2024-09-22T14:56:13.494Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Default.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAqwBcAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T13:26:14.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\Index.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\Index.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Views\\RoomPost\\Index.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\Index.cshtml",
-              "ViewState": "AgIAADoAAAAAAAAAAAAgwGAAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADwAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-21T13:20:25.239Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RoomPostController.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\RoomPostController.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Controllers\\RoomPostController.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\FinalProject\\FinalProject\\Controllers\\RoomPostController.cs",
-              "RelativeToolTip": "FinalProject\\Controllers\\RoomPostController.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAA4wBYAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T13:20:15.795Z",
+              "WhenOpened": "2024-09-22T14:55:49.084Z",
               "EditorCaption": ""
             }
           ]
