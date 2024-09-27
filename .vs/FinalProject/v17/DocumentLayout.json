@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\HKI 2024-2025\\SmartRoomManagement\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\shared\\components\\search\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\favoritelist\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\favoritelist\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\models\\viewcomponents\\searchviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\models\\viewcomponents\\searchviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\models\\viewcomponents\\favoriteviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\models\\viewcomponents\\favoriteviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Default.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Shared\\Components\\Search\\Default.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAD8AAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-22T14:56:26.383Z",
+              "WhenOpened": "2024-09-27T16:29:32.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAACgAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-27T16:29:25.94Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "SearchViewComponent.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
-              "RelativeToolTip": "FinalProject\\Models\\ViewComponents\\SearchViewComponent.cs",
+              "Title": "FavoriteViewComponent.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "RelativeToolTip": "FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T14:56:13.494Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAADwAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-22T14:55:49.084Z",
+              "WhenOpened": "2024-09-27T16:29:09.811Z",
               "EditorCaption": ""
             }
           ]

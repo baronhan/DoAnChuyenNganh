@@ -10380,3 +10380,52 @@ nav[aria-label="breadcrumb"] li:before {
         background: #00204a;
         color: #fff; }
 
+.icon {
+    position: relative;
+    font-size: 2rem; /* Adjust size of the icons */
+    margin-right: 1rem;
+    color: #007bff; /* Set icon color (for example, blue) */
+    transition: color 0.3s ease;
+}
+
+.icon:hover {
+    color: #0056b3; /* Darken the icon on hover */
+}
+
+/* Specific styles for heart icon */
+.heart-icon {
+    position: relative;
+    color: #dc3545; /* Red color for heart */
+}
+
+.heart-icon .badge {
+    position: absolute;
+    top: -5px; /* Adjust this value to move the badge vertically */
+    right: -5px; /* Adjust this value to move the badge horizontally */
+    background-color: #ffc107; /* Bright yellow badge background */
+    color: #212529; /* Dark text color for badge */
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(15deg); /* Rotate badge to tilt it */
+}
+
+/* Specific styles for user icon */
+.user-icon {
+    color: #6c757d; /* Grey color for user icon */
+    margin-left: 1rem;
+}
+
+.user-icon:hover {
+    color: #343a40; /* Dark grey on hover */
+}
+
+/* Adjust spacing and alignment */
+.site-menu .icon {
+    margin-right: 1rem;
+}
+

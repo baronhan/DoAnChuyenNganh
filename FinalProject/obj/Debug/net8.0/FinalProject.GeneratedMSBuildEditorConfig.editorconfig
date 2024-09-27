@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\HKI 2024-2025\SmartRoomManagement\FinalProject
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/HKI 2024-2025/SmartRoomManagement/FinalProject/Views/FavoriteList/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3JpdGVMaXN0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/HKI 2024-2025/SmartRoomManagement/FinalProject/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,6 +48,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/HKI 2024-2025/SmartRoomManagement/FinalProject/Views/RoomPost/SearchRoom.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVBvc3RcU2VhcmNoUm9vbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/HKI 2024-2025/SmartRoomManagement/FinalProject/Views/Shared/Components/Favorite/FavoritePanel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcRmF2b3JpdGVcRmF2b3JpdGVQYW5lbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/HKI 2024-2025/SmartRoomManagement/FinalProject/Views/Shared/Components/RoomTypeMenu/Default.cshtml]
