@@ -1,27 +1,40 @@
 ﻿using FinalProject.Data;
+using FinalProject.Helpers;
+using FinalProject.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
-// Thêm dịch vụ API controllers
-builder.Services.AddControllers(); // Thêm phần này để hỗ trợ API controllers
 
-// Cấu hình DbContext với kết nối SQL Server
+builder.Services.AddControllers(); 
+
+
 builder.Services.AddDbContext<QlptContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PhongTro"));
 });
 
-// Thêm dịch vụ session
+
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của session
-    options.Cookie.HttpOnly = true; // Chỉ có thể truy cập cookie từ server
-    options.Cookie.IsEssential = true; // Bắt buộc nếu sử dụng cookie consent
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
 });
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Customer/SignIn";
+    options.AccessDeniedPath = "/AccessDenied";
+});
+
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddCors(options =>
 {

@@ -25,11 +25,36 @@
                     <li>
                         @await Component.InvokeAsync("Favorite")
                     </li>
-                    <li>
-                        <a href="#" style="margin-left: -12px;" class="user-icon">
+                    <li class="has-children">
+                        <a href="#" style="margin-left: -18px;">
                             <i class="fas fa-user fa-2x"></i>
+                            @if (Context.User.Identity != null && !string.IsNullOrEmpty(Context.User.Identity.Name))
+                            {
+                                <span style="margin-left: 16px;">Welcome @Context.User.Identity.Name</span>
+                            }
                         </a>
+                        <ul class="dropdown">
+                            @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a asp-action="Profile" asp-controller="Customer">Profile</a>
+                                </li>
+                                <li>
+                                    <a asp-action="Logout" asp-controller="Customer">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-action="SignIn" asp-controller="Customer">Sign In</a>
+                                </li>
+                                <li>
+                                    <a asp-action="Register" asp-controller="Customer">Sign Up</a>
+                                </li>
+                            }
+                        </ul>
                     </li>
+
                 </ul>
 
                 <a href="#"

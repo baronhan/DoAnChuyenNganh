@@ -23,6 +23,9 @@ public partial class User
 
     public string? UserImage { get; set; }
 
+    public string? RandomKey { get; set; }
+    public bool IsValid { get; set; }
+
     public int? UserTypeId { get; set; }
 
     public virtual UserType? UserType { get; set; }

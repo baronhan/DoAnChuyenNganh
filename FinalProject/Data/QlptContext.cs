@@ -297,6 +297,11 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.UserImage)
                 .HasMaxLength(255)
                 .HasColumnName("user_image");
+            entity.Property(e => e.RandomKey)
+                .HasMaxLength(50)
+                .HasColumnName("randomkey");
+            entity.Property(e => e.IsValid)
+                .HasColumnName("isvalid");
             entity.Property(e => e.UserTypeId).HasColumnName("user_type_id");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)

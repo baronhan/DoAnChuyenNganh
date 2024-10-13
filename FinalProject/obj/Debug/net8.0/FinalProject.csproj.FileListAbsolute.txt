@@ -761,3 +761,5 @@ D:\HKI 2024-2025\SmartRoomManagement\FinalProject\obj\Debug\net8.0\refint\FinalP
 D:\HKI 2024-2025\SmartRoomManagement\FinalProject\obj\Debug\net8.0\FinalProject.pdb
 D:\HKI 2024-2025\SmartRoomManagement\FinalProject\obj\Debug\net8.0\FinalProject.genruntimeconfig.cache
 D:\HKI 2024-2025\SmartRoomManagement\FinalProject\obj\Debug\net8.0\ref\FinalProject.dll
+D:\HKI 2024-2025\SmartRoomManagement\FinalProject\bin\Debug\net8.0\AutoMapper.dll
+D:\HKI 2024-2025\SmartRoomManagement\FinalProject\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
