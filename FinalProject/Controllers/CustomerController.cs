@@ -64,6 +64,7 @@ namespace FinalProject.Controllers
         public async Task<IActionResult> SignIn(LoginVM login, string? returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
             if (ModelState.IsValid)
             {
                 var customer = await _userService.CheckUserAsync(login);
@@ -86,17 +87,28 @@ namespace FinalProject.Controllers
                         }
                         else
                         {
+
                             var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Email, customer.Email),
                                 new Claim(ClaimTypes.Name, customer.Username),
-                                new Claim(ClaimTypes.Role, "Khách Thuê")
+                                new Claim(ClaimTypes.Role, "Khách Thuê"),
+                                new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString())
                             };
 
                             var claimsIdentity = new ClaimsIdentity(claims, "login");
                             var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                             await HttpContext.SignInAsync(claimPrincipal);
+
+                            var cookieOptions = new CookieOptions
+                            {
+                                Expires = DateTimeOffset.UtcNow.AddDays(30),
+                                HttpOnly = true,
+                                IsEssential = true
+                            };
+
+                            Response.Cookies.Append("user_id", customer.UserId.ToString(), cookieOptions);
 
                             if (Url.IsLocalUrl(returnUrl))
                             {
@@ -115,17 +127,72 @@ namespace FinalProject.Controllers
         }
         #endregion
 
+
+        #region Profile
+        [HttpGet]
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                var user = await _userService.getUserById(userId);
+                var updatePersonalInfoVM = _mapper.Map<UpdatePersonalInformationVM>(user);
+                return View(updatePersonalInfoVM);
+            }
+            return RedirectToAction("SignIn");
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Profile(UpdatePersonalInformationVM user, IFormFile? userimage)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                var _user = await _userService.getUserById(userId);
+                if (_user == null)
+                {
+                    return NotFound();
+                }
+
+                if (userimage != null)
+                {
+                    var isUpdated = await _userService.UpdateUserImageAsync(_user, userimage);
+                    if (isUpdated != null)
+                    {
+                        user.userimage = isUpdated;
+                    } 
+                }
+                else
+                {
+                    user.userimage = _user.UserImage;
+                }
+
+                _mapper.Map(user, _user); 
+
+                await _userService.UpdateUserInformationAsync(_user, userimage);
+
+                return RedirectToAction("Profile"); 
+            }
+
+            return RedirectToAction("SignIn");
+        }
+
+        #endregion
+
+        #region Logout
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            Response.Cookies.Delete("user_id");
+
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+        #endregion
     }
 }

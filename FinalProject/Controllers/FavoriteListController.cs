@@ -24,14 +24,14 @@ namespace FinalProject.Controllers
 
         public IActionResult AddToFavorite(int id, int quantity = 1)
         {
-     
+
             var favorite = HttpContext.Session.Get<List<FavoriteListVM>>(MySetting.FAVORITE_KEY) ?? new List<FavoriteListVM>();
 
 
             var item = favorite.SingleOrDefault(p => p.PostId == id);
             if (item == null)
             {
-   
+
                 var room = db.RoomPosts.SingleOrDefault(p => p.PostId == id);
                 if (room == null)
                 {
@@ -64,7 +64,7 @@ namespace FinalProject.Controllers
                         RoomPrice = (decimal)x.r.RoomPrice,
                         RoomSize = (decimal)x.r.RoomSize,
                         RoomAddress = x.r.Address,
-                        totalPost = quantity 
+                        totalPost = quantity
                     })
                     .FirstOrDefault();
 

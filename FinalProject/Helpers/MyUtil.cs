@@ -1,5 +1,4 @@
-﻿using System.Net.WebSockets;
-using System.Text;
+﻿using System.Text;
 
 namespace FinalProject.Helpers
 {
@@ -13,7 +12,7 @@ namespace FinalProject.Helpers
 
             var rd = new Random();
 
-            for(int i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 sb.Append(pattern[rd.Next(0, pattern.Length)]);
             }

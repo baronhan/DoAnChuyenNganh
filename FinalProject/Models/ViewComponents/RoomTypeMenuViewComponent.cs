@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FinalProject.Data;
+﻿using FinalProject.Data;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace FinalProject.Models.ViewComponents

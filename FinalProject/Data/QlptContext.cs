@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FinalProject.ViewModels;
+﻿using FinalProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Data;
@@ -46,7 +44,7 @@ public partial class QlptContext : DbContext
 
     public virtual DbSet<Utility> Utilities { get; set; }
 
-    public DbSet<RoomPostVM> RoomPostVM {  get; set; }
+    public DbSet<RoomPostVM> RoomPostVM { get; set; }
 
     public DbSet<RoomPostDetailVM> RoomPostDetailVM { get; set; }
     public DbSet<RoomImageVM> RoomImageVM { get; set; }
@@ -286,10 +284,10 @@ public partial class QlptContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("fullname");
             entity.Property(e => e.Gender)
-                .HasMaxLength(10)
+                .HasColumnType("bit")
                 .HasColumnName("gender");
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .HasColumnName("password");
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
@@ -306,6 +304,10 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .HasColumnName("username");
+            entity.Property(e => e.Dob)
+                .HasColumnType("date")
+                .HasColumnName("dob");
+
 
             entity.HasOne(d => d.UserType).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserTypeId)

@@ -14,7 +14,7 @@
         public DateTime ExpirationDate { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
         public string Phone { get; set; }
         public string UtilityNames { get; set; }
         public string UtilityDescriptions { get; set; }

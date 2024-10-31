@@ -1,6 +1,5 @@
 ﻿using FinalProject.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 
 namespace FinalProject.ViewModels
 {
@@ -21,7 +20,7 @@ namespace FinalProject.ViewModels
         [Required(ErrorMessage = "DateOfBirth is required")]
         [DataType(DataType.Date, ErrorMessage = "Invalid date format")]
         [AgeRestriction(18)]
-        public DateOnly dob {  get; set; }
+        public DateOnly dob { get; set; }
 
 
         [Required(ErrorMessage = "* Email is required.")]
@@ -32,9 +31,9 @@ namespace FinalProject.ViewModels
         [Required(ErrorMessage = "* Gender is required.")]
         public string gender { get; set; }
 
-        public RegisterVM () { }
+        public RegisterVM() { }
 
-        public RegisterVM (string username, string password, DateOnly dob, string email, string gender)
+        public RegisterVM(string username, string password, DateOnly dob, string email, string gender)
         {
             this.username = username;
             this.password = password;

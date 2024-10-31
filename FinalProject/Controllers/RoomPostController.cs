@@ -1,5 +1,4 @@
 ﻿using FinalProject.Data;
-using FinalProject.Models;
 using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -100,7 +99,7 @@ namespace FinalProject.Controllers
                             ExpirationDate = reader.GetDateTime(reader.GetOrdinal("ExpirationDate")),
                             FullName = reader.GetString(reader.GetOrdinal("FullName")),
                             Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Gender = reader.GetString(reader.GetOrdinal("Gender")),
+                            Gender = !reader.IsDBNull(reader.GetOrdinal("Gender")) && reader.GetBoolean(reader.GetOrdinal("Gender")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone")),
                             UtilityNames = reader.GetString(reader.GetOrdinal("UtilityNames")),
                             UtilityDescriptions = reader.GetString(reader.GetOrdinal("UtilityDescriptions"))

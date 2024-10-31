@@ -10429,3 +10429,44 @@ nav[aria-label="breadcrumb"] li:before {
     margin-right: 1rem;
 }
 
+.profile-pic {
+    max-width: 100%;
+    width: 150px;
+    height: 150px;
+    display: block;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+.profile-img-edit {
+    position: relative;
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+}
+
+.file-upload {
+    display: none;
+}
+
+.p-image {
+    position: absolute;
+    top: 110px;
+    right: 10px;
+    background: #50b5ff;
+    color: #fff;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-button {
+    font-size: 1.2em;
+}

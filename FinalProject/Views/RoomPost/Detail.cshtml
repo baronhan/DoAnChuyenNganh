@@ -78,18 +78,19 @@
                 <div class="d-block agent-box p-5">
                     <div class="d-flex align-items-center mb-4">
                         <div class="img me-3">
-                            @if (Model.RoomDetail.Gender != null && Model.RoomDetail.Gender.Equals("Nữ", StringComparison.OrdinalIgnoreCase))
-                            {
-                                <img src="~/img/User/woman.jpg"
-                                     alt="User_Image"
-                                     class="img-fluid" />
-                            }
-                            else
+                            @if (Model.RoomDetail.Gender) 
                             {
                                 <img src="~/img/User/man.jpg"
                                      alt="User_Image"
                                      class="img-fluid" />
                             }
+                            else
+                            {
+                                <img src="~/img/User/woman.jpg"
+                                     alt="User_Image"
+                                     class="img-fluid" />
+                            }
+
                         </div>
                         <div class="text">
                             <h3 style="font-size: 1.5rem; font-weight: bold;" class="mb-0">@Model.RoomDetail.FullName</h3>

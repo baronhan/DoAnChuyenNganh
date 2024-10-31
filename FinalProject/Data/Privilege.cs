@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FinalProject.Data;
+﻿namespace FinalProject.Data;
 
 public partial class Privilege
 {

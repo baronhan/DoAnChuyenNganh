@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FinalProject.Data;
+﻿namespace FinalProject.Data;
 
 public partial class User
 {
@@ -10,7 +7,7 @@ public partial class User
     public string Username { get; set; } = null!;
 
     public string? Fullname { get; set; }
-
+    public DateTime? Dob {  get; set; }
     public string Password { get; set; } = null!;
 
     public string? Address { get; set; }
@@ -19,7 +16,7 @@ public partial class User
 
     public string? Phone { get; set; }
 
-    public string? Gender { get; set; }
+    public bool? Gender { get; set; }
 
     public string? UserImage { get; set; }
 

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FinalProject.Helpers;
+﻿using FinalProject.Helpers;
 using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Models.ViewComponents
 {

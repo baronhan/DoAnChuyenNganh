@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 
 
 builder.Services.AddDbContext<QlptContext>(options =>
@@ -21,9 +21,9 @@ builder.Services.AddDbContext<QlptContext>(options =>
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); 
-    options.Cookie.HttpOnly = true; 
-    options.Cookie.IsEssential = true; 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));

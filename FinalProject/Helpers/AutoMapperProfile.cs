@@ -9,6 +9,8 @@ namespace FinalProject.Helpers
         public AutoMapperProfile()
         {
             CreateMap<RegisterVM, User>();
+            CreateMap<UpdatePersonalInformationVM, User>();
+            CreateMap<User, UpdatePersonalInformationVM>();
         }
     }
 }
