@@ -10,7 +10,7 @@ namespace FinalProject.Helpers
         {
             CreateMap<RegisterVM, User>();
             CreateMap<UpdatePersonalInformationVM, User>();
-            CreateMap<User, UpdatePersonalInformationVM>();
+            CreateMap<User, UpdatePersonalInformationVM>(); 
         }
     }
 }

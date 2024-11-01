@@ -20,7 +20,7 @@ namespace FinalProject.ViewModels
         [Required(ErrorMessage = "DateOfBirth is required")]
         [DataType(DataType.Date, ErrorMessage = "Invalid date format")]
         [AgeRestriction(18)]
-        public DateOnly dob { get; set; }
+        public DateTime dob { get; set; }
 
 
         [Required(ErrorMessage = "* Email is required.")]
@@ -33,7 +33,7 @@ namespace FinalProject.ViewModels
 
         public RegisterVM() { }
 
-        public RegisterVM(string username, string password, DateOnly dob, string email, string gender)
+        public RegisterVM(string username, string password, DateTime dob, string email, string gender)
         {
             this.username = username;
             this.password = password;

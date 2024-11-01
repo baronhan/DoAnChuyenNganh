@@ -307,6 +307,12 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.Dob)
                 .HasColumnType("date")
                 .HasColumnName("dob");
+            entity.Property(e => e.ResetToken)
+                .HasMaxLength(100)
+                .HasColumnName("resetToken");
+            entity.Property(e => e.TokenCreateAt)
+                .HasColumnType("datetime")
+                .HasColumnType("tokenCreateAt");
 
 
             entity.HasOne(d => d.UserType).WithMany(p => p.Users)

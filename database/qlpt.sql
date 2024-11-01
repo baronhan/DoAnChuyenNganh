@@ -106,6 +106,7 @@ CREATE TABLE [User] (
     user_id INT PRIMARY KEY IDENTITY(1,1),	
     username NVARCHAR(50) NOT NULL,
 	fullname NVARCHAR(255),
+	dob DATETIME,
     [password] NVARCHAR(50) NOT NULL,
     address NVARCHAR(255),
     email NVARCHAR(100),
@@ -113,6 +114,8 @@ CREATE TABLE [User] (
     gender NVARCHAR(10),
     user_image NVARCHAR(255),
     user_type_id INT,
+	resetToken VARCHAR(100),
+	tokenCreateAt DATETIME,
     FOREIGN KEY (user_type_id) REFERENCES User_Type(user_type_id)
 );
 

@@ -24,6 +24,8 @@ public partial class User
     public bool IsValid { get; set; }
 
     public int? UserTypeId { get; set; }
+    public string? ResetToken { get; set; }
+    public DateTime? TokenCreateAt { get; set; }
 
     public virtual UserType? UserType { get; set; }
 }

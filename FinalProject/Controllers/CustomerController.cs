@@ -5,7 +5,10 @@ using FinalProject.Services;
 using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Security.Claims;
 
 namespace FinalProject.Controllers
@@ -14,16 +17,19 @@ namespace FinalProject.Controllers
     {
         private readonly UserService _userService;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public CustomerController(IMapper mapper, UserService userService)
+        public CustomerController(IMapper mapper, UserService userService, IEmailSender emailSender)
         {
             _mapper = mapper;
             _userService = userService;
+            _emailSender = emailSender;
         }
 
         #region Register
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -54,6 +60,7 @@ namespace FinalProject.Controllers
 
         #region SignIn
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult SignIn(string? returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -145,18 +152,19 @@ namespace FinalProject.Controllers
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Profile(UpdatePersonalInformationVM user, IFormFile? userimage)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
-
+        { 
             if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
             {
                 var _user = await _userService.getUserById(userId);
                 if (_user == null)
                 {
                     return NotFound();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    user.userimage = _user.UserImage;
+                    return View(user);
                 }
 
                 if (userimage != null)
@@ -176,6 +184,8 @@ namespace FinalProject.Controllers
 
                 await _userService.UpdateUserInformationAsync(_user, userimage);
 
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+
                 return RedirectToAction("Profile"); 
             }
 
@@ -193,6 +203,158 @@ namespace FinalProject.Controllers
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+        #endregion
+
+        #region Change Password
+
+        [Authorize]
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View(new UpdatePasswordVM()); 
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordPost(UpdatePasswordVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ChangePassword", model);
+            }
+
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                var user = await _userService.getUserById(userId);
+
+                if (user != null)
+                {
+                    if (await _userService.VerifyCurrentPassword(model.currentPassword, user.Password, user.RandomKey))
+                    {
+                        var isChanged = await _userService.ChangePassword(user, model);
+
+                        if (isChanged)
+                        {
+                            TempData["SuccessMessage"] = "Password updated successfully!";
+                            return RedirectToAction("Profile", "Customer");
+                        }
+                        else
+                        {
+                            TempData["FailMessage"] = "Password update failed!";
+                            return View("ChangePassword", model);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("currentPassword", "Current password is incorrect.");
+                        return View("ChangePassword", model);
+                    }
+                }
+            }
+
+            return RedirectToAction("SignIn");
+        }
+
+
+        #endregion
+
+
+        #region Forgot Password
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM passwordVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(passwordVM);
+            }
+
+            if (await _userService.EmailExistAsync(passwordVM.Email))
+            {
+                var token = await _userService.GeneratePasswordResetTokenAsync(passwordVM.Email);
+
+                var resetpwUrl = Url.Action("ResetPassword", "Customer", new { token, email = passwordVM.Email }, Request.Scheme);
+
+                await _emailSender.SendEmailAsync(passwordVM.Email, "Reset Your Password",
+                    $"Please reset your password by clicking here: <a href='{resetpwUrl}'>link</a>");
+
+                TempData["Email"] = passwordVM.Email;
+
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+
+            ModelState.AddModelError("Email", "The email address is not registered.");
+            return View(passwordVM);
+        }
+
+        [AllowAnonymous]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            var email = TempData["Email"]?.ToString();
+
+            ViewBag.Email = email;
+
+            return View();
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Yêu cầu không hợp lệ.");
+                return View("Error"); 
+            }
+
+            var model = new ResetPasswordVM { Token = token, Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model); 
+            }
+
+            if (await _userService.EmailExistAsync(model.Email))
+            {
+                var result = await _userService.ResetPasswordAsync(model.Email, model.Token, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ResetPasswordConfirmation");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Email không tồn tại.");
+            }
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
         #endregion
     }
 }

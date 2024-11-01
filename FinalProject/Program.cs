@@ -2,6 +2,8 @@
 using FinalProject.Helpers;
 using FinalProject.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,8 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddScoped<IEmailSender, EmailService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
@@ -54,8 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Cấu hình middleware cho session
-app.UseSession(); // Thêm dòng này để kích hoạt session
+app.UseSession();
 
 app.UseCors("MyAllowSpecificOrigins");
 

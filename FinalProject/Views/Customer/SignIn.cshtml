@@ -11,23 +11,12 @@
     Layout = null;
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <p>@error.ErrorMessage</p>
-        }
-    </div>
-}
-
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="shortcut icon" href="~/assets/images/favicon.ico" />
     <link rel="stylesheet" href="~/assets/css/libs.min.css">
     <link rel="stylesheet" href="~/assets/css/socialv.css?v=4.0.0">
     <link rel="stylesheet" href="~/assets/vendor/fortawesome/fontawesome-free/css/all.min.css">
@@ -102,10 +91,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="password" class="form-label" for="exampleInputPassword1">Password:</label>
-                                    <a style="color:#005555 !important" href="@Url.Action("ForgotPassword", "Account")" class="float-end">Forgot password?</a>
+                                    <a style="color:#005555 !important" href="@Url.Action("ForgotPassword", "Customer")" class="float-end">Forgot password?</a>
                                     <input asp-for="password" type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
                                     <span asp-validation-for="password" class="text-danger"></span>
                                 </div>
+                                @if (!ViewData.ModelState.IsValid)
+                                {
+                                    <div class="alert alert-danger">
+                                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                        {
+                                            <p>@error.ErrorMessage</p>
+                                        }
+                                    </div>
+                                }
                                 <div class="d-inline-block w-100">
                                     <div class="form-check d-inline-block mt-2 pt-1">
                                         <input type="checkbox" class="form-check-input" id="customCheck11">
