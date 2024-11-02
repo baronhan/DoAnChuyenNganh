@@ -71,12 +71,20 @@
 
                                     <a asp-controller="RoomPost" asp-action="Detail" asp-route-id="@post.PostId"
                                        class="btn btn-primary py-2 px-3">See details</a>
-                                    <a asp-controller="FavoriteList" asp-action="AddToFavorite" asp-route-id="@post.PostId"
-                                       style="margin-left: 30px;" class="btn btn-primary py-2 px-3">Add Favorite</a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a asp-controller="FavoriteList" asp-action="AddToFavoriteAuthenticated" asp-route-id="@post.PostId"
+                                           style="margin-left: 30px;" class="btn btn-primary py-2 px-3">Add Favorite</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="FavoriteList" asp-action="AddToFavoriteAnonymous" asp-route-id="@post.PostId"
+                                           style="margin-left: 30px;" class="btn btn-primary py-2 px-3">Add Favorite</a>
+                                    }
+
                                 </div>
                             </div>
                         </div>
-                        <!-- .item -->
                     </div>
                 }
             }

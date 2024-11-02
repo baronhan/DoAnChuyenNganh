@@ -58,9 +58,12 @@ public partial class QlptContext : DbContext
             entity.ToTable("Favorite_List");
 
             entity.Property(e => e.FavoriteListId).HasColumnName("favorite_list_id");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .HasColumnName("name");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne<User>()
+                  .WithOne()
+                  .HasForeignKey<FavoriteList>(e => e.UserId)
+                  .HasConstraintName("FK_FavoriteList_User");
         });
 
         modelBuilder.Entity<FavoriteListPost>(entity =>
@@ -70,10 +73,8 @@ public partial class QlptContext : DbContext
             entity.ToTable("Favorite_List_Post");
 
             entity.Property(e => e.FavoriteListPostId).HasColumnName("favorite_list_post_id");
-            entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.FavoriteId).HasColumnName("favorite_id");
             entity.Property(e => e.PostId).HasColumnName("post_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Favorite).WithMany(p => p.FavoriteListPosts)
                 .HasForeignKey(d => d.FavoriteId)

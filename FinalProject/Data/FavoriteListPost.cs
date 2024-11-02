@@ -8,10 +8,6 @@ public partial class FavoriteListPost
 
     public int? FavoriteId { get; set; }
 
-    public int? UserId { get; set; }
-
-    public DateOnly? Date { get; set; }
-
     public virtual FavoriteList? Favorite { get; set; }
 
     public virtual RoomPost? Post { get; set; }

@@ -63,7 +63,7 @@ CREATE TABLE Room_Image (
 -- Tạo bảng Favorite_List
 CREATE TABLE Favorite_List (
     favorite_list_id INT PRIMARY KEY IDENTITY(1,1),
-    name NVARCHAR(100)
+    user_id INT
 );
 
 -- Tạo bảng Favorite_List_Post
@@ -71,8 +71,6 @@ CREATE TABLE Favorite_List_Post (
     favorite_list_post_id INT PRIMARY KEY IDENTITY(1,1),
     post_id INT,
     favorite_id INT,
-    user_id INT,
-    date DATE,
     FOREIGN KEY (post_id) REFERENCES Room_Post(post_id),
     FOREIGN KEY (favorite_id) REFERENCES Favorite_List(favorite_list_id)
 );
@@ -134,6 +132,10 @@ CREATE TABLE Privilege (
     FOREIGN KEY (user_type_id) REFERENCES User_Type(user_type_id),
     FOREIGN KEY (page_address_id) REFERENCES Page_Address(page_address_id)
 );
+
+alter table Favorite_List
+add constraint FK_FavoriteList_User
+foreign key (user_id) references [User](user_id)
 
 INSERT INTO Room_Status (status_name)
 VALUES (N'Có sẵn'), (N'Đã thuê'), (N'Hết hạn');
@@ -293,3 +295,11 @@ set image_type_id = 6
 where image_id = 11
 
 select * from [User]
+
+SELECT 
+    CONSTRAINT_NAME, 
+    CONSTRAINT_TYPE
+FROM 
+    INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE 
+    TABLE_NAME = 'Favorite_List' AND CONSTRAINT_TYPE = 'FOREIGN KEY';

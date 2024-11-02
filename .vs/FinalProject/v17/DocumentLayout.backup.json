@@ -3,44 +3,36 @@
   "WorkspaceRootPath": "D:\\HKI 2024-2025\\SmartRoomManagement\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\resetpasswordconfirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\resetpasswordconfirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\favoritelistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\favoritelistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\forgotpasswordconfirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\forgotpasswordconfirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\customer\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\customer\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\services\\favoritelistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\services\\favoritelistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\favoritelist\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\favoritelist\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\shared\\_layoutcustomer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\shared\\_layoutcustomer.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\models\\viewcomponents\\favoriteviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\models\\viewcomponents\\favoriteviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roompost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\viewmodels\\favoritelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\viewmodels\\favoritelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,132 +50,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ForgotPasswordConfirmation.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ForgotPasswordConfirmation.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\ForgotPasswordConfirmation.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ForgotPasswordConfirmation.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\ForgotPasswordConfirmation.cshtml",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEoAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T16:26:10.868Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ResetPasswordConfirmation.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ResetPasswordConfirmation.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\ResetPasswordConfirmation.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ResetPasswordConfirmation.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\ResetPasswordConfirmation.cshtml",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEwAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T16:24:40.782Z",
+              "DocumentIndex": 1,
+              "Title": "FavoriteListService.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Services\\FavoriteListService.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Services\\FavoriteListService.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Services\\FavoriteListService.cs",
+              "RelativeToolTip": "FinalProject\\Services\\FavoriteListService.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAmwGYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-02T03:42:39.478Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ChangePassword.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ChangePassword.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\ChangePassword.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ChangePassword.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\ChangePassword.cshtml",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAAwDQAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T16:21:24.957Z",
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Services\\UserService.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Services\\UserService.cs",
+              "RelativeToolTip": "FinalProject\\Services\\UserService.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAApwEcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-02T03:42:12.283Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\Profile.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\Profile.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\Profile.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\Profile.cshtml",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAE8AAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T16:20:17.904Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ResetPassword.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ResetPassword.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\ResetPassword.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ResetPassword.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\ResetPassword.cshtml",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFcAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T16:17:55.225Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\appsettings.json",
-              "RelativeDocumentMoniker": "FinalProject\\appsettings.json",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\appsettings.json",
-              "RelativeToolTip": "FinalProject\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-01T15:15:55.714Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "_LayoutCustomer.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\_LayoutCustomer.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Shared\\_LayoutCustomer.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Shared\\_LayoutCustomer.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Shared\\_LayoutCustomer.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T14:16:59.647Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ForgotPassword.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ForgotPassword.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\Customer\\ForgotPassword.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\Customer\\ForgotPassword.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\Customer\\ForgotPassword.cshtml",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAFkAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-01T14:10:11.086Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "FinalProject\\Controllers\\CustomerController.cs",
               "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\CustomerController.cs",
               "RelativeToolTip": "FinalProject\\Controllers\\CustomerController.cs",
-              "ViewState": "AgIAACcBAAAAAAAAAAAAwDUBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowBIAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T09:44:37.257Z",
+              "WhenOpened": "2024-11-02T03:37:09.971Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Program.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Program.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Program.cs",
-              "RelativeToolTip": "FinalProject\\Program.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAAzAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "FavoriteListController.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\FavoriteListController.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Controllers\\FavoriteListController.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\FavoriteListController.cs",
+              "RelativeToolTip": "FinalProject\\Controllers\\FavoriteListController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-01T15:29:14.428Z",
+              "WhenOpened": "2024-11-02T03:35:10.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\RoomPost\\Index.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEgAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-02T03:34:57.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FavoriteViewComponent.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "RelativeToolTip": "FinalProject\\Models\\ViewComponents\\FavoriteViewComponent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-02T03:31:20.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "RelativeDocumentMoniker": "FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "RelativeToolTip": "FinalProject\\Views\\FavoriteList\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-02T03:31:03.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FavoriteListVM.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\ViewModels\\FavoriteListVM.cs",
+              "RelativeDocumentMoniker": "FinalProject\\ViewModels\\FavoriteListVM.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\ViewModels\\FavoriteListVM.cs",
+              "RelativeToolTip": "FinalProject\\ViewModels\\FavoriteListVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-02T03:32:03.917Z",
               "EditorCaption": ""
             }
           ]

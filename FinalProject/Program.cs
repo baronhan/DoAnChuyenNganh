@@ -39,6 +39,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<FavoriteListService>();
+
 
 builder.Services.AddCors(options =>
 {

@@ -19,6 +19,19 @@
 
 <div class="container-fluid py-5">
     <div class="container py-5">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["FailMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["FailMessage"]
+            </div>
+        }
         <div class="table-responsive">
             <table class="table">
                 <thead>
