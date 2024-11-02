@@ -303,3 +303,11 @@ FROM
     INFORMATION_SCHEMA.TABLE_CONSTRAINTS
 WHERE 
     TABLE_NAME = 'Favorite_List' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+
+select * from Favorite_List
+select * from Favorite_List_Post
+
+delete from Favorite_List_Post
+where favorite_list_post_id = 4
+
+select count(favorite_id) from Favorite_List_Post

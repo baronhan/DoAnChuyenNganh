@@ -33,7 +33,7 @@ namespace FinalProject.Services
         {
             try
             {
-                int favoriteId = await GetFavoriteIdByUserId(userId);
+                int favoriteId = GetFavoriteIdByUserId(userId);
 
                 if (favoriteId == 0)
                 {
@@ -58,14 +58,14 @@ namespace FinalProject.Services
             }
         }
 
-        private async Task<int> GetFavoriteIdByUserId(int userId)
+        private int GetFavoriteIdByUserId(int userId)
         {
             try
             {
-                var favoriteId = await db.FavoriteLists
+                var favoriteId =  db.FavoriteLists
                     .Where(favorite => favorite.UserId == userId)
                     .Select(favorite => favorite.FavoriteListId)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefault();
 
                 return favoriteId;
             }
@@ -99,7 +99,7 @@ namespace FinalProject.Services
 
         public async Task<List<FavoriteListVM>> GetFavoriteListByUserId(int userId)
         {
-            int favoriteId = await GetFavoriteIdByUserId(userId);
+            int favoriteId = GetFavoriteIdByUserId(userId);
 
             var favorites = await (from f in db.FavoriteListPosts
                                    join r in db.RoomPosts on f.PostId equals r.PostId
@@ -119,5 +119,117 @@ namespace FinalProject.Services
             return favorites;
         }
 
+        public async Task<bool> CheckExistingPostId(int idPhong, int idUser)
+        {
+            try
+            {
+                int favoriteId = GetFavoriteIdByUserId(idUser);
+
+                var favorite_list_post = db.FavoriteListPosts.Where(favorite => favorite.FavoriteId == favoriteId && favorite.PostId == idPhong).FirstOrDefault();
+
+                if (favorite_list_post != null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+
+        public async Task<int> CountNumberOfFavoriteList(int userId)
+        {
+            try
+            {
+                int favoriteId = GetFavoriteIdByUserId(userId);
+
+                return await db.FavoriteListPosts
+                        .Where(f => f.FavoriteId == favoriteId)
+                        .CountAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return 0;
+            }
+        }
+
+        public bool DeleteFavoriteItem(int idPhong, int idUser)
+        {
+            try
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserId == idUser);
+
+                if (user != null)
+                {
+                    int favoriteId = GetFavoriteIdByUserId(idUser);
+
+                    var existingFavoritePost = db.FavoriteListPosts.FirstOrDefault(f => f.PostId == idPhong && f.FavoriteId == favoriteId);
+
+                    if (existingFavoritePost != null)
+                    {
+                        db.FavoriteListPosts.Remove(existingFavoritePost);
+                        db.SaveChanges();
+
+                        if (!CheckExistingFavoriteId(favoriteId))
+                        {
+                            if (DeleteFavoriteListByUser(idUser))
+                            {
+                                db.SaveChanges();
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        return true; 
+                    }
+                }
+                return false; 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private bool CheckExistingFavoriteId(int favoriteId)
+        {
+            try
+            {
+                return db.FavoriteListPosts.Any(f => f.FavoriteId == favoriteId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+
+        private bool DeleteFavoriteListByUser(int userId)
+        {
+            try
+            {
+                var favoriteList = db.FavoriteLists.FirstOrDefault(f => f.UserId == userId);
+
+                if (favoriteList != null)
+                {
+                    db.FavoriteLists.Remove(favoriteList);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

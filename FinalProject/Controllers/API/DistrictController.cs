@@ -303,7 +303,7 @@ namespace FinalProject.Controllers.API
                         new { id = 197, name = "Phường 13" },
                         new { id = 198, name = "Phường 14" },
                         new { id = 199, name = "Phường 15" },
-                        new { id = 200, name = "Phường 17" }
+                        new { id = 200, name = "Phường 16" }
                     }
                 },
                 { 15, new List<object>
@@ -322,7 +322,7 @@ namespace FinalProject.Controllers.API
                         new { id = 212, name = "Phường 13" },
                         new { id = 213, name = "Phường 14" },
                         new { id = 214, name = "Phường 15" },
-                        new { id = 215, name = "Phường 17" }
+                        new { id = 215, name = "Phường 16" }
                     }
                 },
                 { 16, new List<object>

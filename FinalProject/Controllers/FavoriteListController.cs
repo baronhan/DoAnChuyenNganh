@@ -4,7 +4,8 @@ using FinalProject.Services;
 using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
@@ -21,6 +22,7 @@ namespace FinalProject.Controllers
             this._favoriteListService = _favoriteListService;
         }
 
+        #region FavoriteListView
         public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -37,7 +39,9 @@ namespace FinalProject.Controllers
                 return View(sessionFavoriteList);
             }
         }
+        #endregion
 
+        #region AddToFavoriteAuthenticated
         [Authorize]
         public async Task<IActionResult> AddToFavoriteAuthenticated(int id, int quantity = 1)
         {
@@ -45,18 +49,11 @@ namespace FinalProject.Controllers
             {
                 if (await _favoriteListService.CheckExistingFavoriteList(userId))
                 {
-                    if (await _favoriteListService.AddFavotiteListPost(id, userId))
+                    if(await _favoriteListService.CheckExistingPostId(id, userId))
                     {
-                        TempData["SuccessMessage"] = "Added to favorites successfully!";
+                        return RedirectToAction("Index");
                     }
                     else
-                    {
-                        TempData["FailMessage"] = "Failed to add to favorites!";
-                    }
-                }
-                else
-                {
-                    if (await _favoriteListService.AddFavoriteList(userId))
                     {
                         if (await _favoriteListService.AddFavotiteListPost(id, userId))
                         {
@@ -65,6 +62,27 @@ namespace FinalProject.Controllers
                         else
                         {
                             TempData["FailMessage"] = "Failed to add to favorites!";
+                        }
+                    }
+                }
+                else
+                {
+                    if (await _favoriteListService.AddFavoriteList(userId))
+                    {
+                        if(await _favoriteListService.CheckExistingPostId(id, userId))
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            if (await _favoriteListService.AddFavotiteListPost(id, userId))
+                            {
+                                TempData["SuccessMessage"] = "Added to favorites successfully!";
+                            }
+                            else
+                            {
+                                TempData["FailMessage"] = "Failed to add to favorites!";
+                            }
                         }
                     }
                     else
@@ -78,7 +96,9 @@ namespace FinalProject.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
 
+        #region AddToFavoriteAnonymous
         [AllowAnonymous]
         public IActionResult AddToFavoriteAnonymous(int id, int quantity = 1)
         {
@@ -116,5 +136,48 @@ namespace FinalProject.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult DeleteFavoriteItemAuthenticated(int idPhong)
+        {
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                bool result = _favoriteListService.DeleteFavoriteItem(idPhong, userId);
+
+                if (result)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Không thể xóa mục yêu thích. Vui lòng thử lại.");
+                    return RedirectToAction("Index"); 
+                }
+            }
+
+            ModelState.AddModelError("", "Bạn cần đăng nhập để thực hiện hành động này.");
+            return RedirectToAction("Index");
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult DeleteFavoriteItemAnonymous(int idPhong)
+        {
+            var favorite = HttpContext.Session.Get<List<FavoriteListVM>>(MySetting.FAVORITE_KEY) ?? new List<FavoriteListVM>();
+
+            var item = favorite.SingleOrDefault(p => p.PostId == idPhong);
+
+            if (item != null)
+            {
+                favorite.Remove(item);
+
+                HttpContext.Session.Set(MySetting.FAVORITE_KEY, favorite);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
