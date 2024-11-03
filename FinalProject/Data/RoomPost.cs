@@ -16,15 +16,16 @@ public partial class RoomPost
 
     public string? RoomDescription { get; set; }
 
-    public DateOnly? DatePosted { get; set; }
+    public DateTime? DatePosted { get; set; }
 
-    public DateOnly? ExpirationDate { get; set; }
+    public DateTime? ExpirationDate { get; set; }
 
     public int? StatusId { get; set; }
 
     public int? UserId { get; set; }
 
     public int? RoomTypeId { get; set; }
+    public int? RoomCoordinateId { get; set; }
 
     public virtual ICollection<FavoriteListPost> FavoriteListPosts { get; set; } = new List<FavoriteListPost>();
 
@@ -37,4 +38,5 @@ public partial class RoomPost
     public virtual ICollection<RoomUtility> RoomUtilities { get; set; } = new List<RoomUtility>();
 
     public virtual RoomStatus? Status { get; set; }
+    public virtual RoomCoordinates RoomCoordinate { get; set; }
 }

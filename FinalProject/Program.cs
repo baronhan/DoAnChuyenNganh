@@ -1,4 +1,5 @@
-﻿using FinalProject.Data;
+﻿using FinalProject.Controllers.API;
+using FinalProject.Data;
 using FinalProject.Helpers;
 using FinalProject.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -40,6 +41,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FavoriteListService>();
+builder.Services.AddScoped<RoomService>();
 
 
 builder.Services.AddCors(options =>
@@ -52,6 +54,8 @@ builder.Services.AddCors(options =>
                    .AllowAnyMethod();
         });
 });
+
+builder.Services.AddHttpClient<GeocodeController>();
 
 var app = builder.Build();
 

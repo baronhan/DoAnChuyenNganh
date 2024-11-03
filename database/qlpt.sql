@@ -31,6 +31,7 @@ CREATE TABLE Room_Post (
     status_id INT,
     user_id INT,
     room_type_id INT,
+	room_coordinate_id INT,
     FOREIGN KEY (status_id) REFERENCES Room_Status(room_status_id),
     FOREIGN KEY (room_type_id) REFERENCES Room_Type(room_type_id)
 );
@@ -132,6 +133,30 @@ CREATE TABLE Privilege (
     FOREIGN KEY (user_type_id) REFERENCES User_Type(user_type_id),
     FOREIGN KEY (page_address_id) REFERENCES Page_Address(page_address_id)
 );
+
+CREATE TABLE Room_Coordinates (
+    room_coordinate_id INT PRIMARY KEY IDENTITY(1,1),
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL
+);
+
+ALTER TABLE Room_Post
+ADD CONSTRAINT FK_RoomPost_Coordinates
+FOREIGN KEY (room_coordinate_id) REFERENCES Room_Coordinates(room_coordinate_id);
+
+
+SELECT 
+    kc.name AS ConstraintName
+FROM 
+    sys.key_constraints AS kc
+JOIN 
+    sys.tables AS t ON kc.parent_object_id = t.object_id
+WHERE 
+    kc.type = 'PK' AND t.name = 'Room_Coordinates';
+
+
+SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'Room_Post';
+
 
 alter table Favorite_List
 add constraint FK_FavoriteList_User
@@ -311,3 +336,5 @@ delete from Favorite_List_Post
 where favorite_list_post_id = 4
 
 select count(favorite_id) from Favorite_List_Post
+
+select * from Room_Post

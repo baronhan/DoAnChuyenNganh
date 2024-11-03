@@ -10,6 +10,7 @@ BEGIN
         ri.image_url AS RoomImage,
         rp.room_price AS RoomPrice,
         rp.room_size AS RoomSize,
+		rp.room_coordinate_id AS RoomCoordinateId,
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 
                           CHARINDEX(',', rp.address) + 1, 
@@ -131,3 +132,5 @@ SELECT
 FROM Room_Image ri
 WHERE ri.post_id = 1
   AND ri.image_type_id IN (1, 6);
+
+EXEC GetRoomPosts @RoomTypeId = 1

@@ -3,16 +3,24 @@ using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using FinalProject.Services;
+using Newtonsoft.Json.Linq;
 
 namespace FinalProject.Controllers
 {
     public class RoomPostController : Controller
     {
         private readonly QlptContext _db;
+        private readonly RoomService _roomService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public RoomPostController(QlptContext db)
+        public RoomPostController(QlptContext db, RoomService _roomService, IHttpClientFactory _httpClientFactory)
         {
-            _db = db;
+            this._db = db;
+            this._roomService = _roomService;
+            this._httpClientFactory = _httpClientFactory;
         }
 
 
@@ -130,6 +138,137 @@ namespace FinalProject.Controllers
             };
 
             return View(model);
+        }
+
+        [Authorize]
+        public IActionResult UploadRoomPost()
+        {
+            var model = new UploadRoomPostVM
+            {
+                RoomTypes = _roomService.GetRoomType(),
+                RoomPostContentVM = new RoomPostContentVM()
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UploadRoomPost(UploadRoomPostVM model)
+        {
+            ModelState.Remove("RoomTypes");
+
+            if (ModelState.IsValid)
+            {
+                var coordinates = await GetCoordinatesAsync(model.RoomPostContentVM.RoomAddress);
+
+                if (coordinates.latitude == 0 && coordinates.longitude == 0)
+                {
+                    TempData["FailMessage"] = "Invalid coordinates.";
+                    model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi có lỗi
+                    return View(model);
+                }
+
+                if (_roomService.CheckExistingCoordinate(coordinates.latitude, coordinates.longitude))
+                {
+                    var roomCoordinateId = _roomService.GetRoomCoordinateId(coordinates.latitude, coordinates.longitude);
+
+                    if (roomCoordinateId != 0)
+                    {
+                        model.RoomPostContentVM.RoomCoordinateId = roomCoordinateId;
+
+                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM))
+                        {
+                            TempData["SuccessMessage"] = "Added to favorites successfully!";
+                        }
+                        else
+                        {
+                            TempData["FailMessage"] = "Failed to add to favorites!";
+                        }
+                    }
+                    else
+                    {
+                        TempData["FailMessage"] = "Room Coordinate Id doesn't exist!";
+                    }
+                }
+                else
+                {
+                    int roomCoordinateId = _roomService.AddNewRoomCoordinate(coordinates.latitude, coordinates.longitude);
+
+                    if (roomCoordinateId != 0)
+                    {
+                        model.RoomPostContentVM.RoomCoordinateId = roomCoordinateId;
+
+                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM))
+                        {
+                            TempData["SuccessMessage"] = "Added to favorites successfully!";
+                        }
+                        else
+                        {
+                            TempData["FailMessage"] = "Failed to add to favorites!";
+                        }
+                    }
+                    else
+                    {
+                        TempData["FailMessage"] = "Failed to add new Room Coordinate!";
+                    }
+                }
+
+                model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi hoàn tất
+
+                return View(model);
+            }
+            else
+            {
+                // Ghi lỗi validation vào console (hoặc dùng log)
+                foreach (var modelState in ModelState)
+                {
+                    foreach (var error in modelState.Value.Errors)
+                    {
+                        Console.WriteLine($"Property: {modelState.Key}, Error: {error.ErrorMessage}");
+                    }
+                }
+
+                model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi có lỗi validation
+                return View(model);
+            }
+        }
+
+
+
+        private async Task<(double latitude, double longitude)> GetCoordinatesAsync(string address)
+        {
+            var client = _httpClientFactory.CreateClient();
+            string url = $"https://localhost:7127/api/geocode/getCoordinates?address={Uri.EscapeDataString(address)}";
+
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Geocode API Response: {jsonResponse}");
+
+                var result = JObject.Parse(jsonResponse);
+
+                if (result["latitude"] != null && result["longitude"] != null)
+                {
+                    double latitude = result["latitude"].Value<double>();
+                    double longitude = result["longitude"].Value<double>();
+                    return (latitude, longitude);
+                }
+                else
+                {
+                    Console.WriteLine($"Geocoding error: {result["status"]}"); 
+                }
+            }
+            else
+            {
+                Console.WriteLine($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
+            }
+
+
+            System.Diagnostics.Debug.WriteLine(response);
+
+            return (0, 0); 
         }
 
 

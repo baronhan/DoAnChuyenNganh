@@ -54,18 +54,16 @@
 </div>
 
 <script>
-    let selectedDistrict = ''; // Biến lưu tên quận đã chọn
+    let selectedDistrict = ''; 
 
     document.addEventListener('DOMContentLoaded', function () {
         const locationSelect = document.getElementById('locationSelect');
 
-        // Biến lưu danh sách các quận
         let districtsData = [];
-        let isDistrictsShown = true; // Trạng thái quận/phường
+        let isDistrictsShown = true; 
 
-        // Hàm hiển thị các tùy chọn quận
         function renderDistrictOptions(districts) {
-            locationSelect.innerHTML = '';  // Xóa các tùy chọn cũ
+            locationSelect.innerHTML = '';  
             const defaultOption = document.createElement('option');
             defaultOption.textContent = 'Chọn quận';
             defaultOption.value = '';
@@ -77,12 +75,11 @@
                 option.textContent = district.name;
                 locationSelect.appendChild(option);
             });
-            isDistrictsShown = true;  // Trạng thái hiển thị quận
+            isDistrictsShown = true;  
         }
 
-        // Hàm hiển thị các tùy chọn phường
         function renderWardOptions(wards) {
-            locationSelect.innerHTML = '';  // Xóa các tùy chọn cũ
+            locationSelect.innerHTML = '';  
 
             wards.forEach(ward => {
                 const option = document.createElement('option');
@@ -91,16 +88,15 @@
                 locationSelect.appendChild(option);
             });
 
-            // Thêm tùy chọn quay lại chọn quận
+
             const backOption = document.createElement('option');
             backOption.value = 'back';
             backOption.textContent = 'Quay lại chọn quận';
-            locationSelect.insertBefore(backOption, locationSelect.firstChild);  // Đưa vào đầu danh sách
+            locationSelect.insertBefore(backOption, locationSelect.firstChild);  
 
-            isDistrictsShown = false;  // Trạng thái hiển thị phường
+            isDistrictsShown = false;  
         }
 
-        // Hàm load các quận
         function loadDistricts() {
             fetch('https://localhost:7127/api/districts')
                 .then(response => {
@@ -110,13 +106,12 @@
                     return response.json();
                 })
                 .then(data => {
-                    districtsData = data;  // Lưu danh sách các quận
-                    renderDistrictOptions(data); // Hiển thị các tùy chọn quận
+                    districtsData = data;  
+                    renderDistrictOptions(data);
                 })
                 .catch(error => console.error('Error loading districts:', error));
         }
 
-        // Hàm load các phường dựa theo quận
         function loadWards(districtId) {
             fetch(`https://localhost:7127/api/districts/${districtId}/wards`)
                 .then(response => {
@@ -126,33 +121,31 @@
                     return response.json();
                 })
                 .then(data => {
-                    renderWardOptions(data); // Hiển thị danh sách phường
+                    renderWardOptions(data); 
                 })
                 .catch(error => console.error('Error loading wards:', error));
         }
 
-        // Khi người dùng chọn một tùy chọn
         locationSelect.addEventListener('change', function () {
             const selectedValue = locationSelect.value;
 
-            // Nếu người dùng chọn "Quay lại chọn quận"
+
             if (selectedValue === 'back') {
-                renderDistrictOptions(districtsData);  // Trở về danh sách quận
+                renderDistrictOptions(districtsData);
             } else if (isDistrictsShown && selectedValue) {
                 const selectedDistrictOption = locationSelect.options[locationSelect.selectedIndex];
-                selectedDistrict = selectedDistrictOption.textContent; // Lưu tên quận
-                loadWards(selectedValue);  // Load phường của quận đã chọn
+                selectedDistrict = selectedDistrictOption.textContent; 
+                loadWards(selectedValue); 
             }
         });
 
-        // Gọi hàm load quận ban đầu
         loadDistricts();
     });
 
     function searchRooms() {
             const roomType = document.getElementById('roomTypeSelect').value;
             const locationSelect = document.getElementById('locationSelect');
-            const selectedWard = locationSelect.options[locationSelect.selectedIndex].textContent; // Tên phường
+            const selectedWard = locationSelect.options[locationSelect.selectedIndex].textContent; 
             const price = document.getElementById('priceSelect').value;
             const adults = document.getElementById('adultSelect').value;
 
@@ -162,8 +155,8 @@
             }
 
             console.log('Room Type:', roomType);
-            console.log('District:', selectedDistrict); // Tên quận
-            console.log('Ward:', selectedWard); // Tên phường
+            console.log('District:', selectedDistrict);
+            console.log('Ward:', selectedWard); 
             console.log('Price Range:', price);
             console.log('Number of Adults:', adults);
 

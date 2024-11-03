@@ -1,0 +1,247 @@
+﻿@model FinalProject.ViewModels.UploadRoomPostVM
+
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+@{
+    ViewData["Title"] = "Favorite List";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+@section BreadCum {
+    <div class="hero page-inner overlay"
+         style="background-image: url('@Url.Content("~/images/hero_bg_2.jpg")')">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-9 text-center mt-5">
+                    <h1 class="heading" data-aos="fade-up">
+                        Upload RoomPost
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="col-lg-12 mt-4 mb-4">
+    <div class="iq-edit-list-data">
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Upload RoomPost</h4>
+                        </div>
+                    </div>
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (TempData["FailMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["FailMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+
+                    <div class="card-body">
+                        <form asp-controller="RoomPost" asp-action="UploadRoomPost" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label asp-for="RoomPostContentVM.Quantity" class="form-label">Number of People:</label>
+                                    <input type="number" class="form-control" id="numberOfPeople" asp-for="RoomPostContentVM.Quantity" required placeholder="Enter number of people" min="1" />
+                                    <span asp-validation-for="RoomPostContentVM.Quantity" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label asp-for="RoomPostContentVM.RoomPrice" class="form-label">Room Price:</label>
+                                    <input type="number" class="form-control" id="roomPrice" asp-for="RoomPostContentVM.RoomPrice" required placeholder="Enter room price" min="0" />
+                                    <span asp-validation-for="RoomPostContentVM.RoomPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label asp-for="RoomPostContentVM.RoomSize" class="form-label">Room Size (sqm):</label>
+                                    <input type="number" class="form-control" id="roomSize" asp-for="RoomPostContentVM.RoomSize" required placeholder="Enter room size" min="1" />
+                                    <span asp-validation-for="RoomPostContentVM.RoomSize" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-sm-6">
+                                    <label asp-for="RoomPostContentVM.RoomTypeId" class="form-label">Room Type:</label>
+                                    <select class="form-control" asp-for="RoomPostContentVM.RoomTypeId" asp-items="@(new SelectList(Model.RoomTypes, "RoomTypeId", "TypeName"))" required>
+                                        <option value="">-- Select Room Type --</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="streetNumber" class="form-label">Số nhà:</label>
+                                            <input type="text" class="form-control" id="streetNumber" name="streetNumber" required placeholder="Nhập số nhà" />
+                                        </div>
+
+                                        <div class="form-group col-sm-6">
+                                            <label for="streetName" class="form-label">Tên đường:</label>
+                                            <input type="text" class="form-control" id="streetName" name="streetName" required placeholder="Nhập tên đường" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="locationSelect" class="form-label">District/Ward:</label>
+                                    <select id="locationSelect" class="form-control choices" required></select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label asp-for="RoomPostContentVM.RoomAddress" class="form-label">Full Address:</label>
+                                    <input type="text" class="form-control" id="RoomAddress" asp-for="RoomPostContentVM.RoomAddress" required placeholder="Enter full address" readonly />
+                                    <span asp-validation-for="RoomPostContentVM.RoomAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label asp-for="RoomPostContentVM.RoomDescription" class="form-label">Room Description:</label>
+                                    <textarea class="form-control" id="roomDescription" asp-for="RoomPostContentVM.RoomDescription" rows="4" placeholder="Enter room description"></textarea>
+                                    <span asp-validation-for="RoomPostContentVM.RoomDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="button-container" style="display: flex; justify-content: flex-end; align-items: center; margin-top: 20px;">
+                                <div style="display: flex;">
+                                    <button style="margin-right: 10px;" type="submit" class="btn btn-primary">Next</button>
+                                    <button type="button" class="btn bg-soft-danger" onclick="window.location.href='@Url.Action("Profile", "Customer")'">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedDistrict = '';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const locationSelect = document.getElementById('locationSelect');
+        const addressInput = document.getElementById('RoomAddress'); 
+
+        let districtsData = [];
+        let isDistrictsShown = true;
+
+        function renderDistrictOptions(districts) {
+            locationSelect.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = 'Chọn quận';
+            defaultOption.value = '';
+            locationSelect.appendChild(defaultOption);
+
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.id;
+                option.textContent = district.name;
+                locationSelect.appendChild(option);
+            });
+            isDistrictsShown = true;
+        }
+
+        function renderWardOptions(wards) {
+            locationSelect.innerHTML = '';
+
+            wards.forEach(ward => {
+                const option = document.createElement('option');
+                option.value = ward.id;
+                option.textContent = ward.name;
+                locationSelect.appendChild(option);
+            });
+
+            const backOption = document.createElement('option');
+            backOption.value = 'back';
+            backOption.textContent = 'Quay lại chọn quận';
+            locationSelect.insertBefore(backOption, locationSelect.firstChild);
+
+            isDistrictsShown = false;
+        }
+
+        function loadDistricts() {
+            fetch('https://localhost:7127/api/districts')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    districtsData = data;
+                    renderDistrictOptions(data);
+                })
+                .catch(error => console.error('Error loading districts:', error));
+        }
+
+        function loadWards(districtId) {
+            fetch(`https://localhost:7127/api/districts/${districtId}/wards`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    renderWardOptions(data);
+                })
+                .catch(error => console.error('Error loading wards:', error));
+        }
+
+        locationSelect.addEventListener('change', function () {
+            const selectedValue = locationSelect.value;
+
+            if (selectedValue === 'back') {
+                renderDistrictOptions(districtsData);
+            } else if (isDistrictsShown && selectedValue) {
+                const selectedDistrictOption = locationSelect.options[locationSelect.selectedIndex];
+                selectedDistrict = selectedDistrictOption.textContent;
+                loadWards(selectedValue);
+            } else if (!isDistrictsShown && selectedValue) {
+                const selectedWardOption = locationSelect.options[locationSelect.selectedIndex];
+                const streetNumber = document.getElementById('streetNumber').value;
+                const streetName = document.getElementById('streetName').value;
+
+
+                addressInput.value = `${streetNumber}, ${streetName}, ${selectedWardOption.textContent}, ${selectedDistrict}`;
+            }
+        });
+
+
+        document.getElementById('streetNumber').addEventListener('input', updateAddress);
+        document.getElementById('streetName').addEventListener('input', updateAddress);
+
+        function updateAddress() {
+            const streetNumber = document.getElementById('streetNumber').value;
+            const streetName = document.getElementById('streetName').value;
+            addressInput.value = `${streetNumber}, ${streetName}, ${selectedDistrict}`;
+        }
+
+        loadDistricts();
+    });
+</script>
+
+
+

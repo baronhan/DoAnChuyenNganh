@@ -24,5 +24,31 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinalProject.Controllers.API.GeocodeController",
+    "Method": "GetCoordinates",
+    "RelativePath": "api/geocode/getCoordinates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "address",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "FinalProject.ViewModels.CoordinatesResponseVM",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

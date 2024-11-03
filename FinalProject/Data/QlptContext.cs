@@ -48,6 +48,7 @@ public partial class QlptContext : DbContext
 
     public DbSet<RoomPostDetailVM> RoomPostDetailVM { get; set; }
     public DbSet<RoomImageVM> RoomImageVM { get; set; }
+    public virtual DbSet<RoomCoordinates> RoomCoordinates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -215,6 +216,7 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.RoomTypeId).HasColumnName("room_type_id");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.RoomCoordinateId).HasColumnName("room_coordinate_id");
 
             entity.HasOne(d => d.RoomType).WithMany(p => p.RoomPosts)
                 .HasForeignKey(d => d.RoomTypeId)
@@ -223,6 +225,11 @@ public partial class QlptContext : DbContext
             entity.HasOne(d => d.Status).WithMany(p => p.RoomPosts)
                 .HasForeignKey(d => d.StatusId)
                 .HasConstraintName("FK__Room_Post__statu__3D5E1FD2");
+
+            entity.HasOne(d => d.RoomCoordinate) 
+                .WithMany(c => c.RoomPosts)      
+                .HasForeignKey(d => d.RoomCoordinateId)
+                .HasConstraintName("FK_RoomPost_Coordinates");
         });
 
         modelBuilder.Entity<RoomStatus>(entity =>
@@ -346,6 +353,17 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.UtilityName)
                 .HasMaxLength(50)
                 .HasColumnName("utility_name");
+        });
+
+        modelBuilder.Entity<RoomCoordinates>(entity =>
+        {
+            entity.HasKey(e => e.RoomCoordinateId).HasName("PK__Room_Coo__4B97A2966CB5207B");
+
+            entity.ToTable("Room_Coordinates");
+
+            entity.Property(e => e.RoomCoordinateId).HasColumnName("room_coordinate_id");
+            entity.Property(e => e.Latitude).HasColumnName("latitude");
+            entity.Property(e => e.Longitude).HasColumnName("longitude");
         });
 
         modelBuilder.Entity<RoomPostVM>(entity =>
