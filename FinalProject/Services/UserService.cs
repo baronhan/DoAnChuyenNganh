@@ -20,7 +20,7 @@ namespace FinalProject.Services
             user.RandomKey = MyUtil.GenerateRandomKey();
             user.Password = register.password.ToMd5Hash(user.RandomKey);
             user.IsValid = true;
-            user.UserTypeId = 3;
+            user.UserTypeId = register.accountType;
 
             try
             {

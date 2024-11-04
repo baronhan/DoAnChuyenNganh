@@ -6,7 +6,6 @@
     ViewData["Title"] = "Property Detail";
     Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
 }
-
 @section BreadCum 
 {
     <div class="hero page-inner overlay"
@@ -14,24 +13,9 @@
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
-                    <h1 class="heading" data-aos="fade-up">
+                    <h1 class="heading" style="max-width: 90%; word-wrap: break-word;" data-aos="fade-up">
                         @Model.RoomDetail.RoomAddress
                     </h1>
-
-                    @* <nav aria-label="breadcrumb"
-                         data-aos="fade-up"
-                         data-aos-delay="200">
-                        <ol class="breadcrumb text-center justify-content-center">
-                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" >Home</a></li>
-                            <li class="breadcrumb-item">
-                                <a asp-controller="RoomPost" asp-action="Index" asp-route-id="" >Properties</a>
-                            </li>
-                            <li class="breadcrumb-item active text-white-50"
-                                aria-current="page">
-                                @Model.RoomDetail.RoomAddress
-                            </li>
-                        </ol>
-                    </nav> *@
                 </div>
             </div>
         </div>
@@ -98,8 +82,6 @@
                     </div>
 
                     <div class="text">
-                   @*      <h3 class="mb-0">@Model.FullName</h3>
-                        <div class="meta mb-3"></div> *@
                         <h3 class="mb-0">Thông Tin Liên Hệ</h3>
                         <div class="meta mb-3"></div>
                         <p>
@@ -132,13 +114,28 @@
                 </div>
             </div>
         </div>
+        <h2 class="heading" style="max-width: 90%; word-wrap: break-word; color: #00204A; font-weight: bold" data-aos="fade-up">
+               Bản đồ tại vị trí @Model.RoomDetail.RoomAddress
+        </h2>
+        </br>
         <div id="map" style="width: 100%; height: 400px;"></div>
+
+        </br>
+        </br>
+        </br>
+        </br>
+
+        <h2 class="heading" style="max-width: 90%; word-wrap: break-word; color: #00204A; font-weight: bold" data-aos="fade-up">   Danh sách các phòng trọ liên quan</h2>
+        </br>
+        @await Component.InvokeAsync("SliderPartial", new { postId = Model.RoomDetail.PostId, address = Model.RoomDetail.RoomAddress })
+
+
     </div>
 </div>
 
 <script>
     function initMap() {
-        const location = { lat: 10.78989, lng: 106.67498 };
+        const location = { lat: @Model.RoomDetail.Latitude, lng: @Model.RoomDetail.Longitude };
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 14,
             center: location,

@@ -112,27 +112,25 @@
                                     <span asp-validation-for="password" class="text-danger"></span>
                                 </div>
 
-                                <!-- Ngày sinh -->
                                 <div class="form-group">
                                     <label class="form-label" for="dob">Date of Birth</label>
                                     <input type="date" class="form-control mb-0" id="dob" asp-for="dob" required>
                                     <span asp-validation-for="dob" class="text-danger"></span>
                                 </div>
 
-                                <!-- Chọn Giới Tính -->
                                 <div class="form-group">
-                                    <label class="form-label">Gender</label>
+                                    <label class="form-label">Account Type</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" asp-for="gender" id="male" value="true" required>
-                                            <label class="form-check-label" for="male">Male</label>
+                                            <input class="form-check-input" type="radio" asp-for="accountType" id="tenant" value="3" required>
+                                            <label class="form-check-label" for="tenant">Tenant</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" asp-for="gender" id="female" value="false" required>
-                                            <label class="form-check-label" for="female">Female</label>
+                                            <input class="form-check-input" type="radio" asp-for="accountType" id="landlord" value="2" required>
+                                            <label class="form-check-label" for="landlord">Landlord</label>
                                         </div>
                                     </div>
-                                    <span asp-validation-for="gender" class="text-danger"></span>
+                                    <span asp-validation-for="accountType" class="text-danger"></span>
                                 </div>
 
                                 <div class="d-inline-block w-100">

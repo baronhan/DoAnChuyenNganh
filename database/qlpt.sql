@@ -338,3 +338,9 @@ where favorite_list_post_id = 4
 select count(favorite_id) from Favorite_List_Post
 
 select * from Room_Post
+select * from Room_Coordinates
+select * from [User]
+
+select * from Favorite_List
+select * from Room_Status
+

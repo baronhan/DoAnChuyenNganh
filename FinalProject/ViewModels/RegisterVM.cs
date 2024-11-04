@@ -27,19 +27,20 @@ namespace FinalProject.ViewModels
         [EmailAddress(ErrorMessage = "* Invalid email format.")]
         public string email { get; set; }
 
-
-        [Required(ErrorMessage = "* Gender is required.")]
-        public string gender { get; set; }
+        public bool gender { get; set; } = false;
+        [Required(ErrorMessage = "Please select an account type.")]
+        public int accountType { get; set; }
 
         public RegisterVM() { }
 
-        public RegisterVM(string username, string password, DateTime dob, string email, string gender)
+        public RegisterVM(string username, string password, DateTime dob, string email, bool gender, int accountType)
         {
             this.username = username;
             this.password = password;
             this.dob = dob;
             this.email = email;
             this.gender = gender;
+            this.accountType = accountType;
         }
     }
 }

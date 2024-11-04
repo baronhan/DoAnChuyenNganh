@@ -94,14 +94,25 @@ namespace FinalProject.Controllers
                         }
                         else
                         {
-
                             var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Email, customer.Email),
                                 new Claim(ClaimTypes.Name, customer.Username),
-                                new Claim(ClaimTypes.Role, "Khách Thuê"),
                                 new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString())
                             };
+
+                            if (customer.UserTypeId == 1)
+                            {
+                                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                            }
+                            else if (customer.UserTypeId == 2)
+                            {
+                                claims.Add(new Claim(ClaimTypes.Role, "Chủ trọ"));
+                            }
+                            else if (customer.UserTypeId == 3)
+                            {
+                                claims.Add(new Claim(ClaimTypes.Role, "Khách thuê"));
+                            }
 
                             var claimsIdentity = new ClaimsIdentity(claims, "login");
                             var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -117,21 +128,28 @@ namespace FinalProject.Controllers
 
                             Response.Cookies.Append("user_id", customer.UserId.ToString(), cookieOptions);
 
-                            if (Url.IsLocalUrl(returnUrl))
+                            if (customer.UserId == 1)
                             {
-                                return Redirect(returnUrl);
+                                return Redirect("/Admin/Home");
                             }
                             else
                             {
-                                return Redirect("/");
+                                if (Url.IsLocalUrl(returnUrl))
+                                {
+                                    return Redirect(returnUrl);
+                                }
+                                else
+                                {
+                                    return Redirect("/Home"); 
+                                }
                             }
                         }
                     }
                 }
             }
-
-            return View();
+            return View(login);
         }
+
         #endregion
 
 

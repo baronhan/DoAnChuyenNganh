@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using FinalProject.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Services
 {
@@ -176,5 +177,62 @@ namespace FinalProject.Services
                 return 0;
             }
         }
+
+        public IEnumerable<RoomPostVM> GetRoomListByAddress(string address, int postId)
+        {
+            try
+            {
+                string district = ExtractDistrictFromAddress(address);
+
+                if (string.IsNullOrEmpty(district))
+                {
+                    return Enumerable.Empty<RoomPostVM>();
+                }
+                else
+                {
+                    var roomList = (from rp in db.RoomPosts
+                                    join ri in db.RoomImages on rp.PostId equals ri.PostId
+                                    join rt in db.RoomTypes on rp.RoomTypeId equals rt.RoomTypeId
+                                    join rs in db.RoomStatuses on rp.StatusId equals rs.RoomStatusId
+                                    where rs.RoomStatusId == 1
+                                          && ri.ImageTypeId == 1
+                                          && !string.IsNullOrEmpty(rp.Address)
+                                          && rp.PostId != postId // Ensure the postId is excluded
+                                    select new
+                                    {
+                                        rp,
+                                        ri,
+                                        rt
+                                    }).ToList() // Execute the query to get data in memory
+                .Where(x => ExtractDistrictFromAddress(x.rp.Address) == district) // Now filter in memory
+                .Select(x => new RoomPostVM
+                {
+                    PostId = x.rp.PostId,
+                    RoomName = x.rp.RoomName,
+                    Quantity = (int)x.rp.Quantity,
+                    RoomDescription = x.rp.RoomDescription,
+                    RoomImage = x.ri.ImageUrl,
+                    RoomPrice = (decimal)x.rp.RoomPrice,
+                    RoomSize = (decimal)x.rp.RoomSize,
+                    RoomAddress = x.rp.Address.Replace(
+                        x.rp.Address.Substring(
+                            x.rp.Address.IndexOf(',') + 1,
+                            x.rp.Address.IndexOf(',', x.rp.Address.IndexOf(',') + 1) - x.rp.Address.IndexOf(',')
+                        ),
+                        string.Empty),
+                    RoomType = x.rt.TypeName
+                }).ToList();
+
+                    return roomList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Enumerable.Empty<RoomPostVM>();
+            }
+        }
+
+
     }
 }

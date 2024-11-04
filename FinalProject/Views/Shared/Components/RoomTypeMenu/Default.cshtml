@@ -39,9 +39,17 @@
                                 <li>
                                     <a asp-action="Profile" asp-controller="Customer">Profile</a>
                                 </li>
-                                <li>
-                                    <a asp-action="UploadRoomPost" asp-controller="RoomPost">Upload Room Post</a>
-                                </li>
+
+                                if (User.IsInRole("Chủ trọ"))
+                                {
+                                    <li>
+                                        <a asp-action="UploadRoomPost" asp-controller="RoomPost">Upload Room Post</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="ManageRooms" asp-controller="RoomPost">Manage My Rooms</a>
+                                    </li>
+                                }
+
                                 <li>
                                     <a asp-action="Logout" asp-controller="Customer">Logout</a>
                                 </li>
@@ -55,6 +63,7 @@
                                     <a asp-action="Register" asp-controller="Customer">Sign Up</a>
                                 </li>
                             }
+
                         </ul>
                     </li>
 

@@ -110,7 +110,9 @@ namespace FinalProject.Controllers
                             Gender = !reader.IsDBNull(reader.GetOrdinal("Gender")) && reader.GetBoolean(reader.GetOrdinal("Gender")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone")),
                             UtilityNames = reader.GetString(reader.GetOrdinal("UtilityNames")),
-                            UtilityDescriptions = reader.GetString(reader.GetOrdinal("UtilityDescriptions"))
+                            UtilityDescriptions = reader.GetString(reader.GetOrdinal("UtilityDescriptions")),
+                            Latitude = reader.GetDouble(reader.GetOrdinal("Latitude")),
+                            Longitude = reader.GetDouble(reader.GetOrdinal("Longitude")),
                         };
                     }
                     if (reader.NextResult())
@@ -165,7 +167,7 @@ namespace FinalProject.Controllers
                 if (coordinates.latitude == 0 && coordinates.longitude == 0)
                 {
                     TempData["FailMessage"] = "Invalid coordinates.";
-                    model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi có lỗi
+                    model.RoomTypes = _roomService.GetRoomType(); 
                     return View(model);
                 }
 
@@ -214,13 +216,12 @@ namespace FinalProject.Controllers
                     }
                 }
 
-                model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi hoàn tất
+                model.RoomTypes = _roomService.GetRoomType();
 
                 return View(model);
             }
             else
             {
-                // Ghi lỗi validation vào console (hoặc dùng log)
                 foreach (var modelState in ModelState)
                 {
                     foreach (var error in modelState.Value.Errors)
@@ -229,7 +230,7 @@ namespace FinalProject.Controllers
                     }
                 }
 
-                model.RoomTypes = _roomService.GetRoomType(); // Lấy lại RoomTypes khi có lỗi validation
+                model.RoomTypes = _roomService.GetRoomType(); 
                 return View(model);
             }
         }

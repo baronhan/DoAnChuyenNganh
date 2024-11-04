@@ -11,6 +11,5 @@
         public decimal RoomSize { get; set; }
         public string RoomAddress { get; set; }
         public string RoomType { get; set; }
-        public float? RoomCoordinateId { get; set; }
     }
 }

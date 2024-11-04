@@ -49,16 +49,19 @@ BEGIN
         _user.gender AS Gender,
         _user.phone AS Phone,
         STRING_AGG(u.utility_name, ', ') AS UtilityNames,
-        STRING_AGG(u.description, ', ') AS UtilityDescriptions
+        STRING_AGG(u.description, ', ') AS UtilityDescriptions,
+		rc.latitude AS Latitude,
+		rc.longitude AS Longitude
     FROM Room_Post rp
     JOIN Room_Type rt ON rp.room_type_id = rt.room_type_id
     JOIN Room_Status rs ON rp.status_id = rs.room_status_id
+	JOIN Room_Coordinates rc ON rp.room_coordinate_id = rc.room_coordinate_id
     JOIN [User] _user ON rp.user_id = _user.user_id
     LEFT JOIN Room_Utility ru ON rp.post_id = ru.post_id
     LEFT JOIN Utility u ON ru.utility_id = u.utility_id
     WHERE rs.room_status_id = 1
       AND (@PostID IS NULL OR rp.post_id = @PostID)
-    GROUP BY rp.post_id, rp.room_name, rp.quantity, rp.room_description, rp.room_price, rp.room_size, rp.address, rt.type_name, rp.date_posted, rp.expiration_date, _user.fullname, _user.email, _user.gender, _user.phone;
+    GROUP BY rp.post_id, rp.room_name, rp.quantity, rp.room_description, rp.room_price, rp.room_size, rp.address, rt.type_name, rp.date_posted, rp.expiration_date, _user.fullname, _user.email, _user.gender, _user.phone, rc.latitude, rc.longitude;
 
     -- Truy vấn lấy tất cả hình ảnh liên quan đến phòng đó
     SELECT 
