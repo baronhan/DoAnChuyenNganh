@@ -342,5 +342,15 @@ select * from Room_Coordinates
 select * from [User]
 
 select * from Favorite_List
+select * from Favorite_List_Post
 select * from Room_Status
 
+select * from Room_Utility
+select * from Utility
+
+ALTER TABLE Room_Image
+DROP COLUMN image_type_id;
+ALTER TABLE Room_Image
+DROP CONSTRAINT FK__Room_Imag__image__47DBAE45;
+
+select * from Room_Image

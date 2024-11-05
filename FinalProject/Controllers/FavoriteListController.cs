@@ -13,7 +13,6 @@ namespace FinalProject.Controllers
     {
 
         private readonly QlptContext db;
-        private readonly UserService _userService;
         private readonly FavoriteListService _favoriteListService;
 
         public FavoriteListController(QlptContext db, FavoriteListService _favoriteListService)
@@ -110,9 +109,7 @@ namespace FinalProject.Controllers
                 var result = db.RoomPosts
                     .Where(r => r.PostId == id)
                     .Join(db.RoomImages, r => r.PostId, img => img.PostId, (r, img) => new { r, img })
-                    .Join(db.ImageTypes, ri => ri.img.ImageTypeId, it => it.TypeId, (ri, it) => new { ri.r, ri.img, it })
-                    .Join(db.RoomTypes, rimg => rimg.r.RoomTypeId, rt => rt.RoomTypeId, (rimg, rt) => new { rimg.r, rimg.img, rimg.it, rt })
-                    .Where(x => x.img.ImageTypeId == 1)
+                    .Join(db.RoomTypes, rimg => rimg.r.RoomTypeId, rt => rt.RoomTypeId, (rimg, rt) => new { rimg.r, rimg.img, rt })
                     .Select(x => new FavoriteListVM
                     {
                         PostId = x.r.PostId,

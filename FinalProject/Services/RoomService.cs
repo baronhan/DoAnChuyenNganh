@@ -110,7 +110,7 @@ namespace FinalProject.Services
         }
 
 
-        public bool AddNewRoomPost(RoomPostContentVM roomPostContentVM)
+        public int? AddNewRoomPost(RoomPostContentVM roomPostContentVM, int userId)
         {
             try
             {
@@ -137,23 +137,23 @@ namespace FinalProject.Services
                     DatePosted = DateTime.Now,
                     ExpirationDate = DateTime.Now.AddDays(30),
                     StatusId = 1,
-                    UserId = 2,
+                    UserId = userId,
                     RoomTypeId = roomPostContentVM.RoomTypeId,
                     RoomName = $"{roomTypeName} {district}"
                 };
 
                 db.RoomPosts.Add(roomPost);
-
                 db.SaveChanges();
 
-                return true;
+                return roomPost.PostId; 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                return null;
             }
         }
+
 
         public int AddNewRoomCoordinate(double latitude, double longitude)
         {
@@ -195,7 +195,7 @@ namespace FinalProject.Services
                                     join rt in db.RoomTypes on rp.RoomTypeId equals rt.RoomTypeId
                                     join rs in db.RoomStatuses on rp.StatusId equals rs.RoomStatusId
                                     where rs.RoomStatusId == 1
-                                          && ri.ImageTypeId == 1
+                                          //&& ri.ImageTypeId == 1
                                           && !string.IsNullOrEmpty(rp.Address)
                                           && rp.PostId != postId // Ensure the postId is excluded
                                     select new
@@ -233,6 +233,67 @@ namespace FinalProject.Services
             }
         }
 
+        public List<UtilityVM> GetUtilities()
+        {
+            try
+            {
+                var data = db.Utilities.Select(utility => new UtilityVM
+                {
+                    utilityId = utility.UtilityId,
+                    utilityName = utility.UtilityName,
+                    description = utility.Description,
+                }).OrderBy(x => x.utilityName).ToList();
 
+                return data;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<UtilityVM>();
+            }
+        }
+
+        public void SaveSelectedUtilities(int postId, List<int> selectedUtilities)
+        {
+            try
+            {
+                foreach (var item in selectedUtilities)
+                {
+                    var data = new RoomUtility
+                    {
+                        PostId = postId,
+                        UtilityId = item
+                    };
+
+                    db.RoomUtilities.Add(data);
+                }
+
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void SaveRoomImage(int newRoomId, string uniqueFileName)
+        {
+            try
+            {
+                var roomImage = new RoomImage
+                {
+                    PostId = newRoomId,
+                    ImageUrl = uniqueFileName
+                };
+
+                db.RoomImages.Add(roomImage);
+                db.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
     }
 }

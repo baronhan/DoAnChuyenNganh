@@ -104,18 +104,26 @@ namespace FinalProject.Services
             var favorites = await (from f in db.FavoriteListPosts
                                    join r in db.RoomPosts on f.PostId equals r.PostId
                                    join img in db.RoomImages on r.PostId equals img.PostId
-                                   join it in db.ImageTypes on img.ImageTypeId equals it.TypeId
                                    join rt in db.RoomTypes on r.RoomTypeId equals rt.RoomTypeId
-                                   where f.FavoriteId == favoriteId && img.ImageTypeId == 1
+                                   where f.FavoriteId == favoriteId
+                                   group img by new
+                                   {
+                                       r.PostId,
+                                       r.RoomName,
+                                       r.RoomPrice,
+                                       r.RoomSize,
+                                       r.Address
+                                   } into g
                                    select new FavoriteListVM
                                    {
-                                       PostId = r.PostId,
-                                       RoomName = r.RoomName,
-                                       RoomImage = img.ImageUrl,
-                                       RoomPrice = (decimal)r.RoomPrice,
-                                       RoomSize = (decimal)r.RoomSize,
-                                       RoomAddress = r.Address
-                                   }).ToListAsync(); 
+                                       PostId = g.Key.PostId,
+                                       RoomName = g.Key.RoomName,
+                                       RoomImage = g.FirstOrDefault().ImageUrl, 
+                                       RoomPrice = (decimal)g.Key.RoomPrice,
+                                       RoomSize = (decimal)g.Key.RoomSize,
+                                       RoomAddress = g.Key.Address
+                                   }).ToListAsync();
+
             return favorites;
         }
 

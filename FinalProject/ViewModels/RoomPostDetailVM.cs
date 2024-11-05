@@ -16,6 +16,7 @@
         public string Email { get; set; }
         public bool Gender { get; set; }
         public string Phone { get; set; }
+        public string UserImage { get; set; }
         public string UtilityNames { get; set; }
         public string UtilityDescriptions { get; set; }
         public double Latitude { get; set; }

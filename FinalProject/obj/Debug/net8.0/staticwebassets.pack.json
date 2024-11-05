@@ -18809,6 +18809,10 @@
       "PackagePath": "staticwebassets\\css\\main.css"
     },
     {
+      "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\css\\new.css",
+      "PackagePath": "staticwebassets\\css\\new.css"
+    },
+    {
       "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -18993,6 +18997,10 @@
       "PackagePath": "staticwebassets\\img\\Login\\email_icon.png"
     },
     {
+      "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\Room\\374ececa-01e4-4ddc-908d-941950eadede.jpg",
+      "PackagePath": "staticwebassets\\img\\Room\\374ececa-01e4-4ddc-908d-941950eadede.jpg"
+    },
+    {
       "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\Room\\room_001.jpg",
       "PackagePath": "staticwebassets\\img\\Room\\room_001.jpg"
     },
@@ -19029,6 +19037,10 @@
       "PackagePath": "staticwebassets\\img\\Room\\room_009.jpg"
     },
     {
+      "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\User\\0dfb9286-8d61-44df-9bcc-85bd75533ae3.jpg",
+      "PackagePath": "staticwebassets\\img\\User\\0dfb9286-8d61-44df-9bcc-85bd75533ae3.jpg"
+    },
+    {
       "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\User\\1d964beb-f734-471c-b849-e00e90b80fcb.jpg",
       "PackagePath": "staticwebassets\\img\\User\\1d964beb-f734-471c-b849-e00e90b80fcb.jpg"
     },
@@ -19047,10 +19059,6 @@
     {
       "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\User\\6963a5f8-2aa0-4012-a09e-a9f773eaca32.jpg",
       "PackagePath": "staticwebassets\\img\\User\\6963a5f8-2aa0-4012-a09e-a9f773eaca32.jpg"
-    },
-    {
-      "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\User\\cddc8555-a2ea-40a2-9426-3ed4777e66d1.jpeg",
-      "PackagePath": "staticwebassets\\img\\User\\cddc8555-a2ea-40a2-9426-3ed4777e66d1.jpeg"
     },
     {
       "Id": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\wwwroot\\img\\User\\eee94c7e-432a-4a90-b52a-ac8357c9afff.jpg",

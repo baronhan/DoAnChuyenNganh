@@ -212,5 +212,29 @@ namespace FinalProject.Services
             return IdentityResult.Success; 
         }
 
+        public UpdatePersonalInformationVM GetUserById(int userId)
+        {
+            try
+            {
+                var user = db.Users.Where(u => u.UserId == userId).FirstOrDefault();
+                if (user == null)
+                {
+                    return null;
+                }
+
+                var registerVM = new UpdatePersonalInformationVM
+                {
+                    fullname = user.Fullname,
+                    email = user.Email
+                };
+
+                return registerVM;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
     }
 }

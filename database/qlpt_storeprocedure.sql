@@ -2,6 +2,13 @@
     @RoomTypeId INT = NULL
 AS
 BEGIN
+    ;WITH RoomImages AS (
+        SELECT 
+            ri.post_id,
+            ri.image_url,
+            ROW_NUMBER() OVER (PARTITION BY ri.post_id ORDER BY ri.image_url) AS RowNum
+        FROM Room_Image ri
+    )
     SELECT 
         rp.post_id AS PostId,  
         rp.room_name AS RoomName,
@@ -10,7 +17,7 @@ BEGIN
         ri.image_url AS RoomImage,
         rp.room_price AS RoomPrice,
         rp.room_size AS RoomSize,
-		rp.room_coordinate_id AS RoomCoordinateId,
+        rp.room_coordinate_id AS RoomCoordinateId,
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 
                           CHARINDEX(',', rp.address) + 1, 
@@ -18,14 +25,13 @@ BEGIN
                 '') AS RoomAddress,
         rt.type_name AS RoomType
     FROM Room_Post rp
-    JOIN Room_Image ri ON rp.post_id = ri.post_id
-    JOIN Image_Type it ON ri.image_type_id = it.type_id
+    JOIN RoomImages ri ON rp.post_id = ri.post_id AND ri.RowNum = 1
     JOIN Room_Type rt ON rp.room_type_id = rt.room_type_id
     JOIN Room_Status rs ON rp.status_id = rs.room_status_id
     WHERE rs.room_status_id = 1 
-      AND it.type_id = 1 
       AND (@RoomTypeId IS NULL OR rp.room_type_id = @RoomTypeId);
 END
+
 
 
 ALTER PROCEDURE GetRoomDetail
@@ -48,6 +54,7 @@ BEGIN
         _user.email AS Email,
         _user.gender AS Gender,
         _user.phone AS Phone,
+		_user.user_image AS UserImage,
         STRING_AGG(u.utility_name, ', ') AS UtilityNames,
         STRING_AGG(u.description, ', ') AS UtilityDescriptions,
 		rc.latitude AS Latitude,
@@ -61,14 +68,12 @@ BEGIN
     LEFT JOIN Utility u ON ru.utility_id = u.utility_id
     WHERE rs.room_status_id = 1
       AND (@PostID IS NULL OR rp.post_id = @PostID)
-    GROUP BY rp.post_id, rp.room_name, rp.quantity, rp.room_description, rp.room_price, rp.room_size, rp.address, rt.type_name, rp.date_posted, rp.expiration_date, _user.fullname, _user.email, _user.gender, _user.phone, rc.latitude, rc.longitude;
+    GROUP BY rp.post_id, rp.room_name, rp.quantity, rp.room_description, rp.room_price, rp.room_size, rp.address, rt.type_name, rp.date_posted, rp.expiration_date, _user.fullname, _user.email, _user.gender, _user.phone, _user.user_image, rc.latitude, rc.longitude;
 
-    -- Truy vấn lấy tất cả hình ảnh liên quan đến phòng đó
     SELECT 
         ri.image_url AS RoomImage
     FROM Room_Image ri
     WHERE ri.post_id = @PostID
-      AND ri.image_type_id IN (1, 6);
 END
 
 ALTER PROCEDURE SearchRoom

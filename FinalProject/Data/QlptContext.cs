@@ -22,8 +22,6 @@ public partial class QlptContext : DbContext
 
     public virtual DbSet<FeedbackType> FeedbackTypes { get; set; }
 
-    public virtual DbSet<ImageType> ImageTypes { get; set; }
-
     public virtual DbSet<PageAddress> PageAddresses { get; set; }
 
     public virtual DbSet<Privilege> Privileges { get; set; }
@@ -124,18 +122,6 @@ public partial class QlptContext : DbContext
                 .HasColumnName("type_name");
         });
 
-        modelBuilder.Entity<ImageType>(entity =>
-        {
-            entity.HasKey(e => e.TypeId).HasName("PK__Image_Ty__2C000598D44BB26A");
-
-            entity.ToTable("Image_Type");
-
-            entity.Property(e => e.TypeId).HasColumnName("type_id");
-            entity.Property(e => e.TypeName)
-                .HasMaxLength(50)
-                .HasColumnName("type_name");
-        });
-
         modelBuilder.Entity<PageAddress>(entity =>
         {
             entity.HasKey(e => e.PageAddressId).HasName("PK__Page_Add__90439809349F8FF8");
@@ -175,15 +161,10 @@ public partial class QlptContext : DbContext
             entity.ToTable("Room_Image");
 
             entity.Property(e => e.ImageId).HasColumnName("image_id");
-            entity.Property(e => e.ImageTypeId).HasColumnName("image_type_id");
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(255)
                 .HasColumnName("image_url");
             entity.Property(e => e.PostId).HasColumnName("post_id");
-
-            entity.HasOne(d => d.ImageType).WithMany(p => p.RoomImages)
-                .HasForeignKey(d => d.ImageTypeId)
-                .HasConstraintName("FK__Room_Imag__image__47DBAE45");
 
             entity.HasOne(d => d.Post).WithMany(p => p.RoomImages)
                 .HasForeignKey(d => d.PostId)

@@ -62,9 +62,9 @@
                 <div class="d-block agent-box p-5">
                     <div class="d-flex align-items-center mb-4">
                         <div class="img me-3">
-                            @if (Model.RoomDetail.Gender) 
+                            @if (!string.IsNullOrEmpty(Model.RoomDetail.UserImage))
                             {
-                                <img src="~/img/User/man.jpg"
+                                <img src="@Model.RoomDetail.UserImage"
                                      alt="User_Image"
                                      class="img-fluid" />
                             }

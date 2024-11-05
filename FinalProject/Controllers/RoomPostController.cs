@@ -14,20 +14,35 @@ namespace FinalProject.Controllers
     {
         private readonly QlptContext _db;
         private readonly RoomService _roomService;
+        private readonly UserService _userService;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public RoomPostController(QlptContext db, RoomService _roomService, IHttpClientFactory _httpClientFactory)
+        public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService)
         {
             this._db = db;
             this._roomService = _roomService;
             this._httpClientFactory = _httpClientFactory;
+            _userService = userService;
         }
 
 
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, int page = 1, int pageSize = 6)
         {
-            var room = _db.RoomPostVM.FromSql($"GetRoomPosts {id}").ToList();
-            return View(room);
+            var roomList = _db.RoomPostVM.FromSql($"GetRoomPosts {id}").ToList();
+
+            int totalRooms = roomList.Count;
+            int totalPages = (int)Math.Ceiling((double)totalRooms / pageSize);
+
+            var rooms = roomList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var viewModel = new RoomListVM
+            {
+                Rooms = rooms,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            return View(viewModel);
         }
 
 
@@ -109,6 +124,7 @@ namespace FinalProject.Controllers
                             Email = reader.GetString(reader.GetOrdinal("Email")),
                             Gender = !reader.IsDBNull(reader.GetOrdinal("Gender")) && reader.GetBoolean(reader.GetOrdinal("Gender")),
                             Phone = reader.GetString(reader.GetOrdinal("Phone")),
+                            UserImage = reader.GetString(reader.GetOrdinal("UserImage")),
                             UtilityNames = reader.GetString(reader.GetOrdinal("UtilityNames")),
                             UtilityDescriptions = reader.GetString(reader.GetOrdinal("UtilityDescriptions")),
                             Latitude = reader.GetDouble(reader.GetOrdinal("Latitude")),
@@ -145,20 +161,28 @@ namespace FinalProject.Controllers
         [Authorize]
         public IActionResult UploadRoomPost()
         {
-            var model = new UploadRoomPostVM
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
             {
-                RoomTypes = _roomService.GetRoomType(),
-                RoomPostContentVM = new RoomPostContentVM()
-            };
+                var model = new UploadRoomPostVM
+                {
+                    Users = _userService.GetUserById(userId),
+                    Utility = _roomService.GetUtilities()?.ToList() ?? new List<UtilityVM>(),
+                    RoomTypes = _roomService.GetRoomType(),
+                    RoomPostContentVM = new RoomPostContentVM()
+                };
+                return View(model);
+            }
 
-            return View(model);
+            return RedirectToAction("SignIn", "Customer");
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> UploadRoomPost(UploadRoomPostVM model)
         {
+
             ModelState.Remove("RoomTypes");
+            ModelState.Remove("Users");
 
             if (ModelState.IsValid)
             {
@@ -167,8 +191,18 @@ namespace FinalProject.Controllers
                 if (coordinates.latitude == 0 && coordinates.longitude == 0)
                 {
                     TempData["FailMessage"] = "Invalid coordinates.";
-                    model.RoomTypes = _roomService.GetRoomType(); 
+                    model.RoomTypes = _roomService.GetRoomType();
+                    model.Utility = _roomService.GetUtilities();
+                    model.Users = GetUserFromCookies();
                     return View(model);
+                }
+
+                int userId;
+
+                if (!Request.Cookies.TryGetValue("user_id", out var userIdString) || !int.TryParse(userIdString, out userId))
+                {
+                    TempData["FailMessage"] = "User ID not found.";
+                    return RedirectToAction("SignIn", "Customer");
                 }
 
                 if (_roomService.CheckExistingCoordinate(coordinates.latitude, coordinates.longitude))
@@ -179,14 +213,17 @@ namespace FinalProject.Controllers
                     {
                         model.RoomPostContentVM.RoomCoordinateId = roomCoordinateId;
 
-                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM))
+                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM, userId) is int newRoomId)
                         {
+                            _roomService.SaveSelectedUtilities(newRoomId, model.SelectedUtilities);
+                            SaveRoomImages(newRoomId, model.RoomImages);
                             TempData["SuccessMessage"] = "Added to favorites successfully!";
                         }
                         else
                         {
                             TempData["FailMessage"] = "Failed to add to favorites!";
                         }
+
                     }
                     else
                     {
@@ -201,14 +238,19 @@ namespace FinalProject.Controllers
                     {
                         model.RoomPostContentVM.RoomCoordinateId = roomCoordinateId;
 
-                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM))
+                        if (_roomService.AddNewRoomPost(model.RoomPostContentVM, userId) is int newRoomId)
                         {
+                            _roomService.SaveSelectedUtilities(newRoomId, model.SelectedUtilities);
+
+                            SaveRoomImages(newRoomId, model.RoomImages);
+
                             TempData["SuccessMessage"] = "Added to favorites successfully!";
                         }
                         else
                         {
                             TempData["FailMessage"] = "Failed to add to favorites!";
                         }
+
                     }
                     else
                     {
@@ -217,20 +259,18 @@ namespace FinalProject.Controllers
                 }
 
                 model.RoomTypes = _roomService.GetRoomType();
+                model.Users = GetUserFromCookies();
+                model.Utility = _roomService.GetUtilities();
 
                 return View(model);
             }
             else
             {
-                foreach (var modelState in ModelState)
-                {
-                    foreach (var error in modelState.Value.Errors)
-                    {
-                        Console.WriteLine($"Property: {modelState.Key}, Error: {error.ErrorMessage}");
-                    }
-                }
+                TempData["FailMessage"] = "Failed to add new Room Post!";
 
-                model.RoomTypes = _roomService.GetRoomType(); 
+                model.RoomTypes = _roomService.GetRoomType();
+                model.Users = GetUserFromCookies();
+                model.Utility = _roomService.GetUtilities();
                 return View(model);
             }
         }
@@ -272,6 +312,37 @@ namespace FinalProject.Controllers
             return (0, 0); 
         }
 
+        private UpdatePersonalInformationVM GetUserFromCookies()
+        {
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                return _userService.GetUserById(userId);
+            }
+
+            return null; 
+        }
+
+        private void SaveRoomImages(int newRoomId, List<IFormFile> roomImages)
+        {
+            if (roomImages != null && roomImages.Count > 0)
+            {
+                foreach (var image in roomImages)
+                {
+                    var originalFileName = image.FileName;
+                    var fileExtension = Path.GetExtension(originalFileName);
+                    var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+                    var filePath = Path.Combine("wwwroot/img/Room", uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        image.CopyTo(stream);
+                    }
+
+                    _roomService.SaveRoomImage(newRoomId, uniqueFileName); 
+                }
+            }
+        }
 
 
     }
