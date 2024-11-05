@@ -295,5 +295,31 @@ namespace FinalProject.Services
             }
 
         }
+
+        public IEnumerable<RoomManagementVM> GetRoomListByUserId(int userId)
+        {
+            try
+            {
+                var roomList = from r in db.RoomPosts
+                               join img in db.RoomImages on r.PostId equals img.PostId into imgGroup
+                               where r.UserId == userId
+                               select new RoomManagementVM
+                               {
+                                   PostId = r.PostId,
+                                   RoomPrice = (decimal)r.RoomPrice,
+                                   RoomAddress = r.Address,
+                                   RoomImage = imgGroup.FirstOrDefault().ImageUrl,
+                                   RoomName = r.RoomName,
+                                   RoomSize = (decimal)r.RoomSize
+                               };
+                return roomList;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Enumerable.Empty<RoomManagementVM>();
+            }
+        }
     }
 }

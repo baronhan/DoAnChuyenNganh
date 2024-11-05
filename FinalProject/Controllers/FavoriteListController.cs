@@ -135,6 +135,8 @@ namespace FinalProject.Controllers
 
         #endregion
 
+
+        #region DeleteFavoriteItemAuthenticated
         [Authorize]
         [HttpPost]
         public IActionResult DeleteFavoriteItemAuthenticated(int idPhong)
@@ -157,8 +159,10 @@ namespace FinalProject.Controllers
             ModelState.AddModelError("", "Bạn cần đăng nhập để thực hiện hành động này.");
             return RedirectToAction("Index");
         }
+        #endregion
 
 
+        #region DeleteFavoriteItemAnonymous
         [AllowAnonymous]
         [HttpPost]
         public IActionResult DeleteFavoriteItemAnonymous(int idPhong)
@@ -176,5 +180,7 @@ namespace FinalProject.Controllers
 
             return RedirectToAction("Index");
         }
+
+        #endregion
     }
 }

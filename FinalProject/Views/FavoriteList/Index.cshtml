@@ -23,22 +23,22 @@
         {
             <div class="alert alert-success" role="alert">
                 @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         }
 
         @if (TempData["FailMessage"] != null)
         {
             <div class="alert alert-danger" role="alert">
                 @TempData["FailMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         }
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Products</th>
+                        <th scope="col">RoomPost</th>
                         <th scope="col">Name</th>
                         <th scope="col">Price</th>
                         <th scope="col">Size</th>

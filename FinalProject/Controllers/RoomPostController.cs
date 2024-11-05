@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using FinalProject.Services;
 using Newtonsoft.Json.Linq;
+using FinalProject.Helpers;
+using System.Security.Claims;
 
 namespace FinalProject.Controllers
 {
@@ -344,6 +346,17 @@ namespace FinalProject.Controllers
             }
         }
 
+        #region ManageRoom
 
+        [Authorize]
+        public IActionResult ManageRoom()
+        {
+            int userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var roomList = _roomService.GetRoomListByUserId(userId);
+
+            return View(roomList);
+        }
+        #endregion
     }
 }
