@@ -78,19 +78,19 @@ namespace FinalProject.Controllers
 
                 if (customer == null)
                 {
-                    ModelState.AddModelError("Error", "User doesn't exist");
+                    ModelState.AddModelError("Lỗi", "Người dùng không tồn tại!");
                 }
                 else
                 {
                     if (!customer.IsValid)
                     {
-                        ModelState.AddModelError("Error", "The account has been blocked");
+                        ModelState.AddModelError("Lỗi", "Tài khoản của bạn đã bị khóa!");
                     }
                     else
                     {
                         if (customer.Password != login.password.ToMd5Hash(customer.RandomKey))
                         {
-                            ModelState.AddModelError("Error", "The login information is wrong");
+                            ModelState.AddModelError("Lỗi", "Thông tin đăng nhập không đúng!");
                         }
                         else
                         {
@@ -202,7 +202,7 @@ namespace FinalProject.Controllers
 
                 await _userService.UpdateUserInformationAsync(_user, userimage);
 
-                TempData["SuccessMessage"] = "Profile updated successfully!";
+                TempData["SuccessMessage"] = "Cập nhật thông tin cá nhân thành công!";
 
                 return RedirectToAction("Profile"); 
             }
@@ -252,18 +252,18 @@ namespace FinalProject.Controllers
 
                         if (isChanged)
                         {
-                            TempData["SuccessMessage"] = "Password updated successfully!";
+                            TempData["SuccessMessage"] = "Cập nhật mật khẩu thành công!";
                             return RedirectToAction("Profile", "Customer");
                         }
                         else
                         {
-                            TempData["FailMessage"] = "Password update failed!";
+                            TempData["FailMessage"] = "Cập nhật mật khẩu thất bại!";
                             return View("ChangePassword", model);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("currentPassword", "Current password is incorrect.");
+                        ModelState.AddModelError("currentPassword", "Mật khẩu hiện tại không chính xác!");
                         return View("ChangePassword", model);
                     }
                 }
@@ -307,7 +307,7 @@ namespace FinalProject.Controllers
                 return RedirectToAction("ForgotPasswordConfirmation");
             }
 
-            ModelState.AddModelError("Email", "The email address is not registered.");
+            ModelState.AddModelError("Email", "Địa chỉ email chưa được đăng ký!");
             return View(passwordVM);
         }
 

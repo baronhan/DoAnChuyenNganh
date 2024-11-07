@@ -9,6 +9,8 @@ using FinalProject.Services;
 using Newtonsoft.Json.Linq;
 using FinalProject.Helpers;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Newtonsoft.Json;
 
 namespace FinalProject.Controllers
 {
@@ -18,16 +20,18 @@ namespace FinalProject.Controllers
         private readonly RoomService _roomService;
         private readonly UserService _userService;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService)
+        public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService, IConfiguration configuration)
         {
             this._db = db;
             this._roomService = _roomService;
             this._httpClientFactory = _httpClientFactory;
             _userService = userService;
+            this._configuration = configuration;
         }
 
-
+        #region GetRoomPost
         public IActionResult Index(int? id, int page = 1, int pageSize = 6)
         {
             var roomList = _db.RoomPostVM.FromSql($"GetRoomPosts {id}").ToList();
@@ -46,8 +50,9 @@ namespace FinalProject.Controllers
 
             return View(viewModel);
         }
+        #endregion
 
-
+        #region SearchRoom
         [HttpGet]
         public IActionResult SearchRoom(int? roomType, string? district, string? ward, int? adult, string? priceRange)
         {
@@ -91,13 +96,16 @@ namespace FinalProject.Controllers
 
             return View("SearchRoom", rooms);
         }
+        #endregion
 
-
-
+        #region RoomDetail
         public IActionResult Detail(int id)
         {
             var roomDetail = new RoomPostDetailVM();
             var roomImages = new List<RoomImageVM>();
+
+            var googleMapsApiKey = _configuration["GoogleMaps:ApiKey"];
+            ViewData["GoogleMapsApiKey"] = googleMapsApiKey;
 
             using (var command = _db.Database.GetDbConnection().CreateCommand())
             {
@@ -159,7 +167,9 @@ namespace FinalProject.Controllers
 
             return View(model);
         }
+        #endregion
 
+        #region UploadRoomPostView
         [Authorize]
         public IActionResult UploadRoomPost()
         {
@@ -177,7 +187,9 @@ namespace FinalProject.Controllers
 
             return RedirectToAction("SignIn", "Customer");
         }
+        #endregion
 
+        #region UploadRoomPost
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> UploadRoomPost(UploadRoomPostVM model)
@@ -186,16 +198,43 @@ namespace FinalProject.Controllers
             ModelState.Remove("RoomTypes");
             ModelState.Remove("Users");
 
-            if (ModelState.IsValid)
+            if (model.RoomImages == null || model.RoomImages.Count == 0)
+            {
+                TempData["FailMessage"] = "Vui lòng thêm ít nhất một ảnh!";
+                PopulateModelData(model);
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["FailMessage"] = "Có lỗi khi thêm bài đăng phòng!";
+                PopulateModelData(model); 
+                return View(model); 
+            }
+            else
             {
                 var coordinates = await GetCoordinatesAsync(model.RoomPostContentVM.RoomAddress);
 
-                if (coordinates.latitude == 0 && coordinates.longitude == 0)
+                string userInput = model.RoomPostContentVM.RoomAddress;
+                string formattedAddress = coordinates.formattedAddress;
+
+
+                if (coordinates.latitude == 0 && coordinates.longitude == 0 || !formattedAddress.Contains("Hồ Chí Minh") && !formattedAddress.Contains("Vietnam"))
                 {
-                    TempData["FailMessage"] = "Invalid coordinates.";
-                    model.RoomTypes = _roomService.GetRoomType();
-                    model.Utility = _roomService.GetUtilities();
-                    model.Users = GetUserFromCookies();
+                    TempData["FailMessage"] = coordinates.latitude == 0 && coordinates.longitude == 0 ? "Địa chỉ bạn cung cấp không tồn tại!" : "Địa chỉ phải nằm trong khu vực Hồ Chí Minh!";
+
+                    PopulateModelData(model);
+
+                    return View(model);
+                }
+
+                bool isMatch = CompareAddresses(userInput, formattedAddress);
+                if (!isMatch)
+                {
+                    TempData["FailMessage"] = "Địa chỉ bạn cung cấp không tồn tại!";
+
+                    PopulateModelData(model);
+
                     return View(model);
                 }
 
@@ -203,13 +242,13 @@ namespace FinalProject.Controllers
 
                 if (!Request.Cookies.TryGetValue("user_id", out var userIdString) || !int.TryParse(userIdString, out userId))
                 {
-                    TempData["FailMessage"] = "User ID not found.";
+                    TempData["FailMessage"] = "Người dùng không tồn tại.";
                     return RedirectToAction("SignIn", "Customer");
                 }
 
                 if (_roomService.CheckExistingCoordinate(coordinates.latitude, coordinates.longitude))
                 {
-                    var roomCoordinateId = _roomService.GetRoomCoordinateId(coordinates.latitude, coordinates.longitude);
+                    var roomCoordinateId = await _roomService.GetRoomCoordinateId(coordinates.latitude, coordinates.longitude);
 
                     if (roomCoordinateId != 0)
                     {
@@ -219,17 +258,17 @@ namespace FinalProject.Controllers
                         {
                             _roomService.SaveSelectedUtilities(newRoomId, model.SelectedUtilities);
                             SaveRoomImages(newRoomId, model.RoomImages);
-                            TempData["SuccessMessage"] = "Added to favorites successfully!";
+                            TempData["SuccessMessage"] = "Thêm mới bài viết thành công!";
                         }
                         else
                         {
-                            TempData["FailMessage"] = "Failed to add to favorites!";
+                            TempData["FailMessage"] = "Thêm mới bài viết thất bại!";
                         }
 
                     }
                     else
                     {
-                        TempData["FailMessage"] = "Room Coordinate Id doesn't exist!";
+                        TempData["FailMessage"] = "Tọa độ ảnh không tồn tại!";
                     }
                 }
                 else
@@ -246,40 +285,53 @@ namespace FinalProject.Controllers
 
                             SaveRoomImages(newRoomId, model.RoomImages);
 
-                            TempData["SuccessMessage"] = "Added to favorites successfully!";
+                            TempData["SuccessMessage"] = "Thêm mới bài viết thành công!";
                         }
                         else
                         {
-                            TempData["FailMessage"] = "Failed to add to favorites!";
+                            TempData["FailMessage"] = "Thêm mới bài viết thất bại!";
                         }
 
                     }
                     else
                     {
-                        TempData["FailMessage"] = "Failed to add new Room Coordinate!";
+                        TempData["FailMessage"] = "Thêm mới Tọa độ ảnh thất bại!";
                     }
                 }
 
-                model.RoomTypes = _roomService.GetRoomType();
-                model.Users = GetUserFromCookies();
-                model.Utility = _roomService.GetUtilities();
+                PopulateModelData(model);
 
-                return View(model);
-            }
-            else
-            {
-                TempData["FailMessage"] = "Failed to add new Room Post!";
-
-                model.RoomTypes = _roomService.GetRoomType();
-                model.Users = GetUserFromCookies();
-                model.Utility = _roomService.GetUtilities();
                 return View(model);
             }
         }
 
+        #endregion
 
+        #region PopulateModelDate
+        private void PopulateModelData(UploadRoomPostVM model)
+        {
+            model.RoomTypes = _roomService.GetRoomType();
+            model.Utility = _roomService.GetUtilities();
+            model.Users = GetUserFromCookies();
+        }
+        #endregion
 
-        private async Task<(double latitude, double longitude)> GetCoordinatesAsync(string address)
+        #region CompareAddresses
+        private bool CompareAddresses(string userInput, string formattedAddress)
+        {
+            var userInputParts = userInput.Split(',').Select(part => part.Trim()).ToList();
+            var formattedAddressParts = formattedAddress.Split(',').Select(part => part.Trim()).ToList();
+
+            var userStreetAndDistrict = userInputParts.Take(2).ToList();
+            var formattedStreetAndDistrict = formattedAddressParts.Take(2).ToList();
+
+            return userStreetAndDistrict.SequenceEqual(formattedStreetAndDistrict);
+        }
+
+        #endregion
+
+        #region GetCoordinate
+        private async Task<(double latitude, double longitude, string formattedAddress)> GetCoordinatesAsync(string address)
         {
             var client = _httpClientFactory.CreateClient();
             string url = $"https://localhost:7127/api/geocode/getCoordinates?address={Uri.EscapeDataString(address)}";
@@ -290,17 +342,31 @@ namespace FinalProject.Controllers
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 Console.WriteLine($"Geocode API Response: {jsonResponse}");
 
-                var result = JObject.Parse(jsonResponse);
+                try
+                {
+                    var result = JObject.Parse(jsonResponse);
 
-                if (result["latitude"] != null && result["longitude"] != null)
-                {
-                    double latitude = result["latitude"].Value<double>();
-                    double longitude = result["longitude"].Value<double>();
-                    return (latitude, longitude);
+                    if (result["latitude"] != null && result["longitude"] != null)
+                    {
+                        double latitude = result["latitude"].Value<double>();
+                        double longitude = result["longitude"].Value<double>();
+
+                        string formattedAddress = result["formattedAddress"]?.Value<string>() ?? "Address not available";
+
+                        return (latitude, longitude, formattedAddress);
+                    }
+                    else if (result["status"] != null)
+                    {
+                        Console.WriteLine($"Geocoding error: {result["status"]}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Geocoding error: latitude and longitude fields are missing.");
+                    }
                 }
-                else
+                catch (JsonReaderException ex)
                 {
-                    Console.WriteLine($"Geocoding error: {result["status"]}"); 
+                    Console.WriteLine($"JSON Parsing error: {ex.Message}");
                 }
             }
             else
@@ -308,12 +374,11 @@ namespace FinalProject.Controllers
                 Console.WriteLine($"HTTP Error: {response.StatusCode} - {response.ReasonPhrase}");
             }
 
-
-            System.Diagnostics.Debug.WriteLine(response);
-
-            return (0, 0); 
+            return (0, 0, null); 
         }
+        #endregion
 
+        #region GetUserFromCookies
         private UpdatePersonalInformationVM GetUserFromCookies()
         {
             if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
@@ -323,7 +388,9 @@ namespace FinalProject.Controllers
 
             return null; 
         }
+        #endregion
 
+        #region SaveRoomImages
         private void SaveRoomImages(int newRoomId, List<IFormFile> roomImages)
         {
             if (roomImages != null && roomImages.Count > 0)
@@ -345,8 +412,9 @@ namespace FinalProject.Controllers
                 }
             }
         }
+        #endregion
 
-        #region ManageRoom
+        #region ManageRoomView
 
         [Authorize]
         public IActionResult ManageRoom()
@@ -356,6 +424,205 @@ namespace FinalProject.Controllers
             var roomList = _roomService.GetRoomListByUserId(userId);
 
             return View(roomList);
+        }
+        #endregion
+
+        #region UpdateRoomPost
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult UpdateRoomView(int idPhong)
+        {
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                var model = new UploadRoomPostVM
+                {
+                    Users = _userService.GetUserById(userId),
+                    Utility = _roomService.GetUtilities()?.ToList() ?? new List<UtilityVM>(),
+                    RoomTypes = _roomService.GetRoomType(),
+                    RoomPostContentVM = _roomService.GetRoomPostContent(idPhong),
+                    SelectedUtilities = _roomService.GetUtilitiesByPostId(idPhong),
+                    ImagesFromRoom = _roomService.GetImagesByPostId(idPhong)
+                };
+                return View(model);
+            }
+
+            return RedirectToAction("SignIn", "Customer");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UpdateRoom(UploadRoomPostVM model)
+        {
+            if (model.RoomImages?.Count == 0 && model.ImagesFromRoom.Count == 0)
+            {
+                TempData["FailMessage"] = "Vui lòng thêm ít nhất một ảnh!";
+                return RedirectToAction("ManageRoom", "RoomPost");
+            }
+
+            if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
+            {
+                if (model.RoomPostContentVM != null)
+                {
+                    var addressUpdateSuccess = await HandleRoomAddressUpdate(model);
+
+                    if (addressUpdateSuccess)
+                    {
+                        if (model.SelectedUtilities != null)
+                        {
+                            _roomService.UpdateRoomServices(model.SelectedUtilities, model.RoomPostContentVM.PostId);
+                            _roomService.UpdateRoomImages(model.ImagesFromRoom, model.RoomImages, model.RoomPostContentVM.PostId);
+                        }
+
+                        TempData["SuccessMessage"] = "Cập nhật phòng thành công!";
+                        return RedirectToAction("ManageRoom", "RoomPost");
+                    }
+                    else
+                    {
+                        TempData["FailMessage"] = "Cập nhật địa chỉ phòng thất bại! Vui lòng kiểm tra lại.";
+                        return RedirectToAction("ManageRoom", "RoomPost");
+                    }
+                }
+                else
+                {
+                    TempData["FailMessage"] = "Thông tin phòng không hợp lệ!";
+                    return RedirectToAction("ManageRoom", "RoomPost");
+                }
+            }
+
+            TempData["FailMessage"] = "Vui lòng đăng nhập để tiếp tục!";
+            return RedirectToAction("SignIn", "Customer");
+        }
+
+
+
+        private async Task<bool> HandleRoomAddressUpdate(UploadRoomPostVM model)
+        {
+            int oldRoomCoordinateId = model.RoomPostContentVM.RoomCoordinateId;
+
+            if (!string.IsNullOrEmpty(model.RoomPostContentVM.RoomAddress))
+            {
+                int newRoomCoordinateId = 0;
+
+                if (await _roomService.CheckRoomAddresAsync(model.RoomPostContentVM.RoomAddress))
+                {
+                    newRoomCoordinateId = await _roomService.GetRoomCoordinateIdByAddress(model.RoomPostContentVM.RoomAddress);
+                }
+                else
+                {
+                    var coordinates = await GetCoordinatesAsync(model.RoomPostContentVM.RoomAddress);
+
+                    string userInput = model.RoomPostContentVM.RoomAddress;
+                    string formattedAddress = coordinates.formattedAddress;
+
+
+                    if (coordinates.latitude == 0 && coordinates.longitude == 0 || !formattedAddress.Contains("Hồ Chí Minh") && !formattedAddress.Contains("Vietnam"))
+                    {
+                        TempData["FailMessage"] = coordinates.latitude == 0 && coordinates.longitude == 0 ? "Địa chỉ bạn cung cấp không tồn tại!" : "Địa chỉ phải nằm trong khu vực Hồ Chí Minh!";
+                        return false;
+                    }
+
+                    bool isMatch = CompareAddresses(userInput, formattedAddress);
+                    if (!isMatch)
+                    {
+                        TempData["FailMessage"] = "Địa chỉ bạn cung cấp không tồn tại!";
+                        return false;
+                    }
+
+                    newRoomCoordinateId = await _roomService.GetRoomCoordinateId(coordinates.latitude, coordinates.longitude);
+
+                    if (newRoomCoordinateId == 0)
+                    {
+                        newRoomCoordinateId = _roomService.AddNewRoomCoordinate(coordinates.latitude, coordinates.longitude);
+
+                        if (newRoomCoordinateId == 0)
+                        {
+                            return false; 
+                        }
+                    }
+                }
+                model.RoomPostContentVM.RoomCoordinateId = newRoomCoordinateId;
+
+                if (await _roomService.UpdateRoomPostAsync(model.RoomPostContentVM))
+                {
+                    if (oldRoomCoordinateId != newRoomCoordinateId)
+                    {
+                        bool isCoordinateInUse = await _roomService.CheckExistingCoordinateInRoomListAsync(oldRoomCoordinateId);
+                        if (!isCoordinateInUse)
+                        {
+                            await _roomService.DeleteRoomCoordinateByIdAsync(oldRoomCoordinateId);
+                        }
+                    }
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region DeleteRoomPost
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeleteRoomPost(int idPhong)
+        {
+            var roomPost = await _roomService.GetRoomPostById(idPhong);
+            if (roomPost == null)
+            {
+                TempData["FailMessage"] = "Phòng không tồn tại!";
+                return RedirectToAction("ManageRoom", "RoomPost");
+            }
+
+            using (var transaction = _db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Xóa tất cả bản ghi liên quan trong RoomUtilities
+                    if (await _roomService.HasRoomUtilities(idPhong))
+                    {
+                        await _roomService.DeleteRoomUtilities(idPhong);
+                    }
+
+                    // Xóa tất cả bản ghi liên quan trong RoomFavoritePosts
+                    if (await _roomService.HasRoomFavorites(idPhong))
+                    {
+                        await _roomService.DeleteRoomFavorites(idPhong);
+                    }
+
+                    // Xóa tất cả bản ghi liên quan trong RoomImages
+                    if (await _roomService.HasRoomImages(idPhong))
+                    {
+                        await _roomService.DeleteRoomImages(idPhong);
+                    }
+
+                    // Xóa tất cả phản hồi liên quan trong RoomFeedbacks (nếu có)
+                    //if (await _roomService.HasRoomFeedbacks(idPhong))
+                    //{
+                    //    await _roomService.DeleteRoomFeedbacks(idPhong);
+                    //}
+
+                    // Cuối cùng, xóa bài đăng phòng từ RoomPosts
+                    await _roomService.DeleteRoomPost(idPhong);
+
+                    // Lấy `roomCoordinateId` và kiểm tra xem nó còn được dùng ở bài đăng khác không
+                    int roomCoordinateId = roomPost.RoomCoordinateId;
+                    if (!await _roomService.HasOtherPostsWithCoordinate(roomCoordinateId))
+                    {
+                        await _roomService.DeleteRoomCoordinateByIdAsync(roomCoordinateId);
+                    }
+
+                    transaction.Commit();
+
+                    TempData["SuccessMessage"] = "Xóa phòng thành công!";
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    TempData["FailMessage"] = "Đã có lỗi xảy ra khi xóa phòng. Vui lòng thử lại!";
+                }
+            }
+
+            return RedirectToAction("ManageRoom", "RoomPost");
         }
         #endregion
     }

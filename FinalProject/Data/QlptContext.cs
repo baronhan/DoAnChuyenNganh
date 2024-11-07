@@ -263,9 +263,6 @@ public partial class QlptContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.Address)
-                .HasMaxLength(255)
-                .HasColumnName("address");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .HasColumnName("email");

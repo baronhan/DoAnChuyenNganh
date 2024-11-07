@@ -20,7 +20,7 @@
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
                     <h1 class="heading" data-aos="fade-up">
-                        Upload RoomPost
+                        Update RoomPost
                     </h1>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title">Upload RoomPost</h4>
+                            <h4 class="card-title">Update RoomPost</h4>
                         </div>
                     </div>
                     @if (TempData["SuccessMessage"] != null)
@@ -53,9 +53,12 @@
                         </div>
                     }
 
+
                     <div class="card-body">
-                        <form asp-controller="RoomPost" asp-action="UploadRoomPost" method="post" enctype="multipart/form-data">
-                            @Html.AntiForgeryToken()
+                        <form asp-controller="RoomPost" asp-action="UpdateRoom" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="RoomPostContentVM.PostId" value="@Model.RoomPostContentVM.PostId" />
+                            <input type="hidden" name="RoomPostContentVM.RoomCoordinateId" value="@Model.RoomPostContentVM.RoomCoordinateId" />
+
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <div class="row">
@@ -75,7 +78,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label asp-for="RoomPostContentVM.Quantity" class="form-label">Số người ở:</label>
-                                    <input type="number" class="form-control" id="numberOfPeople" asp-for="RoomPostContentVM.Quantity" placeholder="Nhập số lượng người ở" min="1" max="4" value="" />
+                                    <input type="number" class="form-control" id="numberOfPeople" asp-for="RoomPostContentVM.Quantity"  placeholder="Nhập số lượng người ở" min="1" max="4" required/>
                                     <span asp-validation-for="RoomPostContentVM.Quantity" class="text-danger"></span>
                                 </div>
 
@@ -83,10 +86,10 @@
                                     <label asp-for="RoomPostContentVM.RoomPrice" class="form-label">Giá phòng/Tháng:</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="roomPrice"
-                                               asp-for="RoomPostContentVM.RoomPrice"
-                                               name="RoomPostContentVM.RoomPrice"
+                                               value="@string.Format("{0:N0}", Model.RoomPostContentVM.RoomPrice)"
                                                oninput="formatCurrency(this)"
-                                               placeholder="Nhập giá phòng" value=""/>
+                                               name="RoomPostContentVM.RoomPrice"
+                                               required placeholder="Nhập giá phòng" />
                                         <span class="input-group-text">VND</span>
                                     </div>
                                     <span asp-validation-for="RoomPostContentVM.RoomPrice" class="text-danger"></span>
@@ -99,9 +102,9 @@
                                     <label asp-for="RoomPostContentVM.RoomSize" class="form-label">Diện tích:</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="roomSize"
-                                               value=""
+                                               value="@Model.RoomPostContentVM.RoomSize.ToString("0")"
                                                asp-for="RoomPostContentVM.RoomSize"
-                                               placeholder="Nhập diện tích" min="1" max="50"/>
+                                               required placeholder="Nhập diện tích" min="1" max="50"/>
                                         <span class="input-group-text">m²</span>
                                     </div>
                                     <span asp-validation-for="RoomPostContentVM.RoomSize" class="text-danger"></span>
@@ -109,11 +112,11 @@
 
                                 <div class="form-group col-sm-6">
                                     <label asp-for="RoomPostContentVM.RoomTypeId" class="form-label">Loại phòng:</label>
-                                    <select class="form-control" id="RoomTypeId" asp-for="RoomPostContentVM.RoomTypeId" asp-items="@(new SelectList(Model.RoomTypes, "RoomTypeId", "TypeName"))">
+                                    <select class="form-control" asp-for="RoomPostContentVM.RoomTypeId" asp-items="@(new SelectList(Model.RoomTypes, "RoomTypeId", "TypeName"))">
                                         <option value="">-- Chọn loại phòng --</option>
                                     </select>
-                                    <span asp-validation-for="RoomPostContentVM.RoomTypeId" class="text-danger"></span>
                                 </div>
+
 
                             </div>
 
@@ -122,12 +125,12 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label for="streetNumber" class="form-label">Số nhà:</label>
-                                            <input type="text" class="form-control" id="streetNumber" name="streetNumber"  placeholder="Nhập số nhà" />
+                                            <input type="text" class="form-control" id="streetNumber" name="streetNumber" placeholder="Nhập số nhà" />
                                         </div>
 
                                         <div class="form-group col-sm-6">
                                             <label for="streetName" class="form-label">Tên đường:</label>
-                                            <input type="text" class="form-control" id="streetName" name="streetName"  placeholder="Nhập tên đường" />
+                                            <input type="text" class="form-control" id="streetName" name="streetName" placeholder="Nhập tên đường" />
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +146,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label asp-for="RoomPostContentVM.RoomAddress" class="form-label">Địa chỉ:</label>
-                                    <input type="text" class="form-control" id="RoomAddress" asp-for="RoomPostContentVM.RoomAddress" required placeholder="Nhập địa chỉ" readonly />
+                                    <input type="text" class="form-control" id="RoomAddress" asp-for="RoomPostContentVM.RoomAddress"  placeholder="Nhập địa chỉ" required readonly />
                                     <span asp-validation-for="RoomPostContentVM.RoomAddress" class="text-danger"></span>
                                 </div>
                             </div>
@@ -152,7 +155,7 @@
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label asp-for="RoomPostContentVM.RoomDescription" class="form-label">Mô tả:</label>
-                                    <textarea class="form-control" id="roomDescription" asp-for="RoomPostContentVM.RoomDescription" rows="4" placeholder="Nhập mô tả phòng"></textarea>
+                                    <textarea class="form-control" id="roomDescription" asp-for="RoomPostContentVM.RoomDescription" rows="4" required placeholder="Nhập mô tả phòng"></textarea>
                                     <span asp-validation-for="RoomPostContentVM.RoomDescription" class="text-danger"></span>
                                 </div>
                             </div>
@@ -193,17 +196,33 @@
                                             <i class="fa fa-camera"></i> Chọn ảnh
                                         </label>
                                         <input type="file" id="imageUpload" name="RoomImages" accept="image/*" multiple>
-                                        <div id="imagePreviewContainer"></div>
+
+                                        <div id="imagePreviewContainer">
+                                            @if (Model.ImagesFromRoom != null)
+                                            {
+                                                foreach (var imagePath in Model.ImagesFromRoom)
+                                                {
+                                                    <div class="image-preview">
+                                                        <img src="~/img/Room/@imagePath" alt="Image Preview" style="width: 100px; height: 100px; margin: 5px;" />
+                                                        <button type="button" class="btn btn-danger btn-sm delete-image" data-image="@imagePath">X</button>
+
+                                                        <input type="hidden" name="ImagesFromRoom" value="@imagePath" />
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+
                                     </div>
                                     <span class="text-danger"></span>
                                 </div>
                             </div>
 
 
+
                             <div class="button-container" style="display: flex; justify-content: flex-end; align-items: center; margin-top: 20px;">
                                 <div style="display: flex;">
                                     <button style="margin-right: 10px;" type="submit" class="btn btn-primary">Lưu Bài</button>
-                                    <button type="button" class="btn bg-soft-danger" onclick="window.location.href='@Url.Action("Index", "Home")'">Hủy bỏ</button>
+                                    <button type="button" class="btn bg-soft-danger" onclick="window.location.href='@Url.Action("ManageRoom", "RoomPost")'">Hủy bỏ</button>
                                 </div>
                             </div>
 
@@ -220,7 +239,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         const locationSelect = document.getElementById('locationSelect');
-        const addressInput = document.getElementById('RoomAddress'); 
+        const addressInput = document.getElementById('RoomAddress');
 
         let districtsData = [];
         let isDistrictsShown = true;
@@ -302,7 +321,8 @@
                 const streetNumber = document.getElementById('streetNumber').value;
                 const streetName = document.getElementById('streetName').value;
 
-                addressInput.value = `${streetNumber} ${streetName}, ${selectedWardOption.textContent}, ${selectedDistrict}`;
+
+                addressInput.value = `${streetNumber}, ${streetName}, ${selectedWardOption.textContent}, ${selectedDistrict}`;
             }
         });
 
@@ -313,7 +333,7 @@
         function updateAddress() {
             const streetNumber = document.getElementById('streetNumber').value;
             const streetName = document.getElementById('streetName').value;
-            addressInput.value = `${streetNumber} ${streetName}, ${selectedDistrict}`;
+            addressInput.value = `${streetNumber}, ${streetName}, ${selectedDistrict}`;
         }
 
         loadDistricts();
@@ -325,8 +345,7 @@
     imageInput.addEventListener('change', (event) => {
         const files = event.target.files;
 
-        imagePreviewContainer.innerHTML = '';
-
+        // Không xóa ảnh cũ mà chỉ thêm ảnh mới vào
         Array.from(files).forEach((file, index) => {
             const reader = new FileReader();
 
@@ -334,24 +353,48 @@
                 const previewDiv = document.createElement('div');
                 previewDiv.classList.add('image-preview');
 
+                // Tạo thẻ img để hiển thị ảnh
                 const img = document.createElement('img');
                 img.src = e.target.result;
+                img.alt = `Preview ${index + 1}`;
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.margin = "5px";
+
                 previewDiv.appendChild(img);
 
+                // Tạo nút xóa cho ảnh mới
                 const deleteBtn = document.createElement('button');
                 deleteBtn.classList.add('delete-image');
                 deleteBtn.innerHTML = 'X';
+
+                // Khi nhấn nút xóa, xóa ảnh khỏi giao diện
                 deleteBtn.onclick = () => {
-
-                    previewDiv.remove();
-
-                    removeImage(file);
+                    previewDiv.remove(); // Xóa thẻ div chứa ảnh và nút
+                    removeImage(file); // Gọi hàm xóa ảnh từ input file
                 };
+
                 previewDiv.appendChild(deleteBtn);
 
+                // Thêm ảnh vào container (chỉ thêm ảnh mới vào, không xóa ảnh cũ)
                 imagePreviewContainer.appendChild(previewDiv);
             };
+
+            // Đọc file như dữ liệu URL để hiển thị ảnh
             reader.readAsDataURL(file);
+        });
+    });
+
+    document.querySelectorAll('.delete-image').forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const imagePath = event.target.getAttribute('data-image');
+
+            // Xóa ảnh khỏi giao diện (dựa trên data-image)
+            event.target.closest('.image-preview').remove();
+
+            // Nếu cần gửi yêu cầu xóa ảnh từ database, có thể gọi AJAX ở đây
+            // Ví dụ:
+            // deleteImageFromDatabase(imagePath);
         });
     });
 
@@ -359,26 +402,26 @@
         const dataTransfer = new DataTransfer();
         Array.from(imageInput.files).forEach(f => {
             if (f !== file) {
-                dataTransfer.items.add(f); 
+                dataTransfer.items.add(f);
             }
         });
-        imageInput.files = dataTransfer.files; 
+        imageInput.files = dataTransfer.files;
     }
 
     document.getElementById('roomPrice').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\D/g, '');
-        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        let value = e.target.value.replace(/\D/g, '');  
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');  
         e.target.value = value;
 
         document.querySelector('form').addEventListener('submit', function () {
-            e.target.value = e.target.value.replace(/\D/g, '');
+            e.target.value = e.target.value.replace(/\D/g, ''); 
         });
     });
 
 
     function formatCurrency(input) {
-        var value = input.value.replace(/\D/g, '');
-        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        var value = input.value.replace(/\D/g, ''); 
+        value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); 
         input.value = value;
     }
 

@@ -7,8 +7,6 @@ namespace FinalProject.ViewModels
         [Required(ErrorMessage = "Fullname is required.")]
         [StringLength(100, ErrorMessage = "Fullname cannot exceed 100 characters.")]
         public string? fullname { get; set; }
-        [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
-        public string? address { get; set; }
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string email { get; set; }
@@ -25,10 +23,9 @@ namespace FinalProject.ViewModels
 
         public UpdatePersonalInformationVM() { }
 
-        public UpdatePersonalInformationVM(string fullname, string address, string email, string phone, bool gender, string userimage, DateTime dob)
+        public UpdatePersonalInformationVM(string fullname, string email, string phone, bool gender, string userimage, DateTime dob)
         {
             this.fullname = fullname;
-            this.address = address;
             this.email = email;
             this.phone = phone;
             this.gender = gender;

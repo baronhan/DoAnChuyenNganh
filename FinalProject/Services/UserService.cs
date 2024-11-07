@@ -93,7 +93,6 @@ namespace FinalProject.Services
 
                 existingUser.Fullname = user.Fullname;
                 existingUser.Dob = user.Dob;
-                existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
                 existingUser.Phone = user.Phone;
                 existingUser.Gender = user.Gender;

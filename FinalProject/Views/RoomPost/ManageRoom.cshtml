@@ -21,7 +21,7 @@
     <div class="container py-5">
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 @TempData["SuccessMessage"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -29,7 +29,7 @@
 
         @if (TempData["FailMessage"] != null)
         {
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 @TempData["FailMessage"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -70,17 +70,17 @@
                                 <p class="mb-0 mt-4">@item.RoomAddress</p>
                             </td>
                             <td>
-                                <form asp-action="UpdateFavoriteItem" asp-controller="FavoriteList" method="post" style="display: inline;">
+                                <form asp-action="UpdateRoomView" asp-controller="RoomPost" method="post" style="display: inline;">
                                     <input type="hidden" name="idPhong" value="@item.PostId" />
                                     <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Update">
                                         <i class="fa fa-pencil-alt text-primary"></i>
                                     </button>
                                 </form>
 
-                                <form asp-action="@(User.Identity.IsAuthenticated ? "DeleteFavoriteItemAuthenticated" : "DeleteFavoriteItemAnonymous")"
-                                      asp-controller="FavoriteList" method="post" style="display: inline;">
+                                <form asp-action="DeleteRoomPost"
+                                      asp-controller="RoomPost" method="post" style="display: inline;" id="deleteForm">
                                     <input type="hidden" name="idPhong" value="@item.PostId" />
-                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete">
+                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete" onclick="return confirmDelete()">
                                         <i class="fa fa-times text-danger"></i>
                                     </button>
                                 </form>
@@ -99,4 +99,11 @@
                     }
                 </tbody>
             </table>
-        </div>
+        </div
+    </div>
+</div>
+<script>
+    function confirmDelete() {
+        return confirm("Bạn có chắc chắn muốn xóa bài đăng này không?");
+    }
+</script>

@@ -9,18 +9,18 @@ namespace FinalProject.ViewModels
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
         public int Quantity { get; set; }
-        [Required(ErrorMessage = "Room description is required.")]
-        [StringLength(500, ErrorMessage = "Room description cannot exceed 500 characters.")]
+        [Required(ErrorMessage = "Mô tả là bắt buộc.")]
+        [StringLength(1000, ErrorMessage = "Mô tả không được quá 1000 ký tự.")]
         public string RoomDescription { get; set; }
         [Required(ErrorMessage = "Room price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Room price must be a positive number.")]
         public decimal RoomPrice { get; set; }
-        [Required(ErrorMessage = "Room size is required.")]
-        [Range(1, double.MaxValue, ErrorMessage = "Room size must be at least 1 square meter.")]
+        [Required(ErrorMessage = "Diện tích là bắt buộc.")]
+        [Range(1, 1000, ErrorMessage = "Diện tích phải từ 1m² đến 1000m².")]
         public decimal RoomSize { get; set; }
-        [Required(ErrorMessage = "Room address is required.")]
-        [StringLength(200, ErrorMessage = "Room address cannot exceed 200 characters.")]
+        [Required(ErrorMessage = "Địa chỉ là bắt buộc.")]
         public string RoomAddress { get; set; }
+        [Required(ErrorMessage = "Loại phòng là bắt buộc.")]
         public int RoomTypeId { get; set; }
         public int StatusId { get; set; }
         public int UserId { get; set; }

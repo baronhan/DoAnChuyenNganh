@@ -22,7 +22,7 @@ namespace FinalProject.Controllers.API
         [HttpGet("getCoordinates")]
         public async Task<ActionResult<CoordinatesResponseVM>> GetCoordinates(string address)
         {
-            var (latitude, longitude) = await GeocodeAddressAsync(address);
+            var (latitude, longitude, formattedAddress) = await GeocodeAddressAsync(address);
 
             if (latitude == 0 && longitude == 0)
             {
@@ -32,11 +32,13 @@ namespace FinalProject.Controllers.API
             return Ok(new CoordinatesResponseVM
             {
                 Latitude = latitude,
-                Longitude = longitude
+                Longitude = longitude,
+                FormattedAddress = formattedAddress 
             });
         }
 
-        private async Task<(double latitude, double longitude)> GeocodeAddressAsync(string address)
+
+        private async Task<(double latitude, double longitude, string formattedAddress)> GeocodeAddressAsync(string address)
         {
             string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={Uri.EscapeDataString(address)}&key={_apiKey}";
 
@@ -51,11 +53,12 @@ namespace FinalProject.Controllers.API
                     var location = result["results"][0]["geometry"]["location"];
                     double latitude = location["lat"].Value<double>();
                     double longitude = location["lng"].Value<double>();
-                    return (latitude, longitude);
+                    string formattedAddress = result["results"][0]["formatted_address"].Value<string>(); 
+                    return (latitude, longitude, formattedAddress);
                 }
             }
-
-            return (0, 0);
+            return (0, 0, null); 
         }
+
     }
 }

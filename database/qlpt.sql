@@ -354,3 +354,5 @@ ALTER TABLE Room_Image
 DROP CONSTRAINT FK__Room_Imag__image__47DBAE45;
 
 select * from Room_Image
+
+select * from Room_Post
