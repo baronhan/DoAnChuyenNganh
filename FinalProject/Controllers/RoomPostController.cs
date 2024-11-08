@@ -716,7 +716,7 @@ namespace FinalProject.Controllers
                     FileName = pythonPath,
                     Arguments = $"\"{pythonScriptPath}\" \"{text}\"",  
                     RedirectStandardOutput = true,
-                    RedirectStandardError = true,  // Đọc lỗi từ Python
+                    RedirectStandardError = true,  
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
