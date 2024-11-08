@@ -356,3 +356,4 @@ DROP CONSTRAINT FK__Room_Imag__image__47DBAE45;
 select * from Room_Image
 
 select * from Room_Post
+EXEC GetRoomDetail 22

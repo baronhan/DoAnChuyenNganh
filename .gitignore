@@ -18,5 +18,8 @@ test-results/
 
 node_modules/
 
-
 logs/
+
+FinalProject/Scripts/yolov8_env/Lib/site-packages/torch/lib/torch_cpu.dll
+FinalProject/Scripts/yolov8_env/Lib/site-packages/torch/lib/dnnl.lib
+FinalProject/Scripts/yolov8_env/Lib/site-packages/cv2/cv2.pyd
