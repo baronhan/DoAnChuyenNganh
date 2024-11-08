@@ -42,6 +42,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FavoriteListService>();
 builder.Services.AddScoped<RoomService>();
+builder.Services.AddScoped<RoomFeedbackService>();
 
 
 builder.Services.AddCors(options =>

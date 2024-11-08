@@ -26,4 +26,5 @@ public partial class User
     public DateTime? TokenCreateAt { get; set; }
 
     public virtual UserType? UserType { get; set; }
+    public virtual ICollection<RoomFeedback> RoomFeedbacks { get; set; } = new List<RoomFeedback>();
 }

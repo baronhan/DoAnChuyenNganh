@@ -45,11 +45,6 @@ CREATE TABLE Room_Utility (
     FOREIGN KEY (utility_id) REFERENCES Utility(utility_id)
 );
 
--- Tạo bảng Image_Type
-CREATE TABLE Image_Type (
-    type_id INT PRIMARY KEY IDENTITY(1,1),
-    type_name NVARCHAR(50) NOT NULL
-);
 
 -- Tạo bảng Room_Image
 CREATE TABLE Room_Image (
@@ -75,23 +70,24 @@ CREATE TABLE Favorite_List_Post (
     FOREIGN KEY (post_id) REFERENCES Room_Post(post_id),
     FOREIGN KEY (favorite_id) REFERENCES Favorite_List(favorite_list_id)
 );
-
--- Tạo bảng Feedback_Type
-CREATE TABLE Feedback_Type (
-    feedback_type_id INT PRIMARY KEY IDENTITY(1,1),
-    type_name NVARCHAR(50),
-    description NVARCHAR(255)
+DROP TABLE IF EXISTS Feedback;
+CREATE TABLE Feedback (
+    feedback_id INT PRIMARY KEY IDENTITY(1,1),   -- ID của phản hồi, tự động tăng
+    feedback_name NVARCHAR(100),                 -- Tên của phản hồi
+    description NVARCHAR(255)                    -- Mô tả phản hồi
 );
 
--- Tạo bảng Feedback
-CREATE TABLE Feedback (
-    feedback_id INT PRIMARY KEY IDENTITY(1,1),
-    user_id INT,
-    post_id INT,
-    status NVARCHAR(50),
-    feedback_type_id INT,
-    FOREIGN KEY (post_id) REFERENCES Room_Post(post_id),
-    FOREIGN KEY (feedback_type_id) REFERENCES Feedback_Type(feedback_type_id)
+CREATE TABLE Room_Feedback (
+    room_feedback_id INT PRIMARY KEY IDENTITY(1,1),  
+    post_id INT,                                   
+    feedback_id INT,                              
+    user_id INT,                                   
+    feedback_date DATETIME DEFAULT GETDATE(),        
+
+    -- Thiết lập khóa ngoại
+    FOREIGN KEY (post_id) REFERENCES Room_Post(post_id),        
+    FOREIGN KEY (feedback_id) REFERENCES Feedback(feedback_id), 
+    FOREIGN KEY (user_id) REFERENCES [User](user_id)             
 );
 
 -- Tạo bảng User_Type
@@ -357,3 +353,10 @@ select * from Room_Image
 
 select * from Room_Post
 EXEC GetRoomDetail 22
+
+SELECT KCU.CONSTRAINT_NAME AS ForeignKeyName
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU
+ON TC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME
+WHERE TC.TABLE_NAME = 'Room_Feedback' 
+  AND TC.CONSTRAINT_TYPE = 'FOREIGN KEY';

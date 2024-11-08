@@ -25,9 +25,13 @@
                     <li>
                         @await Component.InvokeAsync("Favorite")
                     </li>
+                    @if (User.IsInRole("Chủ trọ"))
+                    {
+                        <li class="dropdown">@await Component.InvokeAsync("Notify")</li>
+                    }
                     <li class="has-children">
                         <a href="#" style="margin-left: -18px;">
-                            <i class="fas fa-user fa-2x"></i>
+                            <i class="fas fa-user fa-2x ms-3"></i>
                             @if (Context.User.Identity != null && !string.IsNullOrEmpty(Context.User.Identity.Name))
                             {
                                 <span style="margin-left: 16px;">Welcome @Context.User.Identity.Name</span>
@@ -46,7 +50,7 @@
                                         <a asp-action="UploadRoomPost" asp-controller="RoomPost">Upload Room Post</a>
                                     </li>
                                     <li>
-                                        <a asp-action="ManageRoom" asp-controller="RoomPost">Manage My Rooms</a>
+                                        <a asp-action="ManageRooms" asp-controller="RoomPost">Manage My Rooms</a>
                                     </li>
                                 }
 

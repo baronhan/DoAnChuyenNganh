@@ -29,7 +29,7 @@ public partial class RoomPost
 
     public virtual ICollection<FavoriteListPost> FavoriteListPosts { get; set; } = new List<FavoriteListPost>();
 
-    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+    public virtual ICollection<RoomFeedback> Feedbacks { get; set; } = new List<RoomFeedback>();
 
     public virtual ICollection<RoomImage> RoomImages { get; set; } = new List<RoomImage>();
 

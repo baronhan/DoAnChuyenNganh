@@ -17,10 +17,9 @@ public partial class QlptContext : DbContext
     public virtual DbSet<FavoriteList> FavoriteLists { get; set; }
 
     public virtual DbSet<FavoriteListPost> FavoriteListPosts { get; set; }
+    public virtual DbSet<RoomFeedback> RoomFeedbacks { get; set; }
 
     public virtual DbSet<Feedback> Feedbacks { get; set; }
-
-    public virtual DbSet<FeedbackType> FeedbackTypes { get; set; }
 
     public virtual DbSet<PageAddress> PageAddresses { get; set; }
 
@@ -86,40 +85,45 @@ public partial class QlptContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__7A6B2B8C42778841");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__7A6B2B8C61E29B7F");
 
             entity.ToTable("Feedback");
 
             entity.Property(e => e.FeedbackId).HasColumnName("feedback_id");
-            entity.Property(e => e.FeedbackTypeId).HasColumnName("feedback_type_id");
-            entity.Property(e => e.PostId).HasColumnName("post_id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(50)
-                .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.FeedbackType).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.FeedbackTypeId)
-                .HasConstraintName("FK__Feedback__feedba__534D60F1");
-
-            entity.HasOne(d => d.Post).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK__Feedback__post_i__52593CB8");
+            entity.Property(e => e.Description)
+                .HasMaxLength(500)
+                .HasColumnName("description");
+            entity.Property(e => e.FeedbackName)
+                .HasMaxLength(255)
+                .HasColumnName("feedback_name");
         });
 
-        modelBuilder.Entity<FeedbackType>(entity =>
+        modelBuilder.Entity<RoomFeedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackTypeId).HasName("PK__Feedback__3ED472C9AB94998C");
+            entity.HasKey(e => e.RoomFeedbackId).HasName("PK__Room_Fee__C4E95D155E465BEB");
 
-            entity.ToTable("Feedback_Type");
+            entity.ToTable("Room_Feedback");
 
-            entity.Property(e => e.FeedbackTypeId).HasColumnName("feedback_type_id");
-            entity.Property(e => e.Description)
-                .HasMaxLength(255)
-                .HasColumnName("description");
-            entity.Property(e => e.TypeName)
-                .HasMaxLength(50)
-                .HasColumnName("type_name");
+            entity.Property(e => e.RoomFeedbackId).HasColumnName("room_feedback_id");
+            entity.Property(e => e.PostId).HasColumnName("post_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.FeedbackId).HasColumnName("feedback_id");
+            entity.Property(e => e.Date).HasColumnName("date");
+
+            entity.HasOne(d => d.User)
+                .WithMany(p => p.RoomFeedbacks)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__Room_Feed__user___43D61337");
+
+            entity.HasOne(d => d.Post)
+                .WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.PostId)
+                .HasConstraintName("FK__Room_Feed__post___41EDCAC5");
+
+            entity.HasOne(d => d.Feedback)
+                .WithMany(p => p.RoomFeedbacks)
+                .HasForeignKey(d => d.FeedbackId)
+                .HasConstraintName("FK__Room_Feed__feedb__42E1EEFE");
         });
 
         modelBuilder.Entity<PageAddress>(entity =>

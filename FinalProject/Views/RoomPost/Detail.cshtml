@@ -6,6 +6,14 @@
     ViewData["Title"] = "Property Detail";
     Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <script type="text/javascript">
+        var successMessage = @Html.Raw(TempData["SuccessMessage"]);
+        alert(successMessage);
+        window.location.href = '@Url.Action("Detail", "RoomPost", new { id = Model.RoomDetail.PostId })';
+    </script>
+}
 @section BreadCum 
 {
     <div class="hero page-inner overlay"
