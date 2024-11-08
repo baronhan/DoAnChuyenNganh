@@ -38,7 +38,6 @@ ALTER PROCEDURE GetRoomDetail
     @PostID INT = NULL
 AS
 BEGIN
-    -- Lấy thông tin phòng chỉ 1 dòng
     SELECT 
         rp.post_id AS PostId,
         rp.room_name AS RoomName,

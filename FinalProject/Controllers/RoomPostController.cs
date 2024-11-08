@@ -11,6 +11,8 @@ using FinalProject.Helpers;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Text;
 
 namespace FinalProject.Controllers
 {
@@ -21,6 +23,7 @@ namespace FinalProject.Controllers
         private readonly UserService _userService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private static readonly HttpClient client = new HttpClient();
 
         public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService, IConfiguration configuration)
         {
@@ -29,6 +32,8 @@ namespace FinalProject.Controllers
             this._httpClientFactory = _httpClientFactory;
             _userService = userService;
             this._configuration = configuration;
+            client.BaseAddress = new Uri("http://localhost:7247");
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         #region GetRoomPost
@@ -203,6 +208,30 @@ namespace FinalProject.Controllers
                 TempData["FailMessage"] = "Vui lòng thêm ít nhất một ảnh!";
                 PopulateModelData(model);
                 return View(model);
+            }
+
+            if (model.RoomPostContentVM.RoomDescription != null)
+            {
+                var predict = CallPythonModel(model.RoomPostContentVM.RoomDescription);
+
+                if (!predict)
+                {
+                    TempData["FailMessage"] = "Mô tả phòng không đạt yêu cầu.";
+                    PopulateModelData(model);
+                    return View(model);
+                }
+            }
+
+            if (model.RoomImages != null && model.RoomImages.Count > 0)
+            {
+                string invalidObjects = await ProcessRoomImagesAsync(model.RoomImages);
+
+                if (invalidObjects != null)
+                {
+                    TempData["FailMessage"] = invalidObjects;
+                    PopulateModelData(model);
+                    return View(model);
+                }
             }
 
             if (!ModelState.IsValid)
@@ -460,6 +489,28 @@ namespace FinalProject.Controllers
                 return RedirectToAction("ManageRoom", "RoomPost");
             }
 
+            if (model.RoomPostContentVM.RoomDescription != null)
+            {
+                var predict = CallPythonModel(model.RoomPostContentVM.RoomDescription);
+
+                if (!predict) 
+                {
+                    TempData["FailMessage"] = "Mô tả phòng không đạt yêu cầu.";
+                    return RedirectToAction("ManageRoom", "RoomPost");
+                }
+            }
+
+            if (model.RoomImages != null && model.RoomImages.Count > 0)
+            {
+                string invalidObjects = await ProcessRoomImagesAsync(model.RoomImages);
+
+                if (invalidObjects != null)
+                {
+                    TempData["FailMessage"] = invalidObjects;
+                    return RedirectToAction("ManageRoom", "RoomPost");
+                }
+            }
+
             if (Request.Cookies.TryGetValue("user_id", out var userIdString) && int.TryParse(userIdString, out var userId))
             {
                 if (model.RoomPostContentVM != null)
@@ -559,6 +610,161 @@ namespace FinalProject.Controllers
 
             return false;
         }
+        #endregion
+
+        #region DetectImageWithYOLO
+        private async Task<string> ProcessRoomImagesAsync(List<IFormFile> roomImages)
+        {
+            foreach (var image in roomImages)
+            {
+                var rootPath = @"D:\HKI 2024-2025\SmartRoomManagement\FinalProject";
+
+                var imagePath = Path.Combine(rootPath, "wwwroot", "img", "Temp", $"{DateTime.Now.Ticks}_{image.FileName}");
+
+                try
+                {
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+
+                    string invalidObjects = await DetectImageWithYOLO(imagePath);
+
+                    if (invalidObjects != null)
+                    {
+                        var objects = invalidObjects.Split(',');  
+                        var translatedObjects = objects.Select(obj => TranslateObject.Translate(obj.Trim())).ToList();
+
+                        return $"Ảnh chứa các đối tượng không phù hợp: {string.Join(", ", translatedObjects)}";
+                    }
+                }
+                finally
+                {
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private async Task<string> CallPythonScript(string imagePath)
+        {
+            var pythonPath = @"D:\HKI 2024-2025\SmartRoomManagement\FinalProject\Scripts\yolov8_env\Scripts\python.exe";
+            var scriptPath = @"D:\HKI 2024-2025\SmartRoomManagement\FinalProject\Scripts\yolo_detection.py";
+
+            using (var process = new Process())
+            {
+                process.StartInfo.FileName = pythonPath;
+                process.StartInfo.Arguments = $"\"{scriptPath}\" \"{imagePath}\"";
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+
+                process.Start();
+
+                string output = await process.StandardOutput.ReadToEndAsync();
+                process.WaitForExit();
+
+                return output;
+            }
+        }
+
+
+        private async Task<string> DetectImageWithYOLO(string imagePath)
+        {
+            var result = await Task.Run(() =>
+            {
+                try
+                {
+                    string output = CallPythonScript(imagePath).Result;  
+
+                    Console.WriteLine($"Python output: {output}");
+
+                    if (output.Contains("unsuitable objects"))
+                    {
+                        var unsuitableObjects = output.Split(new[] { "unsuitable objects:" }, StringSplitOptions.None)[1].Trim();
+                        return unsuitableObjects; 
+                    }
+
+                    return null; 
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error in detection: {ex.Message}");
+                    return "Error in detection"; 
+                }
+            });
+
+            return result;
+        }
+
+        #endregion
+
+        #region TextAnalysis
+        private bool CallPythonModel(string text)
+        {
+            try
+            {
+                var pythonPath = @"D:\HKI 2024-2025\SmartRoomManagement\FinalProject\Scripts\yolov8_env\Scripts\python.exe"; 
+                string pythonScriptPath = @"D:\HKI 2024-2025\SmartRoomManagement\FinalProject\Scripts\app.py";  
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = pythonPath,
+                    Arguments = $"\"{pythonScriptPath}\" \"{text}\"",  
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,  // Đọc lỗi từ Python
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (var process = Process.Start(startInfo))
+                {
+                    if (process == null)
+                    {
+                        TempData["FailMessage"] = "Không thể khởi động tiến trình Python.";
+                        return false;
+                    }
+
+                    using (var reader = process.StandardOutput)
+                    using (var errorReader = process.StandardError)
+                    {
+                        string result = reader.ReadToEnd();
+                        string error = errorReader.ReadToEnd();  
+
+                        if (!string.IsNullOrEmpty(error))
+                        {
+                            TempData["FailMessage"] = "Lỗi từ Python: " + error;
+                            return false;
+                        }
+
+                        if (string.IsNullOrEmpty(result))
+                        {
+                            TempData["FailMessage"] = "Không có kết quả trả về từ Python.";
+                            return false;
+                        }
+
+                        if (result.Contains("Good"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["FailMessage"] = "Đã xảy ra lỗi khi gọi Python: " + ex.Message;
+                return false;
+            }
+        }
+
         #endregion
 
         #region DeleteRoomPost
