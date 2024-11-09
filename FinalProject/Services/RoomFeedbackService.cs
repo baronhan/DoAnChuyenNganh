@@ -15,81 +15,108 @@ namespace FinalProject.Services
         public List<FeedbackResultVM> NotifyUserForViolationPosts(int userId)
         {
             List<FeedbackResultVM> ds = new List<FeedbackResultVM>();
-            var posts = db.RoomPosts.Where(t => t.UserId == userId).ToList();
-            if (posts != null)
-            {
 
-                foreach (var post in posts)
+            var posts = db.RoomPosts
+                          .Where(t => t.UserId == userId && t.StatusId != 4)
+                          .ToList();
+
+            var postIds = posts.Select(p => (int?)p.PostId).ToList();
+
+            var roomFeedbacks = db.RoomFeedbacks
+                                  .Where(t => postIds.Contains(t.PostId))  
+                                  .GroupBy(t => new { t.PostId, t.FeedbackId })
+                                  .Select(g => new
+                                  {
+                                      PostId = g.Key.PostId,
+                                      FeedbackId = g.Key.FeedbackId,
+                                      ViolationCount = g.Count()
+                                  })
+                                  .ToList();
+
+            var feedbackIds = roomFeedbacks.Select(rf => rf.FeedbackId).Distinct().ToList();
+            var feedbacks = db.Feedbacks
+                              .Where(f => feedbackIds.Contains(f.FeedbackId))
+                              .ToDictionary(f => f.FeedbackId);
+
+            foreach (var item in roomFeedbacks)
+            {
+                if (item.ViolationCount >= 5 && item.ViolationCount <= 10)
                 {
-                    var postsViolation = db.RoomFeedbacks.Where(t => t.PostId == post.PostId)
-                        .GroupBy(t => new { t.PostId, t.FeedbackId })
-                        .Select(g => new
-                        {
-                            PostId = g.Key.PostId,
-                            FeedbackId = g.Key.FeedbackId,
-                            ViolationCount = g.Count()
-                        }).ToList();
-                    foreach (var item in postsViolation)
+                    var post = posts.FirstOrDefault(p => p.PostId == item.PostId);
+                    if (post != null && feedbacks.TryGetValue((int)item.FeedbackId, out var feedback))
                     {
-                        if (item.ViolationCount >= 5 && item.ViolationCount < 15)
+                        FeedbackResultVM feedbackResultVM = new FeedbackResultVM
                         {
-                            var p = db.RoomPosts.FirstOrDefault(t => t.PostId == item.PostId);
-                            var fb = db.Feedbacks.FirstOrDefault(t => t.FeedbackId == item.FeedbackId);
-                            if (p != null && fb != null)
-                            {
-                                FeedbackResultVM feedbackResultVM = new FeedbackResultVM { ViolationCount = item.ViolationCount, Address = p.Address, FeedbackName = fb.FeedbackName };
-                                ds.Add(feedbackResultVM);
-                            }
-                        }
-                        else if (item.ViolationCount >= 15 && item.ViolationCount < 50)
-                        {
-                            var p = db.RoomPosts.FirstOrDefault(t => t.PostId == item.PostId);
-                            var fb = db.Feedbacks.FirstOrDefault(t => t.FeedbackId == item.FeedbackId);
-                            if (p != null && fb != null)
-                            {
-                                FeedbackResultVM feedbackResultVM = new FeedbackResultVM { ViolationCount = item.ViolationCount, Address = p.Address, FeedbackName = fb.FeedbackName };
-                                ds.Add(feedbackResultVM);
-                            }
-                            HidePost(item.PostId);
-                        }
+                            ViolationCount = item.ViolationCount,
+                            Address = post.Address,
+                            FeedbackName = feedback.FeedbackName
+                        };
+                        ds.Add(feedbackResultVM);
                     }
                 }
             }
-
             return ds;
         }
 
-        private void HidePost(int? postId)
+        public void HidePostsForAllViolationsAsync()
+        {
+            var postsToHide = db.RoomPosts
+                                .Where(p => p.StatusId != 4)  
+                                .ToList();
+
+            var postsWithViolations7 = db.RoomFeedbacks
+                                          .GroupBy(rf => rf.PostId)
+                                          .Select(g => new
+                                          {
+                                              PostId = g.Key,
+                                              ViolationCount = g.Count()
+                                          })
+                                          .Where(g => g.ViolationCount == 7) 
+                                          .ToList();
+
+            var postsToHide7 = postsWithViolations7.Select(p => p.PostId).ToList();
+
+
+            foreach (var postId in postsToHide7)
+            {
+                var post = db.RoomPosts.FirstOrDefault(p => p.PostId == postId);
+                if (post != null && post.StatusId != 4) 
+                {
+                    HidePost((int)postId);
+
+                    LockAccount(post.UserId);
+                }
+            }
+        }
+
+
+        private void HidePost(int postId)
         {
             var post = db.RoomPosts.FirstOrDefault(p => p.PostId == postId);
             if (post != null)
             {
-                post.StatusId = 4;
-                db.SaveChanges();
+                post.StatusId = 4;  
+                db.SaveChanges();  
             }
         }
 
         public void LockAccount(int? userId)
         {
-            var hasViolation = db.RoomFeedbacks
-                .Join(db.RoomPosts,
-                      rf => rf.PostId,
-                      rp => rp.PostId,
-                      (rf, rp) => new { rf, rp })
-                .Where(joined => joined.rp.UserId == userId)
-                .GroupBy(joined => joined.rf.FeedbackId)
-                .Any(g => g.Count() > 50);
-
-            if (hasViolation)
+            try
             {
                 var user = db.Users.FirstOrDefault(u => u.UserId == userId);
                 if (user != null)
                 {
                     user.IsValid = false;
-                    db.SaveChanges(); 
+                    db.SaveChanges();
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+
 
         public async Task<string> SendReport(int userID, int postID, int feedbackID)
         {
@@ -114,11 +141,6 @@ namespace FinalProject.Services
                 db.RoomFeedbacks.Add(newRoomFeedback);
                 await db.SaveChangesAsync();
 
-                var post = db.RoomPosts.FirstOrDefault(t => t.PostId == postID);
-                if (post != null)
-                {
-                    LockAccount(post.UserId);
-                }
                 return "Báo cáo đã được gửi thành công.";
             }
             catch (Exception ex)

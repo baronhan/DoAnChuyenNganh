@@ -21,11 +21,12 @@ namespace FinalProject.Controllers
         private readonly QlptContext _db;
         private readonly RoomService _roomService;
         private readonly UserService _userService;
+        private readonly RoomFeedbackService _roomFeedbackService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private static readonly HttpClient client = new HttpClient();
 
-        public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService, IConfiguration configuration)
+        public RoomPostController(QlptContext db, RoomService _roomService,  IHttpClientFactory _httpClientFactory, UserService userService, IConfiguration configuration, RoomFeedbackService _roomFeedbackService)
         {
             this._db = db;
             this._roomService = _roomService;
@@ -34,12 +35,15 @@ namespace FinalProject.Controllers
             this._configuration = configuration;
             client.BaseAddress = new Uri("http://localhost:7247");
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            this._roomFeedbackService = _roomFeedbackService;
         }
 
         #region GetRoomPost
         public IActionResult Index(int? id, int page = 1, int pageSize = 6)
         {
-            var roomList = _db.RoomPostVM.FromSql($"GetRoomPosts {id}").ToList();
+            _roomFeedbackService.HidePostsForAllViolationsAsync();
+
+            var roomList = _db.RoomPostVM.FromSqlRaw($"GetRoomPosts {id}").ToList();
 
             int totalRooms = roomList.Count;
             int totalPages = (int)Math.Ceiling((double)totalRooms / pageSize);

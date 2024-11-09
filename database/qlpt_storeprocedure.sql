@@ -18,6 +18,7 @@ BEGIN
         rp.room_price AS RoomPrice,
         rp.room_size AS RoomSize,
         rp.room_coordinate_id AS RoomCoordinateId,
+		rp.user_id AS UserId,
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 
                           CHARINDEX(',', rp.address) + 1, 

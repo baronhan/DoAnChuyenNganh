@@ -322,7 +322,7 @@
                 const streetName = document.getElementById('streetName').value;
 
 
-                addressInput.value = `${streetNumber}, ${streetName}, ${selectedWardOption.textContent}, ${selectedDistrict}`;
+                addressInput.value = `${streetNumber} ${streetName}, ${selectedWardOption.textContent}, ${selectedDistrict}`;
             }
         });
 
@@ -333,7 +333,7 @@
         function updateAddress() {
             const streetNumber = document.getElementById('streetNumber').value;
             const streetName = document.getElementById('streetName').value;
-            addressInput.value = `${streetNumber}, ${streetName}, ${selectedDistrict}`;
+            addressInput.value = `${streetNumber} ${streetName}, ${selectedDistrict}`;
         }
 
         loadDistricts();

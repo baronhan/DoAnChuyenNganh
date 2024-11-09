@@ -1,4 +1,5 @@
-﻿@model FinalProject.ViewModels.RoomListVM
+﻿@using System.Security.Claims
+@model FinalProject.ViewModels.RoomListVM
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -74,8 +75,12 @@
                                                class="btn btn-primary py-2 px-3">See details</a>
                                             <a asp-controller="FavoriteList" asp-action="AddToFavoriteAuthenticated" asp-route-id="@post.PostId"
                                                class="btn btn-primary py-2 px-3">Add Favorite</a>
-                                            <a asp-controller="RoomFeedback" asp-action="Index" asp-route-postID="@post.PostId"
-                                               style="margin-left:25px" class="btn btn-danger py-2 px-3">Report</a>
+
+                                            @if (User.FindFirstValue(ClaimTypes.NameIdentifier) != post.UserId.ToString())
+                                            {
+                                                <a asp-controller="RoomFeedback" asp-action="Index" asp-route-postID="@post.PostId"
+                                                   style="margin-left:25px" class="btn btn-danger py-2 px-3">Report</a>
+                                            }
                                         </div>
                                     }
                                     else

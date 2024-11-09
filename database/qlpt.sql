@@ -360,3 +360,33 @@ JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU
 ON TC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME
 WHERE TC.TABLE_NAME = 'Room_Feedback' 
   AND TC.CONSTRAINT_TYPE = 'FOREIGN KEY';
+
+INSERT INTO Feedback ( feedback_name, description)
+VALUES 
+( N'Tin có dấu hiệu lừa đảo', N'Phản hồi về hành vi lừa đảo hoặc gian lận trong bài đăng'),
+( N'Chất lượng hình ảnh kém', N'Phản hồi về hình ảnh không rõ ràng hoặc chất lượng kém trong bài đăng'),
+( N'Ảnh nhạy cảm', N'Phản hồi về hình ảnh có tính chất nhạy cảm hoặc không phù hợp trong bài đăng'),
+( N'Giá thuê không đúng', N'Phản hồi về giá thuê không đúng so với thông tin thực tế'),
+( N'Vị trí không chính xác', N'Phản hồi về vị trí phòng trọ hoặc nhà không chính xác so với thực tế'),
+( N'Quảng cáo sai sự thật', N'Phản hồi về thông tin quảng cáo không đúng sự thật trong bài đăng'),
+( N'Phòng đã cho thuê', N'Phản hồi về phòng trọ đã được cho thuê nhưng vẫn còn hiển thị trên trang'),
+( N'Nội dung mô tả không phù hợp', N'Phản hồi về ngôn ngữ không chuẩn mực hoặc không phù hợp trong bài đăng'),
+( N'Thông tin liên hệ không chính xác', N'Phản hồi về thông tin liên hệ không chính xác hoặc bị sai lệch'),
+( N'Bài đăng trùng lặp', N'Phản hồi về việc bài đăng xuất hiện nhiều lần với cùng một nội dung');
+ 
+select * from Room_Feedback
+
+select * from [User]
+
+select * from Room_Status
+insert into Room_Status values (N'Ẩn')
+
+select * from Room_Post
+
+CREATE TABLE room_post_response (
+    response_id INT PRIMARY KEY,
+    post_id INT NOT NULL,
+    response_content TEXT NOT NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (post_id) REFERENCES room_post(post_id) ON DELETE CASCADE
+);
