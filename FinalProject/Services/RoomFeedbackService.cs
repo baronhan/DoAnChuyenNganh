@@ -29,7 +29,7 @@ namespace FinalProject.Services
                                   {
                                       PostId = g.Key.PostId,
                                       FeedbackId = g.Key.FeedbackId,
-                                      ViolationCount = g.Count()
+                                      ViolationCount = g.Count(),
                                   })
                                   .ToList();
 
@@ -49,7 +49,9 @@ namespace FinalProject.Services
                         {
                             ViolationCount = item.ViolationCount,
                             Address = post.Address,
-                            FeedbackName = feedback.FeedbackName
+                            FeedbackName = feedback.FeedbackName,
+                            PostId = post.PostId,
+                            FeedbackId = feedback.FeedbackId
                         };
                         ds.Add(feedbackResultVM);
                     }

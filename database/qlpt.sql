@@ -383,10 +383,12 @@ insert into Room_Status values (N'Ẩn')
 
 select * from Room_Post
 
-CREATE TABLE room_post_response (
+CREATE TABLE Room_Post_Response (
     response_id INT PRIMARY KEY,
     post_id INT NOT NULL,
     response_content TEXT NOT NULL,
     created_at DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (post_id) REFERENCES room_post(post_id) ON DELETE CASCADE
+    FOREIGN KEY (post_id) REFERENCES Room_Post(post_id)
 );
+
+select * from room_post_response

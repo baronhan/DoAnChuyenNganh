@@ -30,5 +30,11 @@ namespace FinalProject.Controllers
             TempData["SuccessMessage"] = TempData["SuccessMessage"] = JsonSerializer.Serialize(s); ;
             return RedirectToAction("Detail", "RoomPost", new { id = postID });
         }
+
+        public IActionResult Response(int postId, int feedbackId)
+        {
+            return View();
+        }
+
     }
 }

@@ -40,6 +40,7 @@ public partial class QlptContext : DbContext
     public virtual DbSet<UserType> UserTypes { get; set; }
 
     public virtual DbSet<Utility> Utilities { get; set; }
+    public virtual DbSet<RoomPostResponse> RoomPostResponses { get; set; }
 
     public DbSet<RoomPostVM> RoomPostVM { get; set; }
 
@@ -215,6 +216,11 @@ public partial class QlptContext : DbContext
                 .WithMany(c => c.RoomPosts)      
                 .HasForeignKey(d => d.RoomCoordinateId)
                 .HasConstraintName("FK_RoomPost_Coordinates");
+
+            entity.HasOne(rp => rp.RoomPostResponse)
+                .WithOne(rpr => rpr.RoomPost)
+                .HasForeignKey<RoomPostResponse>(rpr => rpr.PostId)
+                .HasConstraintName("FK__Room_Post__post___4B7734FF");
         });
 
         modelBuilder.Entity<RoomStatus>(entity =>
@@ -346,6 +352,18 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.RoomCoordinateId).HasColumnName("room_coordinate_id");
             entity.Property(e => e.Latitude).HasColumnName("latitude");
             entity.Property(e => e.Longitude).HasColumnName("longitude");
+        });
+
+        modelBuilder.Entity<RoomPostResponse>(entity =>
+        {
+            entity.HasKey(e => e.ResponseId).HasName("PK__Room_Pos__EBECD896EB8A7D78");
+
+            entity.ToTable("Room_Post_Response");
+
+            entity.Property(e => e.ResponseId).HasColumnName("response_id");
+            entity.Property(e => e.PostId).HasColumnName("post_id");
+            entity.Property(e => e.ResponseContent).HasColumnName("response_content");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
         });
 
         modelBuilder.Entity<RoomPostVM>(entity =>
