@@ -151,5 +151,111 @@ namespace FinalProject.Services
             }
         }
 
+        public SendResponseVM GetFeedbackInformation(int postId, int feedbackId)
+        {
+            try
+            {
+                var existingRoomFeedback = db.RoomFeedbacks.FirstOrDefault(feedback => feedback.PostId == postId && feedback.FeedbackId == feedbackId);
+
+                if (existingRoomFeedback != null)
+                {
+                    string address = db.RoomPosts
+                                       .Where(post => post.PostId == postId)
+                                       .Select(post => post.Address)
+                                       .FirstOrDefault();
+
+                    string feedbackName = db.Feedbacks
+                                            .Where(feedback => feedback.FeedbackId == feedbackId)
+                                            .Select(feedback => feedback.FeedbackName)
+                                            .FirstOrDefault();
+
+                    SendResponseVM sendResponseVM = new SendResponseVM
+                    {
+                        PostId = postId,
+                        FeedbackId = feedbackId,
+                        Address = address,
+                        FeedbackName = feedbackName
+                    };
+
+                    return sendResponseVM;
+                }
+
+                return null; 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public bool AddNewResponse(SendResponseVM sendResponse)
+        {
+            try
+            {
+                int roomFeedbackId = db.RoomFeedbacks
+                                        .Where(feedback => feedback.PostId == sendResponse.PostId && feedback.FeedbackId == sendResponse.FeedbackId)
+                                        .OrderByDescending(feedback => feedback.Date)
+                                        .Select(feedback => feedback.RoomFeedbackId)
+                                        .FirstOrDefault();
+
+                if (roomFeedbackId == 0)
+                {
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(sendResponse.ResponseText))
+                {
+                    return false;
+                }
+
+                var response = new Response
+                {
+                    RoomFeedbackId = roomFeedbackId,
+                    ResponseText = sendResponse.ResponseText,
+                    ResponseDate = DateTime.Now
+                };
+
+                db.Responses.Add(response);
+
+                db.SaveChanges();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool CheckExistingResponse(int postId, int feedbackId)
+        {
+            try
+            {
+                var roomFeedbackIds = db.RoomFeedbacks
+                    .Where(rf => rf.PostId == postId && rf.FeedbackId == feedbackId)
+                    .Select(rf => rf.RoomFeedbackId)
+                    .ToList();  
+
+                if (!roomFeedbackIds.Any())
+                {
+                    return false;
+                }
+
+                bool userHasResponded = db.Responses
+                    .Any(r => roomFeedbackIds.Contains(r.RoomFeedbackId));
+
+                return userHasResponded;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+
+
     }
 }

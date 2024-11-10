@@ -40,7 +40,7 @@ public partial class QlptContext : DbContext
     public virtual DbSet<UserType> UserTypes { get; set; }
 
     public virtual DbSet<Utility> Utilities { get; set; }
-    public virtual DbSet<RoomPostResponse> RoomPostResponses { get; set; }
+    public virtual DbSet<Response> Responses { get; set; }
 
     public DbSet<RoomPostVM> RoomPostVM { get; set; }
 
@@ -216,11 +216,6 @@ public partial class QlptContext : DbContext
                 .WithMany(c => c.RoomPosts)      
                 .HasForeignKey(d => d.RoomCoordinateId)
                 .HasConstraintName("FK_RoomPost_Coordinates");
-
-            entity.HasOne(rp => rp.RoomPostResponse)
-                .WithOne(rpr => rpr.RoomPost)
-                .HasForeignKey<RoomPostResponse>(rpr => rpr.PostId)
-                .HasConstraintName("FK__Room_Post__post___4B7734FF");
         });
 
         modelBuilder.Entity<RoomStatus>(entity =>
@@ -354,16 +349,22 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.Longitude).HasColumnName("longitude");
         });
 
-        modelBuilder.Entity<RoomPostResponse>(entity =>
+        modelBuilder.Entity<Response>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__Room_Pos__EBECD896EB8A7D78");
+            entity.HasKey(e => e.ResponseId).HasName("PK__Response__EBECD89617D345A5");
 
-            entity.ToTable("Room_Post_Response");
+            entity.ToTable("Response");
 
             entity.Property(e => e.ResponseId).HasColumnName("response_id");
-            entity.Property(e => e.PostId).HasColumnName("post_id");
-            entity.Property(e => e.ResponseContent).HasColumnName("response_content");
-            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.RoomFeedbackId).HasColumnName("room_feedback_id");
+            entity.Property(e => e.ResponseText).HasColumnName("response_text");
+            entity.Property(e => e.ResponseDate).HasColumnName("response_date");
+
+            entity.HasOne(d => d.RoomFeedback)
+              .WithMany(p => p.Responses)
+              .HasForeignKey(d => d.RoomFeedbackId)
+              .OnDelete(DeleteBehavior.Cascade) 
+              .HasConstraintName("FK__Response__room_f__4F47C5E3");
         });
 
         modelBuilder.Entity<RoomPostVM>(entity =>

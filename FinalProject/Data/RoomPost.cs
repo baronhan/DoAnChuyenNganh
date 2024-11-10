@@ -26,7 +26,6 @@ public partial class RoomPost
 
     public int? RoomTypeId { get; set; }
     public int? RoomCoordinateId { get; set; }
-    public virtual RoomPostResponse RoomPostResponse { get; set; }
 
     public virtual ICollection<FavoriteListPost> FavoriteListPosts { get; set; } = new List<FavoriteListPost>();
 

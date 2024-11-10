@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Services;
 using System.Text.Json;
+using FinalProject.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
@@ -31,9 +34,40 @@ namespace FinalProject.Controllers
             return RedirectToAction("Detail", "RoomPost", new { id = postID });
         }
 
-        public IActionResult Response(int postId, int feedbackId)
+        public IActionResult SendResponse(int postId, int feedbackId)
         {
-            return View();
+            SendResponseVM sendResponseVM = _roomFeedbackService.GetFeedbackInformation(postId, feedbackId);
+            return View(sendResponseVM);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult SendResponse(SendResponseVM sendResponse)
+        {
+            if(ModelState.IsValid)
+            {
+                bool userHasResponded = _roomFeedbackService.CheckExistingResponse(sendResponse.PostId, sendResponse.FeedbackId);
+
+                if (!userHasResponded)
+                {
+                    if (_roomFeedbackService.AddNewResponse(sendResponse))
+                    {
+                        TempData["SuccessMessage"] = "Phản hồi đã được gửi thành công!";
+                        return View(sendResponse);
+                    }
+                    else
+                    {
+                        TempData["FailMessage"] = "Đã xảy ra lỗi khi gửi phản hồi!";
+                        return View(sendResponse);
+                    }
+                }
+                else
+                {
+                    TempData["FailMessage"] = "Bạn đã gửi phản hồi cho bài viết này rồi!";
+                    return View(sendResponse);
+                }
+            }
+            return View(sendResponse);
         }
 
     }

@@ -26,7 +26,7 @@
             }
 
             <li class="dropdown-item">
-                <a href="@Url.Action("Response", "RoomFeedback", new { postId = item.PostId, feedbackId = item.FeedbackId })" class="text-danger ms-2 d-flex justify-content-end">
+                <a href="@Url.Action("SendResponse", "RoomFeedback", new { postId = item.PostId, feedbackId = item.FeedbackId })" class="text-danger ms-2 d-flex justify-content-end">
                     <i class="fa fa-flag" style="color:red;"></i> <i>Phản hồi</i>
                 </a>
             </li>

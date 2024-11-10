@@ -323,7 +323,7 @@ SELECT
 FROM 
     INFORMATION_SCHEMA.TABLE_CONSTRAINTS
 WHERE 
-    TABLE_NAME = 'Favorite_List' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+    TABLE_NAME = 'Response' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
 
 select * from Favorite_List
 select * from Favorite_List_Post
@@ -354,12 +354,18 @@ select * from Room_Image
 select * from Room_Post
 EXEC GetRoomDetail 22
 
-SELECT KCU.CONSTRAINT_NAME AS ForeignKeyName
-FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
-JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU
-ON TC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME
-WHERE TC.TABLE_NAME = 'Room_Feedback' 
-  AND TC.CONSTRAINT_TYPE = 'FOREIGN KEY';
+SELECT 
+    con.CONSTRAINT_NAME
+FROM 
+    INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS ref
+JOIN 
+    INFORMATION_SCHEMA.CONSTRAINT_TABLE_USAGE AS con
+ON 
+    ref.CONSTRAINT_NAME = con.CONSTRAINT_NAME
+WHERE 
+    con.TABLE_NAME = 'Response';
+
+
 
 INSERT INTO Feedback ( feedback_name, description)
 VALUES 
@@ -383,12 +389,16 @@ insert into Room_Status values (N'Ẩn')
 
 select * from Room_Post
 
-CREATE TABLE Room_Post_Response (
-    response_id INT PRIMARY KEY,
-    post_id INT NOT NULL,
-    response_content TEXT NOT NULL,
-    created_at DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (post_id) REFERENCES Room_Post(post_id)
+
+CREATE TABLE Response (
+    response_id INT PRIMARY KEY IDENTITY(1,1),
+    room_feedback_id INT NOT NULL,
+    response_text TEXT,
+    response_date DATETIME,
+    FOREIGN KEY (room_feedback_id) REFERENCES Room_Feedback(room_feedback_id) ON DELETE CASCADE
 );
 
-select * from room_post_response
+ALTER TABLE Room_Feedback
+ADD CONSTRAINT unique_feedback_per_user_per_post UNIQUE (post_id, feedback_id, user_id);
+
+select * from Response

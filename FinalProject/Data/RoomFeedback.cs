@@ -17,4 +17,5 @@ public partial class RoomFeedback
     public virtual Feedback? Feedback { get; set; }
 
     public virtual RoomPost? Post { get; set; }
+    public virtual ICollection<Response> Responses { get; set; } = new List<Response>();
 }
