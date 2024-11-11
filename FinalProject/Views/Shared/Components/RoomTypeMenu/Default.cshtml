@@ -40,23 +40,31 @@
                         <ul class="dropdown">
                             @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
                             {
-                                <li>
-                                    <a asp-action="Profile" asp-controller="Customer">Profile</a>
-                                </li>
 
                                 if (User.IsInRole("Chủ trọ"))
                                 {
+                                    <li>
+                                        <a asp-action="Profile" asp-controller="Customer">Profile</a>
+                                    </li>
                                     <li>
                                         <a asp-action="UploadRoomPost" asp-controller="RoomPost">Upload Room Post</a>
                                     </li>
                                     <li>
                                         <a asp-action="ManageRoom" asp-controller="RoomPost">Manage My Rooms</a>
                                     </li>
+                                    <li>
+                                        <a asp-action="Logout" asp-controller="Customer">Logout</a>
+                                    </li>
                                 }
-
-                                <li>
-                                    <a asp-action="Logout" asp-controller="Customer">Logout</a>
-                                </li>
+                                else if(User.IsInRole("Khách thuê"))
+                                {
+                                    <li>
+                                        <a asp-action="Profile" asp-controller="Customer">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="Logout" asp-controller="Customer">Logout</a>
+                                    </li>
+                                }
                             }
                             else
                             {

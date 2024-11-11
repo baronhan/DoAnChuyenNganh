@@ -19,6 +19,11 @@ namespace FinalProject.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "AdminHome");
+            }
+
             return View();
         }
 

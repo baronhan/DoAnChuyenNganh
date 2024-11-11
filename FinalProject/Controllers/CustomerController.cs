@@ -128,9 +128,9 @@ namespace FinalProject.Controllers
 
                             Response.Cookies.Append("user_id", customer.UserId.ToString(), cookieOptions);
 
-                            if (customer.UserId == 1)
+                            if (customer.UserTypeId == 1)
                             {
-                                return Redirect("/Admin/Home");
+                                return RedirectToAction("Index", "AdminHome");
                             }
                             else
                             {
@@ -140,7 +140,7 @@ namespace FinalProject.Controllers
                                 }
                                 else
                                 {
-                                    return Redirect("/Home"); 
+                                    return Redirect("/Home");
                                 }
                             }
                         }
@@ -149,6 +149,7 @@ namespace FinalProject.Controllers
             }
             return View(login);
         }
+
 
         #endregion
 
