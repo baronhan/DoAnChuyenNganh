@@ -101,11 +101,9 @@ BEGIN
         rt.type_name AS RoomType
     FROM Room_Post rp
     JOIN Room_Image ri ON rp.post_id = ri.post_id
-    JOIN Image_Type it ON ri.image_type_id = it.type_id
     JOIN Room_Type rt ON rp.room_type_id = rt.room_type_id
     JOIN Room_Status rs ON rp.status_id = rs.room_status_id
-    WHERE rs.room_status_id = 1  -- Only active rooms
-	  AND it.type_id = 1 
+    WHERE rs.room_status_id = 1  
       AND (@RoomTypeId IS NULL OR rt.room_type_id = @RoomTypeId)  -- Room type filtering
       AND (@Adult IS NULL OR rp.quantity = @Adult)  -- Number of adults filtering
       AND (

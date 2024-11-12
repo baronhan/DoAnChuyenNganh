@@ -137,6 +137,7 @@ public partial class QlptContext : DbContext
             entity.Property(e => e.PageName)
                 .HasMaxLength(100)
                 .HasColumnName("page_name");
+            entity.Property(e => e.Url).HasColumnName("url");
         });
 
         modelBuilder.Entity<Privilege>(entity =>

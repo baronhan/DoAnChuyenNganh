@@ -4,17 +4,17 @@
     <div class="container">
         <div class="menu-bg-wrap">
             <div class="site-navigation">
-                <a asp-controller="Home" asp-action="Index" class="logo m-0 float-start">Property</a>
+                <a href="/Home" class="logo m-0 float-start">Property</a>
 
                 <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-                    <li class="active"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="active"><a href="/Home">Home</a></li>
                     <li class="has-children">
                         <a asp-controller="RoomPost" asp-action="Index" asp-route-id="">Properties</a>
                         <ul class="dropdown">
                             @foreach (var roomType in Model)
                             {
                                 <li>
-                                    <a asp-controller="RoomPost" asp-action="Index" asp-route-id="@roomType.RoomTypeId">@roomType.TypeName (@roomType.Quantity)</a>
+                                    <a asp-controller="RoomPost" asp-action="Index"  asp-route-id="@roomType.RoomTypeId">@roomType.TypeName (@roomType.Quantity)</a>
                                 </li>
                             }
                         </ul>

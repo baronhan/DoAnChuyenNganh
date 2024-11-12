@@ -117,6 +117,7 @@ CREATE TABLE [User] (
 -- Tạo bảng Page_Address
 CREATE TABLE Page_Address (
     page_address_id INT PRIMARY KEY IDENTITY(1,1),
+	url NVARCHAR(255),
     page_name NVARCHAR(100) NOT NULL
 );
 
@@ -402,3 +403,41 @@ ALTER TABLE Room_Feedback
 ADD CONSTRAINT unique_feedback_per_user_per_post UNIQUE (post_id, feedback_id, user_id);
 
 select * from Response
+
+ALTER TABLE Page_Address
+ADD url NVARCHAR(255);
+
+INSERT INTO Page_Address (page_name, url) VALUES 
+(N'Trang Chủ', '/Home/Index'),
+(N'Hồ Sơ Khách Hàng', '/Customer/Profile'),
+(N'Đăng Xuất Khách Hàng', '/Customer/Logout'),
+(N'Thay Đổi Mật Khẩu Khách Hàng', '/Customer/ChangePassword'),
+(N'Thay Đổi Mật Khẩu Khách Hàng - Xử Lý', '/Customer/ChangePasswordPost'),
+(N'Quên Mật Khẩu', '/Customer/ForgotPassword'),
+(N'Xác Nhận Quên Mật Khẩu', '/Customer/ForgotPasswordConfirmation'),
+(N'Đặt Lại Mật Khẩu', '/Customer/ResetPassword'),
+(N'Xác Nhận Đặt Lại Mật Khẩu', '/Customer/ResetPasswordConfirmation'),
+(N'Danh Sách Yêu Thích', '/FavoriteList/Index'),
+(N'Thêm Vào Danh Sách Yêu Thích (Đã Đăng Nhập)', '/FavoriteList/AddToFavoriteAuthenticated'),
+(N'Xóa Mục Yêu Thích (Đã Đăng Nhập)', '/FavoriteList/DeleteFavoriteItemAuthenticated'),
+(N'Phản Hồi Phòng', '/RoomFeedback/Index'),
+(N'Báo Cáo Phản Hồi Phòng', '/RoomFeedback/Report'),
+(N'Gửi Phản Hồi', '/RoomFeedback/SendResponse'),
+(N'Danh Sách Phòng', '/RoomPost/Index'),
+(N'Tìm Kiếm Phòng', '/RoomPost/SearchRoom'),
+(N'Chi Tiết Phòng', '/RoomPost/Detail'),
+(N'Tải Lên Mẫu Phòng', '/RoomPost/UploadRoomPost'),
+(N'Quản Lý Phòng', '/RoomPost/ManageRoom'),
+(N'Cập Nhật Xem Phòng', '/RoomPost/UpdateRoomView'),
+(N'Cập Nhật Thông Tin Phòng', '/RoomPost/UpdateRoom'),
+(N'Xóa Phòng Đã Đăng', '/RoomPost/DeleteRoomPost'),
+(N'Trang Chủ Quản Trị', '/AdminHome/Index'),
+(N'Đăng Xuất Quản Trị', '/AdminHome/Logout'),
+(N'Thay Đổi Mật Khẩu Quản Trị', '/AdminHome/AdminChangePassword'),
+(N'Thay Đổi Mật Khẩu Quản Trị - Xử Lý', '/AdminHome/AdminChangePasswordPost'),
+(N'Hồ Sơ Quản Trị Vi Phạm', '/ViolationResponseManagement/AdminProfile'),
+(N'Xem Phản Hồi Vi Phạm', '/ViolationResponseManagement/ViewResponse'),
+(N'Phê Duyệt Vi Phạm', '/ViolationResponseManagement/Approve'),
+(N'Từ Chối Vi Phạm', '/ViolationResponseManagement/Reject');
+
+SELECT * FROM Page_Address

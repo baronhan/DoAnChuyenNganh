@@ -2,6 +2,7 @@
 using FinalProject.Data;
 using FinalProject.Helpers;
 using FinalProject.Services;
+using FinalProject.Services.Admin;
 using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,12 +19,13 @@ namespace FinalProject.Controllers
         private readonly UserService _userService;
         private readonly IMapper _mapper;
         private readonly IEmailSender _emailSender;
-
-        public CustomerController(IMapper mapper, UserService userService, IEmailSender emailSender)
+        private readonly PrivilegeService _privilegeService;
+        public CustomerController(IMapper mapper, UserService userService, IEmailSender emailSender, PrivilegeService privilegeService)
         {
             _mapper = mapper;
             _userService = userService;
             _emailSender = emailSender;
+            _privilegeService = privilegeService;
         }
 
         #region Register
@@ -72,6 +74,8 @@ namespace FinalProject.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
+            await HttpContext.SignOutAsync();
+
             if (ModelState.IsValid)
             {
                 var customer = await _userService.CheckUserAsync(login);
@@ -94,12 +98,19 @@ namespace FinalProject.Controllers
                         }
                         else
                         {
+                            var pageAddresses = await _privilegeService.GetPageAddressesForUser(customer.UserTypeId);
+
                             var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Email, customer.Email),
                                 new Claim(ClaimTypes.Name, customer.Username),
                                 new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString())
                             };
+
+                            foreach (var pageAddress in pageAddresses)
+                            {
+                                claims.Add(new Claim("PageAccess", pageAddress.Url));
+                            }
 
                             if (customer.UserTypeId == 1)
                             {

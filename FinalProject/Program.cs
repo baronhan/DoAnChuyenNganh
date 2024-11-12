@@ -1,6 +1,7 @@
 ﻿using FinalProject.Controllers.API;
 using FinalProject.Data;
 using FinalProject.Helpers;
+using FinalProject.Middleware;
 using FinalProject.Services;
 using FinalProject.Services.Admin;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,20 +46,28 @@ builder.Services.AddScoped<FavoriteListService>();
 builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<RoomFeedbackService>();
 builder.Services.AddScoped<ResponseListService>();
-
+builder.Services.AddScoped<PrivilegeService>();
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyAllowSpecificOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.WithOrigins("http://localhost:7127") // Specify the allowed origin explicitly
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
+                   .AllowAnyMethod()
+                   .AllowCredentials(); // Allow credentials
         });
 });
 
+
 builder.Services.AddHttpClient<GeocodeController>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
+});
+
 
 var app = builder.Build();
 
@@ -79,6 +88,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<PageAccessMiddleware>();
 
 app.MapControllers();
 
