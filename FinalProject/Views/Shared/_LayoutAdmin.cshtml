@@ -80,14 +80,15 @@
         <a href="#">Dashboard</a>
         <a href="#">Quản lý người dùng</a>
 
+        <a href="#">Quản lý bài viết</a>
+
         <a href="javascript:void(0)" onclick="toggleSubMenu()" id="accessManagementToggle">Quản lý quyền truy cập</a>
         <div id="subMenu" style="display: none;">
-            <a href="#">Quản lý nhóm người dùng</a>
+            <a asp-action="UserTypeManagement" asp-controller="AccessManagement">Quản lý nhóm người dùng</a>
             <a href="#">Quản lý trang</a>
             <a href="#">Phân quyền</a>
         </div>
 
-        <a href="#">Quản lý bài viết</a>
         <a asp-action="Index" asp-controller="ViolationResponseManagement">Quản lý phản hồi vi phạm</a>
     </div>
 

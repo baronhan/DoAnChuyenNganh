@@ -80,3 +80,30 @@
     background-color: rgba(0, 0, 0, 0.05); 
 }
 
+/* Thêm không gian cho form */
+.form-group {
+margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi field */
+}
+
+.form-group label {
+    margin-bottom: 8px; /* Thêm khoảng cách giữa label và input */
+}
+
+.form-buttons {
+    display: flex; /* Sử dụng Flexbox để căn chỉnh các nút */
+    justify-content: flex-end; /* Căn chỉnh các nút sang phía phải */
+    gap: 10px; /* Thêm khoảng cách giữa 2 nút */
+    margin-top: 20px; /* Thêm khoảng cách trên nút */
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 8px 15px; /* Cải thiện độ rộng và chiều cao của các nút */
+    border-radius: 20px; /* Tạo bo tròn cho nút */
+}
+
+.btn-secondary {
+    background-color: #EAE7D6;
+    color: black;
+}
+

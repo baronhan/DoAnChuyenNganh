@@ -441,3 +441,4 @@ INSERT INTO Page_Address (page_name, url) VALUES
 (N'Từ Chối Vi Phạm', '/ViolationResponseManagement/Reject');
 
 SELECT * FROM Page_Address
+select * from User_Type

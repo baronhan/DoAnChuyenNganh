@@ -47,16 +47,17 @@ builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<RoomFeedbackService>();
 builder.Services.AddScoped<ResponseListService>();
 builder.Services.AddScoped<PrivilegeService>();
+builder.Services.AddScoped<AccessManagementService>();
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyAllowSpecificOrigins",
         builder =>
         {
-            builder.WithOrigins("http://localhost:7127") // Specify the allowed origin explicitly
+            builder.WithOrigins("http://localhost:7127") 
                    .AllowAnyHeader()
                    .AllowAnyMethod()
-                   .AllowCredentials(); // Allow credentials
+                   .AllowCredentials(); 
         });
 });
 
