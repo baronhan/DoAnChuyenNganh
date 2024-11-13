@@ -31,7 +31,7 @@ namespace FinalProject.Services.Admin
                 }
 
                 var pageAddressId = await db.Privileges
-                        .Where(p => p.UserTypeId == userTypeId)
+                        .Where(p => p.UserTypeId == userTypeId && p.IsPrivileged == true)
                         .Select(p => p.PageAddressId)
                         .Where(id => id.HasValue) 
                         .Select(id => id.Value)  
