@@ -1,4 +1,4 @@
-﻿@model FinalProject.ViewModels.Admin.UserTypeVM
+﻿@model FinalProject.ViewModels.Admin.PageAddressVM
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-center align-items-center" style="height: 50px;">
                         <div class="header-title">
-                            <h4 class="card-title">Chỉnh sửa nhóm người dùng</h4>
+                            <h4 class="card-title">Chỉnh sửa trang</h4>
                         </div>
                     </div>
 
@@ -36,28 +36,31 @@
                             </div>
                         }
 
-                        <form method="post" action="@Url.Action("UpdateUserType", "AccessManagement")">
-                            <div class="form-group">
-                                <label style="margin-top:30px" for="userTypeName">Tên nhóm người dùng:</label>
-                                <input type="text" id="userTypeName" name="UserTypeName" class="form-control" value="@Model.UserTypeName" required />
-                                @Html.ValidationMessageFor(model => model.UserTypeName, "", new { @class = "text-danger" })
+                        <form method="post" action="@Url.Action("UpdatePageAddress", "AccessManagement")">
+                            <input type="hidden" asp-for="PageAddressId" />
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="pageName">Tên trang:</label>
+                                    <input type="text" id="pageName" asp-for="PageName" value="@Model.PageName" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.PageName, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="url">Đường dẫn trang:</label>
+                                    <input type="text" id="url" asp-for="Url" value="@Model.Url" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                </div>
                             </div>
 
-                            <input type="hidden" name="UserTypeId" value="@Model.UserTypeId" />
 
-                            <div class="form-buttons">
-                                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-                                <a href="@Url.Action("UserTypeManagement", "AccessManagement")" style="margin-right: 20px" class="btn btn-secondary">Hủy bỏ</a>
+                            <div class="form-buttons d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-primary me-2">Lưu thay đổi</button>
+                                <a href="@Url.Action("PageAddressManagement", "AccessManagement")" style="margin-right:20px" class="btn btn-secondary">Hủy bỏ</a>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-

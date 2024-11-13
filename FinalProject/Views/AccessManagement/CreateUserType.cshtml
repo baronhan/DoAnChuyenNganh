@@ -39,7 +39,7 @@
                         <form method="post" action="@Url.Action("CreateUserType", "AccessManagement")">
                             <div class="form-group">
                                 <label style="margin-top:30px" for="userTypeName">Tên nhóm người dùng:</label>
-                                <input type="text" id="userTypeName" name="UserTypeName" class="form-control" value="@Model.UserTypeName"/>
+                                <input type="text" id="userTypeName" name="UserTypeName" class="form-control" value="@Model.UserTypeName" required/>
                                 @Html.ValidationMessageFor(model => model.UserTypeName, "", new { @class = "text-danger" })
                             </div>
 
