@@ -324,7 +324,7 @@ SELECT
 FROM 
     INFORMATION_SCHEMA.TABLE_CONSTRAINTS
 WHERE 
-    TABLE_NAME = 'Response' AND CONSTRAINT_TYPE = 'FOREIGN KEY';
+    TABLE_NAME = 'Service' AND CONSTRAINT_TYPE = 'PRIMARY KEY';
 
 select * from Favorite_List
 select * from Favorite_List_Post
@@ -441,4 +441,32 @@ INSERT INTO Page_Address (page_name, url) VALUES
 (N'Từ Chối Vi Phạm', '/ViolationResponseManagement/Reject');
 
 SELECT * FROM Page_Address
-select * from User_Type
+select * from Privilege
+
+CREATE TABLE Service (
+	service_id INT PRIMARY KEY IDENTITY(1,1),
+	service_name NVARCHAR(50) NOT NULL,
+	service_description NVARCHAR(255),
+	service_price DECIMAL(18,2),
+	service_time INT
+);
+
+INSERT INTO Service (service_name, service_description,service_price,service_time)
+VALUES 
+(N'Tin VIP Nổi Bật', N'Tin được hiển thị nổi bật đầu trang',2000,30),
+(N'Tin VIP Độc Đáo', N'Tin được In Hoa màu đỏ nổi bật',1500,30),
+(N'Tin VIP Sang Trọng', N'Tin được In Hoa màu xanh sang trọng',1000,30)
+
+CREATE TABLE Bill (
+	bill_id INT PRIMARY KEY IDENTITY(1,1),
+	post_id INT NOT NULL,
+	service_id INT NOT NULL,
+	total_Price DECIMAL(18,2),
+	payment_date DATE,
+	bill_status INT,
+	expiration_date DATE,
+	FOREIGN KEY (post_id) REFERENCES Room_Post(post_id),
+	FOREIGN KEY (service_id) REFERENCES Service(service_id),
+);
+
+select * from Bill

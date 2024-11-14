@@ -1,0 +1,144 @@
+﻿@using FinalProject.ViewModels.Admin
+@model PagedListVM<FinalProject.ViewModels.Admin.PrivilegeVM>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var queryString = !string.IsNullOrEmpty(ViewBag.SearchQuery) ? $"&searchQuery={ViewBag.SearchQuery}" : "";
+}
+
+<div class="col-lg-12 mt-4 mb-4" style="width: 100%;">
+    <div class="iq-edit-list-data">
+        <div class="tab-content">
+            <div class="d-flex justify-content-between mb-3">
+                <a href="@Url.Action("PrivilegeManagement")" class="btn btn-primary me-2" style="background-color: #005555; color: white; padding: 8px 15px; display: flex; align-items: center; justify-content: center;">
+                    Quay lại
+                </a>
+                <form class="d-flex ms-auto" action="@Url.Action("UpdatePrivilege")" method="get">
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm..." style="width: 450px; border-radius: 20px;" value="@ViewBag.SearchQuery">
+                    <input type="hidden" name="userTypeId" value="@ViewBag.UserTypeId" />
+                    <button type="submit" class="btn btn-primary me-2" style="background-color: #005555; color: white; margin-left: 10px; padding: 8px 15px;">
+                        Tìm kiếm
+                    </button>
+                    <a href="@Url.Action("UpdatePrivilege", "AccessManagement", new { userTypeId = ViewBag.UserTypeId })" style="background-color: #EAE7D6; color: black;" class="btn btn-secondary">Hủy bỏ</a>
+                </form>
+            </div>
+            <div class="tab-pane fade active show" id="personal-information" role="tabpanel" style="margin-top: 50px;">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center align-items-center" style="height: 50px;">
+                        <div class="header-title">
+                            <h4 class="card-title">Danh sách các trang</h4>
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        @if (TempData["FailMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["FailMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        @if (!Model.Items.Any())
+                        {
+                            <div class="alert alert-info text-center" style="background-color: white; border-color: white; padding-bottom: 0px;">
+                                <i class="fa fa-database" style="font-size: 30px; margin-right: 10px;"></i>
+                                <span>Không có nhóm người dùng</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">STT</th>
+                                            <th scope="col" class="text-center">Tên trang</th>
+                                            <th scope="col" class="text-center">Trạng thái</th>
+                                            <th scope="col" class="text-center">Xử lý</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@(@Model.Items.ToList().IndexOf(item) + 1)</td>
+                                                <td class="text-center">@item.PageName</td>
+                                                <td class="text-center">
+                                                    @if (item.IsPrivileged)
+                                                    {
+                                                        <span style="color:green;" >Có quyền</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:red;" class="permission-no">Không có quyền</span>
+                                                    }
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="@Url.Action("GrantPermission", new { userTypeId = ViewBag.UserTypeId, pageAddressId = item.PageAddressId })" class="btn btn-sm" style="background-color: #3CB371; color: white; border-radius: 20px; padding: 8px 15px; margin-right: 5px;">
+                                                        <i class="fa fa-edit"></i> Cấp quyền
+                                                    </a>
+                                                    <a href="@Url.Action("RevokePermission", new { userTypeId = ViewBag.UserTypeId, pageAddressId = item.PageAddressId })" class="btn btn-sm" style="background-color: #d9534f; color: white; border-radius: 20px; padding: 8px 15px;" title="Delete" onclick="return confirmDelete()">
+                                                        <i class="fa fa-trash"></i> Thu hồi quyền
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @if (Model.PageNumber > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("UpdatePrivilege", new { pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize, userTypeId = ViewBag.UserTypeId, searchQuery = ViewBag.SearchQuery })">
+                    Trước
+                </a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("UpdatePrivilege", new { pageNumber = i, pageSize = Model.PageSize, userTypeId = ViewBag.UserTypeId, searchQuery = ViewBag.SearchQuery })">
+                    @i
+                </a>
+            </li>
+        }
+
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("UpdatePrivilege", new { pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize, userTypeId = ViewBag.UserTypeId, searchQuery = ViewBag.SearchQuery })">
+                    Tiếp theo
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+
+
+<script>
+    function confirmDelete() {
+        return confirm("Bạn có chắc chắn muốn thu hồi quyền này không?");
+    }
+</script>

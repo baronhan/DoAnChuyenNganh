@@ -62,11 +62,13 @@ namespace FinalProject.Controllers
         #endregion
 
         #region SearchRoom
-        [HttpGet]
-        public IActionResult SearchRoom(int? roomType, string? district, string? ward, int? adult, string? priceRange)
+        public IActionResult SearchRoom(int? roomType, string? district, string? ward, int? adult, string? priceRange, int page = 1, int pageSize = 6)
         {
+            _roomFeedbackService.HidePostsForAllViolationsAsync();
+
             List<RoomPostVM> rooms = new List<RoomPostVM>();
 
+            // Tạo câu lệnh SQL
             using (var command = _db.Database.GetDbConnection().CreateCommand())
             {
                 command.CommandText = "EXEC SearchRoom @RoomTypeId, @District, @Ward, @Adult, @PriceRange";
@@ -85,6 +87,7 @@ namespace FinalProject.Controllers
                     {
                         var room = new RoomPostVM
                         {
+                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
                             RoomName = reader.GetString(reader.GetOrdinal("RoomName")),
                             Quantity = reader.GetInt32(reader.GetOrdinal("Quantity")),
@@ -103,8 +106,26 @@ namespace FinalProject.Controllers
                 _db.Database.CloseConnection();
             }
 
-            return View("SearchRoom", rooms);
+            // Tính tổng số phòng và tổng số trang
+            int totalRooms = rooms.Count;
+            int totalPages = (int)Math.Ceiling((double)totalRooms / pageSize);
+
+            // Lấy các phòng theo phân trang
+            var paginatedRooms = rooms.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            // Tạo ViewModel để trả về cho view
+            var viewModel = new RoomListVM
+            {
+                Rooms = paginatedRooms,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+
+            // Trả về view với dữ liệu phân trang
+            return View("SearchRoom", viewModel);
         }
+
+
         #endregion
 
         #region RoomDetail
@@ -355,11 +376,33 @@ namespace FinalProject.Controllers
             var userInputParts = userInput.Split(',').Select(part => part.Trim()).ToList();
             var formattedAddressParts = formattedAddress.Split(',').Select(part => part.Trim()).ToList();
 
-            var userStreetAndDistrict = userInputParts.Take(2).ToList();
-            var formattedStreetAndDistrict = formattedAddressParts.Take(2).ToList();
+            // Chuẩn hóa tất cả các phần trong địa chỉ
+            userInputParts = userInputParts.Select(part => NormalizeAddress(part)).ToList();
+            formattedAddressParts = formattedAddressParts.Select(part => NormalizeAddress(part)).ToList();
 
+            // Lấy 3 phần đầu từ cả 2 địa chỉ để so sánh
+            var userStreetAndDistrict = userInputParts.Take(3).ToList();
+            var formattedStreetAndDistrict = formattedAddressParts.Take(3).ToList();
+
+            // So sánh địa chỉ đã chuẩn hóa (chỉ 3 phần đầu tiên)
             return userStreetAndDistrict.SequenceEqual(formattedStreetAndDistrict);
         }
+
+        private string NormalizeAddress(string address)
+        {
+            // Loại bỏ "Đ." hoặc "Đ " ở tất cả các phần trong địa chỉ
+            address = address.Replace("Đ.", "").Replace("Đ ", "").Trim();
+
+            address = address.Replace("  ", " ");  // Xử lý trường hợp có hai khoảng trắng liên tiếp
+            address = address.Trim();
+
+            // Thêm bất kỳ chuẩn hóa khác nếu cần (ví dụ: chuẩn hóa các tên quận, phường)
+            address = address.Replace("Q.", "Quận").Replace("P.", "Phường").Trim();
+
+            return address;
+        }
+
+
 
         #endregion
 

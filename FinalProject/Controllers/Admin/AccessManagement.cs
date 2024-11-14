@@ -234,5 +234,136 @@ namespace FinalProject.Controllers.Admin
             return RedirectToAction("PageAddressManagement");
         }
 
+        public IActionResult PrivilegeManagement(int pageNumber = 1, int pageSize = 7, string searchQuery = "")
+        {
+            int totalItems;
+            List<UserTypeVM> userType;
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                totalItems = accessManagementService.GetUserTypeCount();
+                userType = accessManagementService.GetUserType(pageNumber, pageSize);
+            }
+            else
+            {
+                var searchResults = accessManagementService.SearchUserTypes(searchQuery);
+                totalItems = searchResults.Count;
+                userType = searchResults
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+
+            var paginationModel = new PagedListVM<UserTypeVM>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                Items = userType
+            };
+
+            ViewBag.SearchQuery = searchQuery;
+            return View("PrivilegeManagement", paginationModel);
+        }
+
+        public IActionResult UpdatePrivilege(int userTypeId, int pageNumber = 1, int pageSize = 7, string searchQuery = "")
+        {
+            int totalItems;
+            List<PageAddressVM> pageAddresses;
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                totalItems = accessManagementService.GetPageAddressCount();
+                pageAddresses = accessManagementService.GetPageAddresses(pageNumber, pageSize);
+            }
+            else
+            {
+                var searchResults = accessManagementService.SearchPageAddress(searchQuery);
+                totalItems = searchResults.Count;
+                pageAddresses = searchResults
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+
+            // Lấy tất cả quyền của userTypeId một lần
+            var userPrivileges = accessManagementService.GetPrivilegesByUserType(userTypeId);
+
+            // Tạo danh sách quyền cho từng trang
+            var pagePrivileges = pageAddresses.Select(page => new PrivilegeVM
+            {
+                PageAddressId = page.PageAddressId,
+                PageName = page.PageName,
+                IsPrivileged = userPrivileges
+                    .Any(priv => priv.PageAddressId == page.PageAddressId && priv.IsPrivileged)
+            }).ToList();
+
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            // Tạo đối tượng phân trang
+            var paginationModel = new PagedListVM<PrivilegeVM>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                Items = pagePrivileges
+            };
+
+            // Truyền `userTypeId` và `searchQuery` vào ViewBag để dùng trong Razor
+            ViewBag.UserTypeId = userTypeId;
+            ViewBag.SearchQuery = searchQuery;
+
+            return View(paginationModel);
+        }
+
+        public IActionResult GrantPermission(int userTypeId, int pageAddressId)
+        {
+            var userPrivilege = new PrivilegeVM
+            {
+                UserTypeId = userTypeId,
+                PageAddressId = pageAddressId,
+                IsPrivileged = true
+            };
+
+            if(accessManagementService.GrantPermission(userPrivilege))
+            {
+                TempData["SuccessMessage"] = "Cấp quyền thành công!";
+            }    
+            else
+            {
+                TempData["FailMessage"] = "Cấp quyền thất bại!";
+            }    
+
+            return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
+        }
+
+        public IActionResult RevokePermission(int userTypeId, int pageAddressId)
+        {
+            var privilege = accessManagementService.GetPrivilegeByUserTypeAndPageAddress(userTypeId, pageAddressId);
+
+            if (privilege != null)
+            {
+                privilege.IsPrivileged = false;
+
+                var result = accessManagementService.UpdatePrivilege(privilege);
+
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Thu hồi quyền thành công!";
+                }
+                else
+                {
+                    TempData["FailMessage"] = "Thu hồi quyền thất bại!";
+                }
+            }
+            else
+            {
+                TempData["FailMessage"] = "Không tìm thấy quyền để thu hồi!";
+            }
+
+            return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
+        }
+
+
     }
 }

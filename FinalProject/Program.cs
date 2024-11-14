@@ -48,6 +48,8 @@ builder.Services.AddScoped<RoomFeedbackService>();
 builder.Services.AddScoped<ResponseListService>();
 builder.Services.AddScoped<PrivilegeService>();
 builder.Services.AddScoped<AccessManagementService>();
+builder.Services.AddScoped<RegisterService>();
+builder.Services.AddScoped<BillService>();
 
 builder.Services.AddCors(options =>
 {
@@ -69,6 +71,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAuthenticatedUser", policy => policy.RequireAuthenticatedUser());
 });
 
+builder.Services.AddSingleton(x => new PaypalClient(
+    builder.Configuration["PaypalOptions:AppId"],
+    builder.Configuration["PaypalOptions:AppSecret"],
+    builder.Configuration["PaypalOptions:Mode"]
+));
 
 var app = builder.Build();
 

@@ -92,6 +92,7 @@ BEGIN
         ri.image_url AS RoomImage,
         rp.room_price AS RoomPrice,
         rp.room_size AS RoomSize,
+		rp.user_id AS UserId,
         -- Cắt tên phường, giữ lại tên đường và quận
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 

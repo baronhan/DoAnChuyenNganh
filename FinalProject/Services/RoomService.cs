@@ -213,6 +213,7 @@ namespace FinalProject.Services
                 .Where(x => ExtractDistrictFromAddress(x.rp.Address) == district) 
                 .Select(x => new RoomPostVM
                 {
+                    UserId = (int)x.rp.UserId,
                     PostId = x.rp.PostId,
                     RoomName = x.rp.RoomName,
                     Quantity = (int)x.rp.Quantity,

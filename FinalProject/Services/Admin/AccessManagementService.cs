@@ -272,5 +272,112 @@ namespace FinalProject.Services.Admin
                 return null;
             }
         }
+
+        public int GetUserTypeCount()
+        {
+            return db.UserTypes.Count();
+        }
+
+        public List<UserTypeVM> GetUserType(int pageNumber, int pageSize)
+        {
+            return db.UserTypes
+                .OrderBy(p => p.TypeName)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new UserTypeVM
+                {
+                    UserTypeName = p.TypeName,
+                    UserTypeId = p.UserTypeId
+                })
+                .ToList();
+        }
+
+        public List<PrivilegeVM> GetPrivilegesByUserType(int userTypeId)
+        {
+            try
+            {
+                var privilegeList = (from p in db.Privileges
+                                     join page in db.PageAddresses on p.PageAddressId equals page.PageAddressId
+                                     where p.UserTypeId == userTypeId
+                                     select new PrivilegeVM
+                                     {
+                                         PageAddressId = (int)p.PageAddressId,
+                                         PageName = page.PageName,
+                                         IsPrivileged = (bool)p.IsPrivileged,
+                                     }).ToList();
+
+                return privilegeList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public bool GrantPermission(PrivilegeVM userPrivilege)
+        {
+            try
+            {
+                var newPrivilege = new Privilege
+                {
+                    UserTypeId = userPrivilege.UserTypeId,
+                    PageAddressId = userPrivilege.PageAddressId,
+                    IsPrivileged = (bool)userPrivilege.IsPrivileged,
+                };
+
+                db.Privileges.Add(newPrivilege);
+
+                db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);  
+                return false;
+            }
+        }
+
+        public PrivilegeVM GetPrivilegeByUserTypeAndPageAddress(int userTypeId, int pageAddressId)
+        {
+            var privilege = db.Privileges
+                                    .Where(p => p.UserTypeId == userTypeId && p.PageAddressId == pageAddressId)
+                                    .FirstOrDefault();
+
+            if (privilege != null)
+            {
+                var privilegeVM = new PrivilegeVM
+                {
+                    PrivilegeId = privilege.PrivilegeId,
+                    UserTypeId = (int)privilege.UserTypeId,
+                    PageAddressId = (int)privilege.PageAddressId,
+                    IsPrivileged = (bool)privilege.IsPrivileged
+                };
+
+                return privilegeVM;
+            }
+
+            return null;
+        }
+
+        public bool UpdatePrivilege(PrivilegeVM privilege)
+        {
+            var existingPrivilege = db.Privileges
+                                             .Where(p => p.PrivilegeId == privilege.PrivilegeId)
+                                             .FirstOrDefault();
+
+            if (existingPrivilege != null)
+            {
+                existingPrivilege.IsPrivileged = privilege.IsPrivileged;
+
+                db.SaveChanges();
+
+                return true; 
+            }
+
+            return false; 
+        }
+
     }
 }

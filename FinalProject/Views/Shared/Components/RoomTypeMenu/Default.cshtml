@@ -19,9 +19,9 @@
                             }
                         </ul>
                     </li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a asp-controller="RegisterService" asp-action="HomePage">Services</a></li>
+
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
                     <li>
                         @await Component.InvokeAsync("Favorite")
                     </li>
