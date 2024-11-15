@@ -8,5 +8,6 @@
         public decimal RoomPrice { get; set; }
         public decimal RoomSize { get; set; }
         public string RoomAddress { get; set; }
+        public int StatusId { get; set; }
     }
 }

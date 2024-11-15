@@ -1,5 +1,7 @@
 using FinalProject.Data;
 using FinalProject.Models;
+using FinalProject.Services;
+using FinalProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,22 +10,27 @@ namespace FinalProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly RoomFeedbackService _roomFeedbackService;
+        private readonly UserService _userService;
 
         private readonly QlptContext _db;
 
-        public HomeController(ILogger<HomeController> logger, QlptContext context)
+        public HomeController(ILogger<HomeController> logger, QlptContext context, RoomFeedbackService roomFeedbackService, UserService userService)
         {
             _logger = logger;
             _db = context;
+            _roomFeedbackService = roomFeedbackService;
+            _userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
             if (User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "AdminHome");
             }
+            _roomFeedbackService.UpdateExpiredPostsStatus();
 
             return View();
         }

@@ -17,7 +17,7 @@ namespace FinalProject.Services
             List<FeedbackResultVM> ds = new List<FeedbackResultVM>();
 
             var posts = db.RoomPosts
-                          .Where(t => t.UserId == userId && t.StatusId != 4)
+                          .Where(t => t.UserId == userId && t.StatusId != 6)
                           .ToList();
 
             var postIds = posts.Select(p => (int?)p.PostId).ToList();
@@ -63,7 +63,7 @@ namespace FinalProject.Services
         public void HidePostsForAllViolationsAsync()
         {
             var postsToHide = db.RoomPosts
-                                .Where(p => p.StatusId != 4)  
+                                .Where(p => p.StatusId != 6)  
                                 .ToList();
 
             var postsWithViolations7 = db.RoomFeedbacks
@@ -82,7 +82,7 @@ namespace FinalProject.Services
             foreach (var postId in postsToHide7)
             {
                 var post = db.RoomPosts.FirstOrDefault(p => p.PostId == postId);
-                if (post != null && post.StatusId != 4) 
+                if (post != null && post.StatusId != 6) 
                 {
                     HidePost((int)postId);
 
@@ -97,7 +97,7 @@ namespace FinalProject.Services
             var post = db.RoomPosts.FirstOrDefault(p => p.PostId == postId);
             if (post != null)
             {
-                post.StatusId = 4;  
+                post.StatusId = 6;  
                 db.SaveChanges();  
             }
         }
@@ -255,7 +255,24 @@ namespace FinalProject.Services
             }
         }
 
+        public void UpdateExpiredPostsStatus()
+        {
+            var roomList = db.RoomPostVM.FromSqlRaw($"GetRoomPosts").ToList();
 
+            var today = DateTime.Now;
 
+            var expiredPosts = roomList.Where(post => post.ExpiredDate <= today).ToList();
+
+            foreach (var post in expiredPosts)
+            {
+                var roomPost = db.RoomPosts.Find(post.PostId);
+                if (roomPost != null)
+                {
+                    roomPost.StatusId = 3;
+                }
+            }
+
+            db.SaveChanges();
+        }
     }
 }

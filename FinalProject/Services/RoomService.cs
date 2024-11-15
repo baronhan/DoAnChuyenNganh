@@ -201,34 +201,41 @@ namespace FinalProject.Services
                                     join ri in db.RoomImages on rp.PostId equals ri.PostId
                                     join rt in db.RoomTypes on rp.RoomTypeId equals rt.RoomTypeId
                                     join rs in db.RoomStatuses on rp.StatusId equals rs.RoomStatusId
+                                    join b in db.Bills on rp.PostId equals b.PostId into billJoin
+                                    from bill in billJoin.DefaultIfEmpty() // Left Join Bill table
                                     where rs.RoomStatusId == 1
                                           && !string.IsNullOrEmpty(rp.Address)
-                                          && rp.PostId != postId 
+                                          && rp.PostId != postId
                                     select new
                                     {
                                         rp,
                                         ri,
-                                        rt
-                                    }).ToList() 
-                .Where(x => ExtractDistrictFromAddress(x.rp.Address) == district) 
-                .Select(x => new RoomPostVM
-                {
-                    UserId = (int)x.rp.UserId,
-                    PostId = x.rp.PostId,
-                    RoomName = x.rp.RoomName,
-                    Quantity = (int)x.rp.Quantity,
-                    RoomDescription = x.rp.RoomDescription,
-                    RoomImage = x.ri.ImageUrl,
-                    RoomPrice = (decimal)x.rp.RoomPrice,
-                    RoomSize = (decimal)x.rp.RoomSize,
-                    RoomAddress = x.rp.Address.Replace(
-                        x.rp.Address.Substring(
-                            x.rp.Address.IndexOf(',') + 1,
-                            x.rp.Address.IndexOf(',', x.rp.Address.IndexOf(',') + 1) - x.rp.Address.IndexOf(',')
-                        ),
-                        string.Empty),
-                    RoomType = x.rt.TypeName
-                }).ToList();
+                                        rt,
+                                        bill
+                                    })
+                                    .AsEnumerable() // Forces client-side evaluation
+                                    .Where(x => ExtractDistrictFromAddress(x.rp.Address) == district &&
+                                                (x.bill == null ||
+                                                 (x.bill.ExpirationDate.HasValue && x.bill.ExpirationDate.Value.ToDateTime(new TimeOnly()) >= DateTime.Now)))
+                                    .Select(x => new RoomPostVM
+                                    {
+                                        UserId = (int)x.rp.UserId,
+                                        PostId = x.rp.PostId,
+                                        RoomName = x.rp.RoomName,
+                                        Quantity = (int)x.rp.Quantity,
+                                        RoomDescription = x.rp.RoomDescription,
+                                        RoomImage = x.ri.ImageUrl,
+                                        RoomPrice = (decimal)x.rp.RoomPrice,
+                                        RoomSize = (decimal)x.rp.RoomSize,
+                                        RoomAddress = x.rp.Address.Replace(
+                                            x.rp.Address.Substring(
+                                                x.rp.Address.IndexOf(',') + 1,
+                                                x.rp.Address.IndexOf(',', x.rp.Address.IndexOf(',') + 1) - x.rp.Address.IndexOf(',')
+                                            ),
+                                            string.Empty),
+                                        RoomType = x.rt.TypeName,
+                                        ServiceId = x.bill != null ? x.bill.ServiceId : (int?)null
+                                    }).ToList();
 
                     return roomList;
                 }
@@ -239,6 +246,9 @@ namespace FinalProject.Services
                 return Enumerable.Empty<RoomPostVM>();
             }
         }
+
+
+
 
         public List<UtilityVM> GetUtilities()
         {
@@ -317,7 +327,8 @@ namespace FinalProject.Services
                                    RoomAddress = r.Address,
                                    RoomImage = imgGroup.FirstOrDefault().ImageUrl,
                                    RoomName = r.RoomName,
-                                   RoomSize = (decimal)r.RoomSize
+                                   RoomSize = (decimal)r.RoomSize,
+                                   StatusId = (int)r.StatusId,
                                };
                 return roomList;
 
@@ -737,6 +748,19 @@ namespace FinalProject.Services
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public bool RelistRoomPost(int idPhong)
+        {
+            var roomPost = db.RoomPosts.FirstOrDefault(r => r.PostId == idPhong && r.StatusId == 3);
+            if (roomPost == null) return false;
+
+            roomPost.StatusId = 1;
+            roomPost.DatePosted = DateTime.UtcNow;
+            roomPost.ExpirationDate = DateTime.UtcNow.AddDays(30);
+
+            db.SaveChanges();
+            return true;
         }
     }
 }

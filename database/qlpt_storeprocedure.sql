@@ -19,16 +19,19 @@ BEGIN
         rp.room_size AS RoomSize,
         rp.room_coordinate_id AS RoomCoordinateId,
 		rp.user_id AS UserId,
+		rp.expiration_date As ExpiredDate,
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 
                           CHARINDEX(',', rp.address) + 1, 
                           CHARINDEX(',', rp.address, CHARINDEX(',', rp.address) + 1) - CHARINDEX(',', rp.address)), 
                 '') AS RoomAddress,
-        rt.type_name AS RoomType
+        rt.type_name AS RoomType,
+		ISNULL(b.service_id, 0) AS ServiceId
     FROM Room_Post rp
     JOIN RoomImages ri ON rp.post_id = ri.post_id AND ri.RowNum = 1
     JOIN Room_Type rt ON rp.room_type_id = rt.room_type_id
     JOIN Room_Status rs ON rp.status_id = rs.room_status_id
+	LEFT JOIN Bill b ON rp.post_id = b.post_id AND b.expiration_date >= GETDATE()
     WHERE rs.room_status_id = 1 
       AND (@RoomTypeId IS NULL OR rp.room_type_id = @RoomTypeId);
 END

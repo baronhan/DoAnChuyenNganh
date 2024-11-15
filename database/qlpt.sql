@@ -470,3 +470,7 @@ CREATE TABLE Bill (
 );
 
 select * from Bill
+
+select * from Room_Post
+
+select * from Room_Status

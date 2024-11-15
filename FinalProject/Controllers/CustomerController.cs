@@ -104,7 +104,9 @@ namespace FinalProject.Controllers
                             {
                                 new Claim(ClaimTypes.Email, customer.Email),
                                 new Claim(ClaimTypes.Name, customer.Username),
-                                new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString())
+                                new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString()),
+                                new Claim("Fullname", customer.Fullname), 
+                                new Claim("UserImage", customer.UserImage)
                             };
 
                             foreach (var pageAddress in pageAddresses)

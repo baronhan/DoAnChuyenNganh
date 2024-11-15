@@ -878,5 +878,22 @@ namespace FinalProject.Controllers
             return RedirectToAction("ManageRoom", "RoomPost");
         }
         #endregion
+
+        #region RelistRoomPost
+        [HttpPost]
+        public IActionResult RelistRoomPost(int idPhong)
+        {
+            if (_roomService.RelistRoomPost(idPhong))
+            {
+                TempData["SuccessMessage"] = "Bài đăng đã được đăng lại thành công!";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Không thể đăng lại bài đăng. Vui lòng thử lại.";
+            }
+
+            return RedirectToAction("ManageRoom", "RoomPost");
+        }
+        #endregion
     }
 }

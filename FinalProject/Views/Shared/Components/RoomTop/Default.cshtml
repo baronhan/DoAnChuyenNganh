@@ -48,14 +48,12 @@
                                         <a asp-controller="FavoriteList" asp-action="AddToFavoriteAuthenticated" asp-route-id="@room.PostId"
                                            class="btn btn-primary py-2 px-3">Add Favorite</a>
 
-                                        @if (User.FindFirstValue(ClaimTypes.NameIdentifier) != room.UserId.ToString())
+                                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) != room.UserId.ToString())
                                         {
                                             <a asp-controller="RoomFeedback" asp-action="Index" asp-route-postID="@room.PostId"
                                                class="btn btn-danger py-2 px-3 ms-3">Report</a>
                                         }
-                                    </div>
-
-                                   
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>

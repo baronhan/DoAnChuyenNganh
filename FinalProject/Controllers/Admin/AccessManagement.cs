@@ -364,6 +364,180 @@ namespace FinalProject.Controllers.Admin
             return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
         }
 
+        public IActionResult RoomPostManagement(int pageNumber = 1, int pageSize = 4, string searchQuery = "")
+        {
+            int totalItems;
+            List<RoomPostManagementVM> roompost;
 
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                totalItems = accessManagementService.GetRoomPostCount();
+                roompost = accessManagementService.GetRoomPostManagement(pageNumber, pageSize);
+            }
+            else
+            {
+                var searchResults = accessManagementService.SearchRoomPostManagement(searchQuery);
+                totalItems = searchResults.Count;
+                roompost = searchResults
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+
+            var paginationModel = new PagedListVM<RoomPostManagementVM>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                Items = roompost
+            };
+
+            ViewBag.SearchQuery = searchQuery;
+            return View("RoomPostManagement", paginationModel);
+        }
+
+        public IActionResult AvailableStatus(int postId)
+        {
+            bool updateSuccess = accessManagementService.UpdatePostStatus(postId, 1);
+
+            if (updateSuccess)
+            {
+                TempData["SuccessMessage"] = "Trạng thái bài đăng đã được cập nhật thành Sẵn có.";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Trạng thái bài đăng hiện tại đã là Sẵn có.";
+            }
+
+            return RedirectToAction("RoomPostManagement");  
+        }
+
+        public IActionResult RentedStatus(int postId)
+        {
+            bool updateSuccess = accessManagementService.UpdatePostStatus(postId, 2); 
+
+            if (updateSuccess)
+            {
+                TempData["SuccessMessage"] = "Trạng thái bài đăng đã được cập nhật thành Đã thuê.";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Trạng thái bài đăng hiện tại đã là Đã thuê.";
+            }
+
+            return RedirectToAction("RoomPostManagement"); 
+        }
+
+        public IActionResult PostStatusManagement(int pageNumber = 1, int pageSize = 7, string searchQuery = "")
+        {
+            int totalItems;
+            List<RoomStatusVM> status;
+
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                totalItems = accessManagementService.GetRoomStatusCount();
+                status = accessManagementService.GetRoomStatus(pageNumber, pageSize);
+            }
+            else
+            {
+                var searchResults = accessManagementService.SearchRoomStatus(searchQuery);
+                totalItems = searchResults.Count;
+                status = searchResults
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+
+            var paginationModel = new PagedListVM<RoomStatusVM>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                Items = status
+            };
+
+            ViewBag.SearchQuery = searchQuery;
+            return View("PostStatusManagement", paginationModel);
+        }
+
+        public IActionResult CreateRoomStatus()
+        {
+            return View(new RoomStatusVM());
+        }
+
+        [HttpPost]
+        public IActionResult CreateRoomStatus(RoomStatusVM roomStatusVM)
+        {
+            if (ModelState.IsValid)
+            {
+                if (accessManagementService.AddRoomStatus(roomStatusVM))
+                {
+                    TempData["SuccessMessage"] = "Trạng thái đã được thêm thành công!";
+                    return RedirectToAction("PostStatusManagement");
+                }
+
+                TempData["FailMessage"] = "Không thể thêm trạng thái!";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Dữ liệu không hợp lệ!";
+            }
+
+            return View(roomStatusVM);
+        }
+
+        public IActionResult EditRoomStatus(int roomStatusId)
+        {
+            var roomStatus = accessManagementService.GetRoomStatusById(roomStatusId);
+
+            if (roomStatus == null)
+            {
+                return NotFound();
+            }
+
+            return View(roomStatus);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRoomStatus(RoomStatusVM roomStatusVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = accessManagementService.UpdateRoomStatus(roomStatusVM);
+
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Cập nhật trạng thái thành công!";
+                    return RedirectToAction("EditRoomStatus", new { roomStatusId = roomStatusVM.RoomStatusId });
+                }
+                else
+                {
+                    TempData["FailMessage"] = "Trạng thái không tồn tại!";
+                }
+            }
+
+            TempData["FailMessage"] = "Dữ liệu không hợp lệ!";
+            return RedirectToAction("EditRoomStatus", new { roomStatusId = roomStatusVM.RoomStatusId });
+        }
+
+        public IActionResult DeleteRoomStatus(int roomStatusId)
+        {
+            if (!accessManagementService.CanDeleteRoomStatus(roomStatusId))
+            {
+                TempData["FailMessage"] = "Không thể xóa trạng thái vì có bài đăng đang dùng trạng thái này!";
+                return RedirectToAction("PostStatusManagement");
+            }
+
+            if (accessManagementService.DeleteRoomStatus(roomStatusId))
+            {
+                TempData["SuccessMessage"] = "Xóa trạng thái thành công!";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Trang không tồn tại!";
+            }
+
+            return RedirectToAction("PostStatusManagement");
+        }
     }
 }

@@ -56,9 +56,16 @@
                                 </div>
                             </th>
                             <td>
-                                <a asp-action="Detail" asp-controller="RoomPost" asp-route-id="@item.PostId">
-                                    <p class="mb-0 mt-4">@item.RoomName</p>
-                                </a>
+                                @if (item.StatusId != 3) 
+                                {
+                                    <a asp-action="Detail" asp-controller="RoomPost" asp-route-id="@item.PostId">
+                                        <p class="mb-0 mt-4">@item.RoomName</p>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p class="mb-0 mt-4 text-muted">@item.RoomName (Đã hết hạn)</p>
+                                }
                             </td>
                             <td>
                                 <p class="mb-0 mt-4">@item.RoomPrice.ToString("N0") ₫</p>
@@ -70,36 +77,53 @@
                                 <p class="mb-0 mt-4">@item.RoomAddress</p>
                             </td>
                             <td>
-                                <form asp-action="UpdateRoomView" asp-controller="RoomPost" method="post" style="display: inline;">
-                                    <input type="hidden" name="idPhong" value="@item.PostId" />
-                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Update">
-                                        <i class="fa fa-pencil-alt text-primary"></i>
-                                    </button>
-                                </form>
+                                @if (item.StatusId == 3)
+                                {
+                                    <form asp-action="RelistRoomPost" asp-controller="RoomPost" method="post" style="display: inline;">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Relist">
+                                            <i class="fa fa-refresh text-success"></i>
+                                        </button>
+                                    </form>
 
-                                <form asp-action="DeleteRoomPost"
-                                      asp-controller="RoomPost" method="post" style="display: inline;" id="deleteForm">
-                                    <input type="hidden" name="idPhong" value="@item.PostId" />
-                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete" onclick="return confirmDelete()">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
-                                </form>
+                                    <form asp-action="DeleteRoomPost" asp-controller="RoomPost" method="post" style="display: inline;" id="deleteForm">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete" onclick="return confirmDelete()">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
+                                }
 
-                                <form asp-action="SetPostId" asp-controller="RegisterService" method="post" style="display: inline;">
-                                    <input type="hidden" name="postId" value="@item.PostId" />
-                                    <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Register Service">
-                                        <i class="fa fa-check text-success"></i>
-                                    </button>
-                                </form>
+                                @if (item.StatusId == 1)
+                                {
+                                    <form asp-action="UpdateRoomView" asp-controller="RoomPost" method="post" style="display: inline;">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Update">
+                                            <i class="fa fa-pencil-alt text-primary"></i>
+                                        </button>
+                                    </form>
+
+                                    <form asp-action="DeleteRoomPost" asp-controller="RoomPost" method="post" style="display: inline;" id="deleteForm">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete" onclick="return confirmDelete()">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
+
+                                    <form asp-action="SetPostId" asp-controller="RegisterService" method="post" style="display: inline;">
+                                        <input type="hidden" name="postId" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Register Service">
+                                            <i class="fa fa-check text-success"></i>
+                                        </button>
+                                    </form>
+                                }
                             </td>
-
-
 
                         </tr>
                     }
                 </tbody>
             </table>
-        </div
+        </div>
     </div>
 </div>
 <script>

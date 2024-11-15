@@ -19,7 +19,9 @@ namespace FinalProject.Services
 
 
             var bills = await db.Bills
-              .Where(b => b.ServiceId == serviceId && b.ExpirationDate >= DateOnly.FromDateTime(DateTime.UtcNow))
+               .Where(b => b.ServiceId == serviceId
+                       && b.ExpirationDate >= DateOnly.FromDateTime(DateTime.UtcNow)
+                       && b.Post.StatusId == 1)
               .Include(b => b.Post)
               .ThenInclude(p => p.RoomImages)
               .Select(b => new RoomPostVM
