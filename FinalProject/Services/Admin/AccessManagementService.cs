@@ -628,5 +628,21 @@ namespace FinalProject.Services.Admin
             db.SaveChanges();
             return true;
         }
+
+        public PrivilegeVM GetPrivilege(int userTypeId, int pageAddressId)
+        {
+            return db.Privileges
+                .Where(p => p.UserTypeId == userTypeId && p.PageAddressId == pageAddressId)
+                .Select(p => new PrivilegeVM
+                {
+                    PrivilegeId = p.PrivilegeId,
+                    UserTypeId = (int)p.UserTypeId,
+                    PageAddressId = (int)p.PageAddressId,
+                    IsPrivileged = (bool)p.IsPrivileged
+                })
+                .FirstOrDefault();
+        }
+
+
     }
 }

@@ -104,10 +104,18 @@ namespace FinalProject.Controllers
                             {
                                 new Claim(ClaimTypes.Email, customer.Email),
                                 new Claim(ClaimTypes.Name, customer.Username),
-                                new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString()),
-                                new Claim("Fullname", customer.Fullname), 
-                                new Claim("UserImage", customer.UserImage)
+                                new Claim(ClaimTypes.NameIdentifier, customer.UserId.ToString())
                             };
+
+                            if (!string.IsNullOrEmpty(customer.Fullname))
+                            {
+                                claims.Add(new Claim("Fullname", customer.Fullname));
+                            }
+
+                            if (!string.IsNullOrEmpty(customer.UserImage))
+                            {
+                                claims.Add(new Claim("UserImage", customer.UserImage));
+                            }
 
                             foreach (var pageAddress in pageAddresses)
                             {
@@ -165,7 +173,6 @@ namespace FinalProject.Controllers
 
 
         #endregion
-
 
         #region Profile
         [HttpGet]

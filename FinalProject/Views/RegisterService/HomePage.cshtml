@@ -1,5 +1,4 @@
-﻿﻿
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 @{
     ViewData["Title"] = "Services";
@@ -27,7 +26,7 @@
     }
 
     #d1.description-detail {
-        border: 3px solid orange;
+        border: 3px solid #006400; /* Màu xanh lá đậm cho Tin VIP Nổi Bật */
     }
 
     #d2.description-detail {
@@ -35,7 +34,7 @@
     }
 
     #d3.description-detail {
-        border: 3px solid dodgerblue;
+        border: 3px solid #FF8C00; /* Màu cam đậm cho Tin VIP Sang Trọng */
     }
 
     .description-detail img {
@@ -60,7 +59,6 @@
             box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
         }
 
-
         .highlight-box h3 {
             font-size: 1.4em;
         }
@@ -68,7 +66,34 @@
     .custom-color {
         color: #005555;
     }
+
+    /* Tin VIP Nổi Bật */
+    .highlight-box-1 {
+        border-color: #006400; /* Màu xanh lá đậm */
+    }
+
+        .highlight-box-1 h3 {
+            color: #006400; /* Màu xanh lá đậm cho chữ */
+        }
+
+        .highlight-box-1 p {
+            color: #006400; /* Màu xanh lá đậm cho chữ */
+        }
+
+    /* Tin VIP Sang Trọng */
+    .highlight-box-3 {
+        border-color: #FF8C00; /* Màu cam đậm */
+    }
+
+        .highlight-box-3 h3 {
+            color: #FF8C00; /* Màu cam đậm cho chữ */
+        }
+
+        .highlight-box-3 p {
+            color: #FF8C00; /* Màu cam đậm cho chữ */
+        }
 </style>
+
 <div class="section bg-light">
     <div class="container">
 
@@ -86,19 +111,19 @@
         <div class="row justify-content-center">
             <!-- Tin VIP Nổi Bật -->
             <div class="col-6 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="300">
-                <div class="box-feature highlight-box mb-4">
-                    <h3 class="mb-3 font-weight-bold" style="color:orange">Tin VIP Nổi Bật</h3>
-                    <h3 class="mb-3 font-weight-bold" style="color:orange">2.000.000đ</h3>
-                    <p style="color:orange">Hiển thị đầu trang với sự nổi bật nhất</p>
-                    <p style="color:orange">Trong 30 ngày</p>
-                    <p style="color:orange">Chỉ 66.666đ/ngày</p>
+                <div class="box-feature highlight-box highlight-box-1 mb-4">
+                    <h3 class="mb-3 font-weight-bold">Tin VIP Nổi Bật</h3>
+                    <h3 class="mb-3 font-weight-bold">2.000.000đ</h3>
+                    <p>Hiển thị đầu trang với sự nổi bật nhất</p>
+                    <p>Trong 30 ngày</p>
+                    <p>Chỉ 66.666đ/ngày</p>
                     <p><a href="#d1" class="learn-more" style="color: black">Tìm hiểu thêm</a></p>
                 </div>
             </div>
 
             <!-- Tin VIP Độc Đáo -->
             <div class="col-6 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="400">
-                <div class="box-feature highlight-box mb-4" style="border-color: red;">
+                <div class="box-feature highlight-box highlight-box-2 mb-4" style="border-color: red;">
                     <h3 class="mb-3 font-weight-bold" style="color: red">Tin VIP Độc Đáo</h3>
                     <h3 class="mb-3 font-weight-bold" style="color: red">1.500.000đ</h3>
                     <p style="color: red">IN HOA màu đỏ nổi bật</p>
@@ -110,17 +135,16 @@
 
             <!-- Tin VIP Sang Trọng -->
             <div class="col-6 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="500">
-                <div class="box-feature highlight-box mb-4" style="border-color: dodgerblue;">
-                    <h3 class="mb-3 font-weight-bold" style="color: dodgerblue">Tin VIP Sang Trọng</h3>
-                    <h3 class="mb-3 font-weight-bold" style="color: dodgerblue">1.000.000đ</h3>
-                    <p style="color: dodgerblue">IN HOA màu xanh dịu nhẹ</p>
-                    <p style="color: dodgerblue">Trong 30 ngày</p>
-                    <p style="color: dodgerblue">Chỉ 33.333đ/ngày</p>
+                <div class="box-feature highlight-box highlight-box-3 mb-4">
+                    <h3 class="mb-3 font-weight-bold">Tin VIP Sang Trọng</h3>
+                    <h3 class="mb-3 font-weight-bold">1.000.000đ</h3>
+                    <p>IN HOA màu cam dịu nhẹ</p>
+                    <p>Trong 30 ngày</p>
+                    <p>Chỉ 33.333đ/ngày</p>
                     <p><a href="#d3" class="learn-more" style="color: black">Tìm hiểu thêm</a></p>
                 </div>
             </div>
         </div>
-
 
         <div id="d1" class="description-detail p-5 mb-5" style="background-color:  white; border-radius: 5px;">
             <h2 class="font-weight-bold text-primary custom-color">Tin VIP Nổi Bật</h2>
@@ -147,13 +171,13 @@
             <p>
                 Ưu đãi: Hưởng ưu tiên tối đa, mang lại hiệu quả giao dịch cao nhất nhờ thu hút sự chú ý ngay từ cái nhìn đầu tiên.
             </p>
-            <img src="@Url.Content("~/images/service.png")" alt="Ảnh Tin VIP Độc Đáo" class="img-fluid mb-4">
+            <img src="@Url.Content("~/images/red_service.png")" alt="Ảnh Tin VIP Độc Đáo" class="img-fluid mb-4">
         </div>
 
-        <div id="d3" class="description-detail p-5 mb-5" style="background-color: white; border-radius: 5px; border-color: dodgerblue;">
+        <div id="d3" class="description-detail p-5 mb-5" style="background-color: white; border-radius: 5px;">
             <h2 class="font-weight-bold text-primary custom-color">Tin VIP Sang Trọng</h2>
             <p>
-                Đặc điểm: Tiêu đề được IN HOA màu xanh sang trọng, kích cỡ lớn cùng nhiều hình ảnh hơn các tin khác.
+                Đặc điểm: Tiêu đề được IN HOA màu cam sang trọng, kích cỡ lớn cùng nhiều hình ảnh hơn các tin khác.
             </p>
             <p>
                 Vị trí hiển thị: Luôn xuất hiện đầu tiên trong mục tin nổi bật của trang và nằm trên tất cả các tin khác.
@@ -161,7 +185,7 @@
             <p>
                 Ưu đãi: Hưởng ưu tiên tối đa, mang lại hiệu quả giao dịch cao nhất nhờ thu hút sự chú ý ngay từ cái nhìn đầu tiên.
             </p>
-            <img src="@Url.Content("~/images/service.png")" alt="Ảnh Tin VIP Sang Trọng" class="img-fluid mb-4">
+            <img src="@Url.Content("~/images/orange_service.png")" alt="Ảnh Tin VIP Sang Trọng" class="img-fluid mb-4">
         </div>
 
     </div>

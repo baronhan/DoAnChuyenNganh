@@ -50,6 +50,7 @@ builder.Services.AddScoped<PrivilegeService>();
 builder.Services.AddScoped<AccessManagementService>();
 builder.Services.AddScoped<RegisterService>();
 builder.Services.AddScoped<BillService>();
+builder.Services.AddScoped<UserManagementService>();
 
 builder.Services.AddCors(options =>
 {

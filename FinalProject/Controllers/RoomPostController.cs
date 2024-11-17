@@ -384,9 +384,19 @@ namespace FinalProject.Controllers
             var userStreetAndDistrict = userInputParts.Take(3).ToList();
             var formattedStreetAndDistrict = formattedAddressParts.Take(3).ToList();
 
-            // So sánh địa chỉ đã chuẩn hóa (chỉ 3 phần đầu tiên)
-            return userStreetAndDistrict.SequenceEqual(formattedStreetAndDistrict);
+            // So sánh xem mỗi phần của userInput có chứa trong formattedAddress hoặc ngược lại
+            for (int i = 0; i < Math.Min(userStreetAndDistrict.Count, formattedStreetAndDistrict.Count); i++)
+            {
+                if (!formattedStreetAndDistrict[i].Contains(userStreetAndDistrict[i], StringComparison.OrdinalIgnoreCase) &&
+                    !userStreetAndDistrict[i].Contains(formattedStreetAndDistrict[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
+
 
         private string NormalizeAddress(string address)
         {
@@ -830,34 +840,28 @@ namespace FinalProject.Controllers
             {
                 try
                 {
-                    // Xóa tất cả bản ghi liên quan trong RoomUtilities
                     if (await _roomService.HasRoomUtilities(idPhong))
                     {
                         await _roomService.DeleteRoomUtilities(idPhong);
                     }
 
-                    // Xóa tất cả bản ghi liên quan trong RoomFavoritePosts
                     if (await _roomService.HasRoomFavorites(idPhong))
                     {
                         await _roomService.DeleteRoomFavorites(idPhong);
                     }
 
-                    // Xóa tất cả bản ghi liên quan trong RoomImages
                     if (await _roomService.HasRoomImages(idPhong))
                     {
                         await _roomService.DeleteRoomImages(idPhong);
                     }
 
-                    // Xóa tất cả phản hồi liên quan trong RoomFeedbacks (nếu có)
-                    //if (await _roomService.HasRoomFeedbacks(idPhong))
-                    //{
-                    //    await _roomService.DeleteRoomFeedbacks(idPhong);
-                    //}
+                    if (await _roomService.HasRoomFeedbacks(idPhong))
+                    {
+                        await _roomService.DeleteRoomFeedbacks(idPhong);
+                    }
 
-                    // Cuối cùng, xóa bài đăng phòng từ RoomPosts
                     await _roomService.DeleteRoomPost(idPhong);
 
-                    // Lấy `roomCoordinateId` và kiểm tra xem nó còn được dùng ở bài đăng khác không
                     int roomCoordinateId = roomPost.RoomCoordinateId;
                     if (!await _roomService.HasOtherPostsWithCoordinate(roomCoordinateId))
                     {

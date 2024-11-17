@@ -198,20 +198,21 @@ namespace FinalProject.Services
                 else
                 {
                     var roomList = (from rp in db.RoomPosts
-                                    join ri in db.RoomImages on rp.PostId equals ri.PostId
+                                    join ri in db.RoomImages on rp.PostId equals ri.PostId into imageGroup
                                     join rt in db.RoomTypes on rp.RoomTypeId equals rt.RoomTypeId
                                     join rs in db.RoomStatuses on rp.StatusId equals rs.RoomStatusId
                                     join b in db.Bills on rp.PostId equals b.PostId into billJoin
-                                    from bill in billJoin.DefaultIfEmpty() // Left Join Bill table
+                                    from bill in billJoin.DefaultIfEmpty()
+                                    let firstImage = imageGroup.FirstOrDefault() // Lấy hình ảnh đầu tiên
                                     where rs.RoomStatusId == 1
                                           && !string.IsNullOrEmpty(rp.Address)
                                           && rp.PostId != postId
                                     select new
                                     {
                                         rp,
-                                        ri,
                                         rt,
-                                        bill
+                                        bill,
+                                        RoomImage = firstImage != null ? firstImage.ImageUrl : null // Kiểm tra null bên ngoài biểu thức
                                     })
                                     .AsEnumerable() // Forces client-side evaluation
                                     .Where(x => ExtractDistrictFromAddress(x.rp.Address) == district &&
@@ -224,7 +225,7 @@ namespace FinalProject.Services
                                         RoomName = x.rp.RoomName,
                                         Quantity = (int)x.rp.Quantity,
                                         RoomDescription = x.rp.RoomDescription,
-                                        RoomImage = x.ri.ImageUrl,
+                                        RoomImage = x.RoomImage, // Hình ảnh đã chọn
                                         RoomPrice = (decimal)x.rp.RoomPrice,
                                         RoomSize = (decimal)x.rp.RoomSize,
                                         RoomAddress = x.rp.Address.Replace(
@@ -246,6 +247,7 @@ namespace FinalProject.Services
                 return Enumerable.Empty<RoomPostVM>();
             }
         }
+
 
 
 
@@ -761,6 +763,40 @@ namespace FinalProject.Services
 
             db.SaveChanges();
             return true;
+        }
+
+        public async Task<bool> HasRoomFeedbacks(int idPhong)
+        {
+            try
+            {
+                return await db.RoomFeedbacks.AnyAsync(rf => rf.PostId == idPhong);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task DeleteRoomFeedbacks(int idPhong)
+        {
+            try
+            {
+                var feedbacksToDelete = await db.RoomFeedbacks
+                    .Where(rf => rf.PostId == idPhong)
+                    .ToListAsync();
+
+                if (feedbacksToDelete.Any())
+                {
+                    db.RoomFeedbacks.RemoveRange(feedbacksToDelete);
+
+                    await db.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

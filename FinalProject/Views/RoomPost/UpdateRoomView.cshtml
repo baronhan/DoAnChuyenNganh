@@ -217,6 +217,25 @@
                                 </div>
                             </div>
 
+                            <div class="form-group col-sm-12" style="background-color: rgba(255, 255, 0, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid rgba(255, 204, 0, 0.5);">
+                                <p style="color: black; font-size: 14px; line-height: 1.6; margin: 0 0 10px;">
+                                    <strong>Lưu ý quan trọng:</strong>
+                                </p>
+                                <ul style="color: black; font-size: 14px; line-height: 1.8; margin-left: 20px; padding-left: 0;">
+                                    <li>Thông tin phòng trọ đăng tải cần phải đảm bảo <strong>chính xác, trung thực</strong> và không gây nhầm lẫn cho người dùng.</li>
+                                    <li>Bạn chịu hoàn toàn trách nhiệm đối với những thông tin mình đăng tải, kể cả về mặt pháp lý.</li>
+                                    <li>Nếu phát hiện sai phạm, bài đăng có thể bị <strong>gỡ bỏ ngay lập tức</strong> và bạn có thể chịu xử lý theo các quy định của pháp luật hiện hành.</li>
+                                    <li>Việc đăng tải thông tin giả mạo hoặc sai sự thật có thể dẫn đến các hình phạt bao gồm nhưng không giới hạn: phạt tiền, cấm đăng bài, hoặc truy cứu trách nhiệm hình sự.</li>
+                                </ul>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" id="agreementCheckbox" required>
+                                    <label for="agreementCheckbox" style="cursor: pointer; color: black; font-size: 14px;">
+                                        Tôi cam kết đã đọc và đồng ý với các điều khoản nêu trên.
+                                    </label>
+                                </div>
+                                <span class="text-danger" id="agreementError" style="display: none; font-size: 13px;">Vui lòng đọc và đồng ý với các điều khoản trước khi tiếp tục.</span>
+                            </div>
+
 
 
                             <div class="button-container" style="display: flex; justify-content: flex-end; align-items: center; margin-top: 20px;">
@@ -446,6 +465,17 @@
             alert(`Vui lòng nhập ${missingFields.join(', ')}.`);
         }
     }
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const checkbox = document.getElementById('agreementCheckbox');
+        const error = document.getElementById('agreementError');
+        if (!checkbox.checked) {
+            e.preventDefault();
+            error.style.display = 'inline';
+        } else {
+            error.style.display = 'none';
+        }
+    });
 
     document.getElementById('streetNumber').addEventListener('blur', checkFields);
     document.getElementById('streetName').addEventListener('blur', checkFields);

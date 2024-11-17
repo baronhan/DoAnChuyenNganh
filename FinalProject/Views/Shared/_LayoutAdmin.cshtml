@@ -62,7 +62,7 @@
             padding: 20px;
         }
 
-        #subMenu a, #postManagementSubMenu a {
+        #subMenu a, #postManagementSubMenu a, #violationManagementSubMenu a {
             color: #d4f1f1; 
             background-color: #007777; 
             padding-left: 20px;
@@ -71,7 +71,7 @@
             margin-left: 0px;
         }
 
-        #subMenu a:hover, #postManagementSubMenu a:hover {
+            #subMenu a:hover, #postManagementSubMenu a:hover, #violationManagementSubMenu a:hover {
             background-color: #3CB371; 
         }
 
@@ -101,9 +101,8 @@
             </div>
         </div>
 
+        <a asp-action="Index" asp-controller="UserManagement">Quản lý người dùng</a>
 
-        <a href="#">Dashboard</a>
-        <a href="#">Quản lý người dùng</a>
         <a href="javascript:void(0)" onclick="togglePostManagementMenu()" id="postManagementToggle">Quản lý bài đăng</a>
         <div id="postManagementSubMenu" style="display: none;">
             <a asp-action="RoomPostManagement" asp-controller="AccessManagement">Quản lý bài viết</a>
@@ -116,7 +115,11 @@
             <a asp-action="PrivilegeManagement" asp-controller="AccessManagement">Phân quyền</a>
         </div>
 
-        <a asp-action="Index" asp-controller="ViolationResponseManagement">Quản lý phản hồi vi phạm</a>
+        <a href="javascript:void(0)" onclick="toggleViolationManagementMenu()" id="violationManagementToggle">Quản lý báo cáo vi phạm</a>
+        <div id="violationManagementSubMenu" style="display: none;">
+            <a asp-action="Index" asp-controller="ViolationResponseManagement">Quản lý phản hồi vi phạm</a>
+            <a asp-action="ViolatingPostManagement" asp-controller="ViolationResponseManagement">Quản lý bài viết vi phạm</a>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -162,6 +165,12 @@
     <script>
         function togglePostManagementMenu() {
             var subMenu = document.getElementById("postManagementSubMenu");
+            subMenu.style.display = subMenu.style.display === "none" ? "block" : "none";
+        }
+    </script>
+    <script>
+        function toggleViolationManagementMenu() {
+            var subMenu = document.getElementById("violationManagementSubMenu");
             subMenu.style.display = subMenu.style.display === "none" ? "block" : "none";
         }
     </script>

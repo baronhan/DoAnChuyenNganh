@@ -105,7 +105,7 @@ namespace FinalProject.Services
                                    join r in db.RoomPosts on f.PostId equals r.PostId
                                    join img in db.RoomImages on r.PostId equals img.PostId
                                    join rt in db.RoomTypes on r.RoomTypeId equals rt.RoomTypeId
-                                   where f.FavoriteId == favoriteId
+                                   where f.FavoriteId == favoriteId && r.StatusId == 1
                                    group img by new
                                    {
                                        r.PostId,
@@ -156,7 +156,8 @@ namespace FinalProject.Services
                 int favoriteId = GetFavoriteIdByUserId(userId);
 
                 return await db.FavoriteListPosts
-                        .Where(f => f.FavoriteId == favoriteId)
+                        .Join(db.RoomPosts, f => f.PostId, r => r.PostId, (f, r) => new { f, r })
+                        .Where(joined => joined.f.FavoriteId == favoriteId && joined.r.StatusId == 1)
                         .CountAsync();
             }
             catch (Exception ex)
@@ -165,6 +166,7 @@ namespace FinalProject.Services
                 return 0;
             }
         }
+
 
         public bool DeleteFavoriteItem(int idPhong, int idUser)
         {

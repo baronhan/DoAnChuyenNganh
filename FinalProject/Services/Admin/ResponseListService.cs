@@ -146,5 +146,113 @@ namespace FinalProject.Services.Admin
                 return false;
             }
         }
+
+        public int GetViolatingPostCount()
+        {
+            return db.RoomPosts.Where(p => p.StatusId == 6).Count();
+        }
+
+        public List<RoomPostManagementVM> GetViolatingPost(int pageNumber, int pageSize)
+        {
+            var query = db.RoomPosts
+                .Join(db.Users, rp => rp.UserId, u => u.UserId, (rp, u) => new { rp, u })
+
+                .GroupJoin(db.Bills, combined => combined.rp.PostId, b => b.PostId, (combined, bills) => new { combined.rp, combined.u, bills })
+                .SelectMany(combined => combined.bills.DefaultIfEmpty(), (combined, b) => new { combined.rp, combined.u, b })
+
+                .GroupJoin(db.Services, combined => combined.b == null ? (int?)null : combined.b.ServiceId, s => s.ServiceId, (combined, services) => new { combined.rp, combined.u, combined.b, services })
+                .SelectMany(combined => combined.services.DefaultIfEmpty(), (combined, s) => new { combined.rp, combined.u, combined.b, s })
+
+                .Select(combined => new
+                {
+                    combined.rp,
+                    combined.u,
+                    combined.b,
+                    combined.s,
+                    RoomImage = db.RoomImages
+                                    .Where(ri => ri.PostId == combined.rp.PostId)
+                                    .Select(ri => ri.ImageUrl)
+                                    .FirstOrDefault()
+                })
+
+                .Join(db.RoomStatuses, combined => combined.rp.StatusId, rs => rs.RoomStatusId, (combined, rs) => new { combined.rp, combined.u, combined.b, combined.s, combined.RoomImage, rs })
+                .Where(p => p.b == null || p.b.ExpirationDate.HasValue)
+                .Where(p => p.rp.StatusId == 6)
+                .AsEnumerable()
+                .Where(p => p.b == null || p.b.ExpirationDate.Value.ToDateTime(new TimeOnly()) >= DateTime.Now)
+                .OrderBy(p => p.rp.PostId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new RoomPostManagementVM
+                {
+                    PostId = (int)p.rp.PostId,
+                    RoomImage = p.RoomImage,
+                    Address = p.rp.Address,
+                    UserId = p.u.UserId,
+                    FullName = p.u.Fullname,
+                    ServiceId = p.s != null ? p.s.ServiceId : 0,
+                    ServiceName = p.s != null ? p.s.ServiceName : "Không có dịch vụ",
+                    StatusId = (int)p.rp.StatusId,
+                    StatusName = p.rs.StatusName
+                })
+                .ToList();
+
+            return query;
+        }
+
+        public List<RoomPostManagementVM> SearchViolatingPost(string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                return new List<RoomPostManagementVM>();
+            }
+
+            var query = db.RoomPosts
+                .Join(db.Users, rp => rp.UserId, u => u.UserId, (rp, u) => new { rp, u })
+                .Join(db.Bills, combined => combined.rp.PostId, b => b.PostId, (combined, b) => new { combined.rp, combined.u, b })
+
+                .GroupJoin(db.Services, combined => combined.b.ServiceId, s => s.ServiceId, (combined, services) => new { combined.rp, combined.u, combined.b, services })
+                .SelectMany(
+                    combined => combined.services.DefaultIfEmpty(),
+                    (combined, s) => new { combined.rp, combined.u, combined.b, s })
+
+                .Select(combined => new
+                {
+                    combined.rp,
+                    combined.u,
+                    combined.b,
+                    combined.s,
+                    RoomImage = db.RoomImages
+                                    .Where(ri => ri.PostId == combined.rp.PostId)
+                                    .Select(ri => ri.ImageUrl)
+                                    .FirstOrDefault()
+                })
+                .Join(db.RoomStatuses, combined => combined.rp.StatusId, rs => rs.RoomStatusId, (combined, rs) => new { combined.rp, combined.u, combined.b, combined.s, combined.RoomImage, rs })
+                .Where(p => p.b.ExpirationDate.HasValue)
+                .Where(p => p.rp.StatusId == 6)
+                .AsEnumerable()
+                .Where(p => p.b.ExpirationDate.Value.ToDateTime(new TimeOnly()) >= DateTime.Now)
+                .Where(p => p.rp.RoomName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            p.rp.Address.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            p.u.Fullname.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            p.s.ServiceName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                            p.rs.StatusName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(p => p.rp.PostId)
+                .Select(p => new RoomPostManagementVM
+                {
+                    PostId = (int)p.rp.PostId,
+                    RoomImage = p.RoomImage,
+                    Address = p.rp.Address,
+                    UserId = p.u.UserId,
+                    FullName = p.u.Fullname,
+                    ServiceId = p.s?.ServiceId ?? 0,
+                    ServiceName = p.s?.ServiceName ?? "Không có dịch vụ",
+                    StatusId = (int)p.rp.StatusId,
+                    StatusName = p.rs.StatusName
+                })
+                .ToList();
+
+            return query;
+        }
     }
 }

@@ -42,18 +42,31 @@
                                         </span>
                                     </div>
 
-                                    <div class="d-flex gap-2">
-                                        <a asp-controller="RoomPost" asp-action="Detail" asp-route-id="@room.PostId"
-                                           class="btn btn-primary py-2 px-3">See details</a>
-                                        <a asp-controller="FavoriteList" asp-action="AddToFavoriteAuthenticated" asp-route-id="@room.PostId"
-                                           class="btn btn-primary py-2 px-3">Add Favorite</a>
 
-                                        @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) != room.UserId.ToString())
-                                        {
-                                            <a asp-controller="RoomFeedback" asp-action="Index" asp-route-postID="@room.PostId"
-                                               class="btn btn-danger py-2 px-3 ms-3">Report</a>
-                                        }
-                                    </div>                                   
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <div class="d-flex gap-2">
+                                            <a asp-controller="RoomPost" asp-action="Detail" asp-route-id="@room.PostId"
+                                            class="btn btn-primary py-2 px-3">See details</a>
+                                            <a asp-controller="FavoriteList" asp-action="AddToFavoriteAuthenticated" asp-route-id="@room.PostId"
+                                            class="btn btn-primary py-2 px-3">Add Favorite</a>
+
+                                            @if (User.Identity.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) != room.UserId.ToString())
+                                            {
+                                                <a asp-controller="RoomFeedback" asp-action="Index" asp-route-postID="@room.PostId"
+                                                class="btn btn-danger py-2 px-3 ms-3">Report</a>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex gap-2">
+                                            <a asp-controller="RoomPost" asp-action="Detail" asp-route-id="@room.PostId"
+                                               class="btn btn-primary py-2 px-3">See details</a>
+                                            <a asp-controller="FavoriteList" asp-action="AddToFavoriteAnonymous" asp-route-id="@room.PostId"
+                                               class="btn btn-primary py-2 px-3">Add Favorite</a>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

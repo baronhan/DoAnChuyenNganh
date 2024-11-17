@@ -318,6 +318,29 @@ namespace FinalProject.Controllers.Admin
 
         public IActionResult GrantPermission(int userTypeId, int pageAddressId)
         {
+            var existingPrivilege = accessManagementService.GetPrivilege(userTypeId, pageAddressId);
+
+            if (existingPrivilege != null)
+            {
+                if (existingPrivilege.IsPrivileged)
+                {
+                    TempData["InfoMessage"] = "Người dùng đã có quyền này!";
+                    return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
+                }
+
+                existingPrivilege.IsPrivileged = true;
+                if (accessManagementService.UpdatePrivilege(existingPrivilege))
+                {
+                    TempData["SuccessMessage"] = "Cập nhật quyền thành công!";
+                }
+                else
+                {
+                    TempData["FailMessage"] = "Cập nhật quyền thất bại!";
+                }
+
+                return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
+            }
+
             var userPrivilege = new PrivilegeVM
             {
                 UserTypeId = userTypeId,
@@ -325,14 +348,14 @@ namespace FinalProject.Controllers.Admin
                 IsPrivileged = true
             };
 
-            if(accessManagementService.GrantPermission(userPrivilege))
+            if (accessManagementService.GrantPermission(userPrivilege))
             {
                 TempData["SuccessMessage"] = "Cấp quyền thành công!";
-            }    
+            }
             else
             {
                 TempData["FailMessage"] = "Cấp quyền thất bại!";
-            }    
+            }
 
             return RedirectToAction("UpdatePrivilege", new { userTypeId = userTypeId });
         }
@@ -343,17 +366,23 @@ namespace FinalProject.Controllers.Admin
 
             if (privilege != null)
             {
-                privilege.IsPrivileged = false;
-
-                var result = accessManagementService.UpdatePrivilege(privilege);
-
-                if (result)
+                if (!privilege.IsPrivileged)
                 {
-                    TempData["SuccessMessage"] = "Thu hồi quyền thành công!";
+                    TempData["InfoMessage"] = "Quyền đã bị thu hồi trước đó!";
                 }
                 else
                 {
-                    TempData["FailMessage"] = "Thu hồi quyền thất bại!";
+                    privilege.IsPrivileged = false;
+                    var result = accessManagementService.UpdatePrivilege(privilege);
+
+                    if (result)
+                    {
+                        TempData["SuccessMessage"] = "Thu hồi quyền thành công!";
+                    }
+                    else
+                    {
+                        TempData["FailMessage"] = "Thu hồi quyền thất bại!";
+                    }
                 }
             }
             else

@@ -135,7 +135,7 @@ EXEC SearchRoom
     @PriceRange = 'over-7m';
 
 select * from Room_Post
-EXEC GetRoomDetail @PostID = 1;
+EXEC GetRoomDetail @PostID = 1031;
 
 SELECT 
     ri.image_url AS RoomImage
