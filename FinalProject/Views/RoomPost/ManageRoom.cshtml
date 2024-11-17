@@ -77,6 +77,25 @@
                                 <p class="mb-0 mt-4">@item.RoomAddress</p>
                             </td>
                             <td>
+
+                                @if (item.StatusId == 2)
+                                {
+                                    <form asp-action="UnhideRoomPost" asp-controller="RoomPost" method="post" style="display: inline;">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Unhide Post" onclick="return confirm('Bạn có chắc muốn hiện bài đăng này?')">
+                                            <i class="fa fa-eye text-success"></i>
+                                        </button>
+                                    </form>
+
+
+                                    <form asp-action="DeleteRoomPost" asp-controller="RoomPost" method="post" style="display: inline;" id="deleteForm">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Delete" onclick="return confirmDelete()">
+                                            <i class="fa fa-times text-danger"></i>
+                                        </button>
+                                    </form>
+                                }
+
                                 @if (item.StatusId == 3)
                                 {
                                     <form asp-action="RelistRoomPost" asp-controller="RoomPost" method="post" style="display: inline;">
@@ -100,6 +119,13 @@
                                         <input type="hidden" name="idPhong" value="@item.PostId" />
                                         <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Update">
                                             <i class="fa fa-pencil-alt text-primary"></i>
+                                        </button>
+                                    </form>
+
+                                    <form asp-action="HideRoomPost" asp-controller="RoomPost" method="post" style="display: inline;">
+                                        <input type="hidden" name="idPhong" value="@item.PostId" />
+                                        <button type="submit" class="btn btn-md rounded-circle bg-light border mt-4" title="Hide Post" onclick="return confirm('Bạn có chắc muốn ẩn bài đăng này?')">
+                                            <i class="fa fa-eye-slash text-warning"></i>
                                         </button>
                                     </form>
 

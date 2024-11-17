@@ -798,5 +798,15 @@ namespace FinalProject.Services
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public bool UpdateStatus(int idPhong, int statusId)
+        {
+            var post = db.RoomPosts.FirstOrDefault(p => p.PostId == idPhong);
+            if (post == null) return false;
+
+            post.StatusId = statusId;
+            db.SaveChanges();
+            return true;
+        }
     }
 }

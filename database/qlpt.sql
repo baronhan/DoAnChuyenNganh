@@ -382,6 +382,8 @@ VALUES
 ( N'Bài đăng trùng lặp', N'Phản hồi về việc bài đăng xuất hiện nhiều lần với cùng một nội dung');
  
 select * from Room_Feedback
+select * from Room_Utility
+select * from Room_Image
 
 select * from [User]
 

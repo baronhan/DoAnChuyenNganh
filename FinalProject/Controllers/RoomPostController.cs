@@ -899,5 +899,41 @@ namespace FinalProject.Controllers
             return RedirectToAction("ManageRoom", "RoomPost");
         }
         #endregion
+
+        #region HideRoomPost
+        public IActionResult HideRoomPost(int idPhong)
+        {
+            bool result = _roomService.UpdateStatus(idPhong, 2); 
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Bài đăng đã được ẩn thành công.";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Không tìm thấy bài đăng hoặc có lỗi xảy ra.";
+            }
+
+            return RedirectToAction("ManageRoom", "RoomPost");
+        }
+        #endregion
+
+        #region UnhideRoomPost
+        public IActionResult UnhideRoomPost(int idPhong)
+        {
+            bool result = _roomService.UpdateStatus(idPhong, 1); 
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Bài đăng đã được công khai thành công.";
+            }
+            else
+            {
+                TempData["FailMessage"] = "Không tìm thấy bài đăng hoặc có lỗi xảy ra.";
+            }
+
+            return RedirectToAction("ManageRoom", "RoomPost");
+        }
+        #endregion
     }
 }
