@@ -7,5 +7,6 @@
         public string ResponseText { get; set; }
         public DateTime ResponseDate { get; set; }
         public virtual RoomFeedback RoomFeedback { get; set; }
+        public virtual ICollection<ResponseImage> ResponseImages { get; set; } = new List<ResponseImage>();
     }
 }

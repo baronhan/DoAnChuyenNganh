@@ -324,7 +324,7 @@ SELECT
 FROM 
     INFORMATION_SCHEMA.TABLE_CONSTRAINTS
 WHERE 
-    TABLE_NAME = 'Service' AND CONSTRAINT_TYPE = 'PRIMARY KEY';
+    TABLE_NAME = 'Response_Image' AND CONSTRAINT_TYPE = 'PRIMARY KEY';
 
 select * from Favorite_List
 select * from Favorite_List_Post
@@ -364,7 +364,7 @@ JOIN
 ON 
     ref.CONSTRAINT_NAME = con.CONSTRAINT_NAME
 WHERE 
-    con.TABLE_NAME = 'Response';
+    con.TABLE_NAME = 'Response_Image';
 
 
 
@@ -473,6 +473,14 @@ CREATE TABLE Bill (
 
 select * from Bill
 
-select * from Room_Post
-
 select * from Room_Status
+
+select * from Room_Feedback
+
+CREATE TABLE Response_Image (
+    response_image_id INT IDENTITY(1,1) PRIMARY KEY, 
+    response_id INT NOT NULL, 
+    image_url NVARCHAR(255) NOT NULL, 
+    created_at DATETIME DEFAULT GETDATE()
+    FOREIGN KEY (response_id) REFERENCES Response(response_id) ON DELETE CASCADE 
+);

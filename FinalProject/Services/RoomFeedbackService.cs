@@ -85,8 +85,7 @@ namespace FinalProject.Services
                 if (post != null && post.StatusId != 6) 
                 {
                     HidePost((int)postId);
-
-                    LockAccount(post.UserId);
+                    //LockAccount(post.UserId);
                 }
             }
         }
@@ -274,5 +273,31 @@ namespace FinalProject.Services
 
             db.SaveChanges();
         }
+
+        public int GetLastAddedResponseId()
+        {
+            return db.Responses.OrderByDescending(r => r.ResponseId).Select(r => r.ResponseId).FirstOrDefault();
+        }
+
+        public void SaveResponseImage(int responseId, string uniqueFileName)
+        {
+            try
+            {
+                var responseImage = new ResponseImage
+                {
+                    ResponseId = responseId,
+                    ImageUrl = uniqueFileName, 
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                db.ResponseImages.Add(responseImage);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving response image: {ex.Message}");
+            }
+        }
+
     }
 }

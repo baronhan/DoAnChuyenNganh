@@ -8,5 +8,6 @@
         public string Address { get; set; }
         public string ResponseText { get; set; }
         public DateTime ResponseDate { get; set; }
+        public List<string> ImageUrls { get; set; }
     }
 }

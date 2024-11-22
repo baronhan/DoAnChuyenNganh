@@ -22,6 +22,7 @@ namespace FinalProject.Services.Admin
                                     join roomPost in db.RoomPosts on roomFeedback.PostId equals roomPost.PostId
                                     join feedback in db.Feedbacks on roomFeedback.FeedbackId equals feedback.FeedbackId
                                     join user in db.Users on roomPost.UserId equals user.UserId
+                                    join responseImage in db.ResponseImages on response.ResponseId equals responseImage.ResponseId into responseImages
                                     select new ResponseListVM
                                     {
                                         ResponseId = response.ResponseId,
@@ -29,8 +30,10 @@ namespace FinalProject.Services.Admin
                                         FeedbackName = feedback.FeedbackName,
                                         Address = roomPost.Address,
                                         ResponseText = response.ResponseText,
-                                        ResponseDate = response.ResponseDate
+                                        ResponseDate = response.ResponseDate,
+                                        ImageUrls = responseImages.Select(img => img.ImageUrl).ToList()
                                     }).ToList();
+
 
                 return responseList;
             }
@@ -46,20 +49,24 @@ namespace FinalProject.Services.Admin
             try
             {
                 var _response = (from response in db.Responses
-                                    join roomFeedback in db.RoomFeedbacks on response.RoomFeedbackId equals roomFeedback.RoomFeedbackId
-                                    join roomPost in db.RoomPosts on roomFeedback.PostId equals roomPost.PostId
-                                    join feedback in db.Feedbacks on roomFeedback.FeedbackId equals feedback.FeedbackId
-                                    join user in db.Users on roomPost.UserId equals user.UserId
-                                    where response.ResponseId == responseId
-                                    select new ResponseListVM
-                                    {
-                                        ResponseId = response.ResponseId,
-                                        UserName = user.Fullname,
-                                        FeedbackName = feedback.FeedbackName,
-                                        Address = roomPost.Address,
-                                        ResponseText = response.ResponseText,
-                                        ResponseDate = response.ResponseDate
-                                    }).FirstOrDefault();
+                                 join roomFeedback in db.RoomFeedbacks on response.RoomFeedbackId equals roomFeedback.RoomFeedbackId
+                                 join roomPost in db.RoomPosts on roomFeedback.PostId equals roomPost.PostId
+                                 join feedback in db.Feedbacks on roomFeedback.FeedbackId equals feedback.FeedbackId
+                                 join user in db.Users on roomPost.UserId equals user.UserId
+                                 where response.ResponseId == responseId
+                                 select new ResponseListVM
+                                 {
+                                     ResponseId = response.ResponseId,
+                                     UserName = user.Fullname,
+                                     FeedbackName = feedback.FeedbackName,
+                                     Address = roomPost.Address,
+                                     ResponseText = response.ResponseText,
+                                     ResponseDate = response.ResponseDate,
+                                     ImageUrls = (from responseImage in db.ResponseImages
+                                                  where responseImage.ResponseId == response.ResponseId
+                                                  select responseImage.ImageUrl).ToList()
+                                 }).FirstOrDefault();
+
 
                 return _response;
             }

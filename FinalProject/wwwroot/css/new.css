@@ -106,4 +106,33 @@ margin-bottom: 20px; /* Thêm khoảng cách dưới mỗi field */
     background-color: #EAE7D6;
     color: black;
 }
+.image-preview {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+    .image-preview img {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .image-preview .view-image {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(0, 123, 255, 0.8); /* Màu xanh dương nhạt */
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+        .image-preview .view-image i {
+            font-size: 14px;
+        }
+
+
 

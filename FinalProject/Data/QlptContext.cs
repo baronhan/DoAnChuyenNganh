@@ -50,6 +50,7 @@ public partial class QlptContext : DbContext
     public DbSet<RoomPostDetailVM> RoomPostDetailVM { get; set; }
     public DbSet<RoomImageVM> RoomImageVM { get; set; }
     public virtual DbSet<RoomCoordinates> RoomCoordinates { get; set; }
+    public virtual DbSet<ResponseImage> ResponseImages { get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -417,6 +418,25 @@ public partial class QlptContext : DbContext
               .OnDelete(DeleteBehavior.Cascade) 
               .HasConstraintName("FK__Response__room_f__4F47C5E3");
         });
+
+        modelBuilder.Entity<ResponseImage>(entity =>
+        {
+            entity.HasKey(e => e.ResponseImageId).HasName("PK__Response__DA25A50BE79B7FBD");
+
+            entity.ToTable("Response_Image");
+
+            entity.Property(e => e.ResponseImageId).HasColumnName("response_image_id"); 
+            entity.Property(e => e.ResponseId).HasColumnName("response_id"); 
+            entity.Property(e => e.ImageUrl).HasColumnName("image_url").HasMaxLength(255);
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+            entity.HasOne(d => d.Response)
+                .WithMany(p => p.ResponseImages)
+                .HasForeignKey(d => d.ResponseId)
+                .OnDelete(DeleteBehavior.Cascade) 
+                .HasConstraintName("FK__Response___creat__634EBE90");
+        });
+
 
         modelBuilder.Entity<RoomPostVM>(entity =>
         {
