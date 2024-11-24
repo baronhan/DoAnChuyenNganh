@@ -7,20 +7,12 @@
       "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\services\\roomfeedbackservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\roompostcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\roomfeedbackcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\roomfeedbackcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\views\\roomfeedback\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\views\\roomfeedback\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|d:\\hki 2024-2025\\smartroommanagement\\finalproject\\controllers\\admin\\violationresponsemanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72A2BA19-F762-4278-9011-AC4F177BC56D}|FinalProject\\FinalProject.csproj|solutionrelative:finalproject\\controllers\\admin\\violationresponsemanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,53 +36,14 @@
               "RelativeDocumentMoniker": "FinalProject\\Services\\RoomFeedbackService.cs",
               "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Services\\RoomFeedbackService.cs",
               "RelativeToolTip": "FinalProject\\Services\\RoomFeedbackService.cs",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAgwFYAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAgwDwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T03:50:27.23Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RoomPostController.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\RoomPostController.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Controllers\\RoomPostController.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\RoomPostController.cs",
-              "RelativeToolTip": "FinalProject\\Controllers\\RoomPostController.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T03:49:56.426Z",
+              "WhenOpened": "2024-11-24T17:39:16.571Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CustomerController.cs",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\CustomerController.cs",
-              "RelativeDocumentMoniker": "FinalProject\\Controllers\\CustomerController.cs",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\CustomerController.cs",
-              "RelativeToolTip": "FinalProject\\Controllers\\CustomerController.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T03:49:20.258Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomFeedback\\Index.cshtml",
-              "RelativeDocumentMoniker": "FinalProject\\Views\\RoomFeedback\\Index.cshtml",
-              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Views\\RoomFeedback\\Index.cshtml",
-              "RelativeToolTip": "FinalProject\\Views\\RoomFeedback\\Index.cshtml",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-22T03:48:35.246Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "RoomFeedbackController.cs",
               "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\RoomFeedbackController.cs",
               "RelativeDocumentMoniker": "FinalProject\\Controllers\\RoomFeedbackController.cs",
@@ -98,7 +51,20 @@
               "RelativeToolTip": "FinalProject\\Controllers\\RoomFeedbackController.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAAwCEAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T03:48:27.254Z",
+              "WhenOpened": "2024-11-24T17:39:07.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ViolationResponseManagementController.cs",
+              "DocumentMoniker": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\Admin\\ViolationResponseManagementController.cs",
+              "RelativeDocumentMoniker": "FinalProject\\Controllers\\Admin\\ViolationResponseManagementController.cs",
+              "ToolTip": "D:\\HKI 2024-2025\\SmartRoomManagement\\FinalProject\\Controllers\\Admin\\ViolationResponseManagementController.cs",
+              "RelativeToolTip": "FinalProject\\Controllers\\Admin\\ViolationResponseManagementController.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T17:38:46.889Z",
               "EditorCaption": ""
             }
           ]

@@ -13,6 +13,7 @@ namespace FinalProject.Services.Admin
             this.db = db;
         }
 
+
         public List<ResponseListVM> GetAllResponseList()
         {
             try
@@ -23,6 +24,7 @@ namespace FinalProject.Services.Admin
                                     join feedback in db.Feedbacks on roomFeedback.FeedbackId equals feedback.FeedbackId
                                     join user in db.Users on roomPost.UserId equals user.UserId
                                     join responseImage in db.ResponseImages on response.ResponseId equals responseImage.ResponseId into responseImages
+                                    where roomPost.StatusId == 1
                                     select new ResponseListVM
                                     {
                                         ResponseId = response.ResponseId,

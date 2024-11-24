@@ -138,6 +138,11 @@ namespace FinalProject.Controllers.Admin
                         await _roomService.DeleteRoomFeedbacks(postId);
                     }
 
+                    if (await _roomService.HasBillService(postId))
+                    {
+                        await _roomService.DeleteBillService(postId);
+                    }
+
                     await _roomService.DeleteRoomPost(postId);
 
                     int roomCoordinateId = roomPost.RoomCoordinateId;

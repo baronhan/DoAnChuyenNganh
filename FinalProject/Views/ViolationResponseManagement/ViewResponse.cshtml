@@ -115,21 +115,19 @@
     document.addEventListener('DOMContentLoaded', function () {
         const viewerContainer = document.querySelector('#imagePreviewContainer');
 
-        new Viewer(viewerContainer, {
-            inline: false
-            navbar: true, 
+        new Viewer(document.getElementById('imagePreviewContainer'), {
+            inline: false,
+            navbar: true,
             toolbar: {
-                zoomIn: true,   
+                zoomIn: true,
                 zoomOut: true,
-                rotateLeft: true, 
-                rotateRight: true, 
-                reset: true,   
+                rotateLeft: true,
+                rotateRight: true,
+                reset: true,
             },
             title: false, 
-            viewed() {
-                this.viewer.zoomTo(1); 
-            },
         });
+
     });
 
 

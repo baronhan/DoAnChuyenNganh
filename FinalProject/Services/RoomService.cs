@@ -808,5 +808,39 @@ namespace FinalProject.Services
             db.SaveChanges();
             return true;
         }
+
+        public async Task<bool> HasBillService(int postId)
+        {
+            try
+            {
+                return await db.Bills.AnyAsync(rf => rf.PostId == postId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task DeleteBillService(int postId)
+        {
+            try
+            {
+                var billToDelete = await db.Bills
+                    .Where(rf => rf.PostId == postId)
+                    .ToListAsync();
+
+                if (billToDelete.Any())
+                {
+                    db.Bills.RemoveRange(billToDelete);
+
+                    await db.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

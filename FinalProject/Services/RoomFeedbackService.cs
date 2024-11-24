@@ -40,7 +40,7 @@ namespace FinalProject.Services
 
             foreach (var item in roomFeedbacks)
             {
-                if (item.ViolationCount >= 5 && item.ViolationCount <= 10)
+                if (item.ViolationCount >= 5 && item.ViolationCount <= 7)
                 {
                     var post = posts.FirstOrDefault(p => p.PostId == item.PostId);
                     if (post != null && feedbacks.TryGetValue((int)item.FeedbackId, out var feedback))
@@ -63,9 +63,10 @@ namespace FinalProject.Services
         public void HidePostsForAllViolationsAsync()
         {
             var postsToHide = db.RoomPosts
-                                .Where(p => p.StatusId != 6)  
+                                .Where(p => p.StatusId != 6)
                                 .ToList();
 
+            // Lấy danh sách bài viết có 7 báo cáo vi phạm
             var postsWithViolations7 = db.RoomFeedbacks
                                           .GroupBy(rf => rf.PostId)
                                           .Select(g => new
@@ -73,22 +74,43 @@ namespace FinalProject.Services
                                               PostId = g.Key,
                                               ViolationCount = g.Count()
                                           })
-                                          .Where(g => g.ViolationCount == 7) 
+                                          .Where(g => g.ViolationCount == 7)
                                           .ToList();
 
             var postsToHide7 = postsWithViolations7.Select(p => p.PostId).ToList();
 
+            // Danh sách các chủ trọ cần kiểm tra
+            var usersToCheck = new HashSet<int>();
 
             foreach (var postId in postsToHide7)
             {
                 var post = db.RoomPosts.FirstOrDefault(p => p.PostId == postId);
-                if (post != null && post.StatusId != 6) 
+                if (post != null && post.StatusId != 6)
                 {
-                    HidePost((int)postId);
-                    //LockAccount(post.UserId);
+                    HidePost((int)postId); // Ẩn bài viết
+                    usersToCheck.Add((int)post.UserId); // Thêm chủ trọ vào danh sách kiểm tra
+                }
+            }
+
+            // Kiểm tra và block tài khoản chủ trọ nếu cần
+            foreach (var userId in usersToCheck)
+            {
+                var userPosts = db.RoomPosts
+                                  .Where(p => p.UserId == userId && p.StatusId == 6) // Lấy bài viết đã vi phạm
+                                  .ToList();
+
+                if (userPosts.Count >= 2) // Ngưỡng bài viết vi phạm để block tài khoản
+                {
+                    var user = db.Users.FirstOrDefault(u => u.UserId == userId);
+                    if (user != null && user.IsValid)
+                    {
+                        user.IsValid = false;
+                        db.SaveChanges();
+                    }
                 }
             }
         }
+
 
 
         private void HidePost(int postId)
