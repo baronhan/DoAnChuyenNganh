@@ -96,14 +96,14 @@
         @if (Model.PageNumber > 1)
         {
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("PrivilegeManagement", new { pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })@queryString">Trước</a>
+                <a class="page-link" href="@Url.Action("PageAddressManagement", new { pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })@queryString">Trước</a>
             </li>
         }
 
         @for (int i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                <a class="page-link" href="@Url.Action("PrivilegeManagement", new { pageNumber = i, pageSize = Model.PageSize })@queryString">
+                <a class="page-link" href="@Url.Action("PageAddressManagement", new { pageNumber = i, pageSize = Model.PageSize })@queryString">
                     @i
                 </a>
             </li>
@@ -112,7 +112,7 @@
         @if (Model.PageNumber < Model.TotalPages)
         {
             <li class="page-item">
-                <a class="page-link" href="@Url.Action("PrivilegeManagement", new { pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })@queryString">Tiếp theo</a>
+                <a class="page-link" href="@Url.Action("PageAddressManagement", new { pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })@queryString">Tiếp theo</a>
             </li>
         }
     </ul>

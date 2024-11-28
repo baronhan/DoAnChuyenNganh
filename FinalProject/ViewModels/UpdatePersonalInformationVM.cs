@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinalProject.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinalProject.ViewModels
 {
     public class UpdatePersonalInformationVM
     {
         [Required(ErrorMessage = "Fullname is required.")]
-        [StringLength(100, ErrorMessage = "Fullname cannot exceed 100 characters.")]
+        [StringLength(50, ErrorMessage = "Fullname cannot exceed 50 characters.")]
         public string? fullname { get; set; }
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
@@ -19,6 +20,7 @@ namespace FinalProject.ViewModels
         public string? userimage { get; set; }
         [DataType(DataType.Date, ErrorMessage = "Invalid date format.")]
         [Range(typeof(DateTime), "1/1/1900", "12/31/2100", ErrorMessage = "Date of Birth must be between 01/01//1900 and 31/12/2100.")]
+        [AgeRestriction(18)]
         public DateTime? dob { get; set; }
 
         public UpdatePersonalInformationVM() { }

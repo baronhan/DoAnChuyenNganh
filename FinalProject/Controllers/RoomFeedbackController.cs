@@ -85,7 +85,7 @@ namespace FinalProject.Controllers
 
                             else
                             {
-                                TempData["FailMessage"] = "Đã xảy ra lỗi khi gửi phản hồi!";
+                                TempData["FailMessage"] = "Vui lòng chọn một loại báo cáo vi phạm cụ thể!";
                                 transaction.Rollback();
                             }
                         }

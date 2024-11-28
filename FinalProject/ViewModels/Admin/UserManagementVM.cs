@@ -8,7 +8,7 @@ namespace FinalProject.ViewModels.Admin
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "Trường tên đăng nhập là bắt buộc")]
-        [StringLength(50, ErrorMessage = "Tên đăng nhập phải từ 3 đến 50 ký tự.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Tên đăng nhập phải từ 6 đến 50 ký tự.", MinimumLength = 6)]
         public string Username { get; set; }
         [Required(ErrorMessage = "Trường họ tên là bắt buộc")]
         [StringLength(100, ErrorMessage = "Trường họ tên người dùng không vượt quá 100 ký tự")]

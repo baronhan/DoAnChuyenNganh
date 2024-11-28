@@ -1,0 +1,79 @@
+﻿@model FinalProject.ViewModels.Admin.ServiceListVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/new.css" />
+</head>
+
+<div class="col-lg-12 mt-4 mb-4" style="width: 100%;">
+    <div class="iq-edit-list-data">
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="personal-information" role="tabpanel" style="margin-top: 50px;">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center align-items-center" style="height: 50px;">
+                        <div class="header-title">
+                            <h4 class="card-title">Chỉnh sửa dịch vụ</h4>
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        @if (TempData["FailMessage"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                @TempData["FailMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <form method="post" action="@Url.Action("UpdateService", "ServiceManagement")">
+                            <input type="hidden" asp-for="ServiceId" />
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="serviceName">Tên dịch vụ:</label>
+                                    <input type="text" id="pageName" asp-for="ServiceName" value="@Model.ServiceName" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="serviceDescription">Mô tả:</label>
+                                    <input type="text" id="url" asp-for="ServiceDescription" value="@Model.ServiceDescription" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.ServiceDescription, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="servicePrice">Giá dịch vụ:</label>
+                                    <input type="number" id="servicePrice" asp-for="ServicePrice" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.ServicePrice, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label style="margin-top:30px" for="serviceTime">Số ngày:</label>
+                                    <input type="number" id="duration" asp-for="ServiceTime" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.ServiceTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-buttons d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-primary me-2">Lưu thay đổi</button>
+                                <a href="@Url.Action("ServiceListManagement", "ServiceManagement")" style="margin-right:20px" class="btn btn-secondary">Hủy bỏ</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
