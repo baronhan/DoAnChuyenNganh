@@ -36,8 +36,6 @@ BEGIN
       AND (@RoomTypeId IS NULL OR rp.room_type_id = @RoomTypeId);
 END
 
-
-
 ALTER PROCEDURE GetRoomDetail
     @PostID INT = NULL
 AS
@@ -87,15 +85,22 @@ ALTER PROCEDURE SearchRoom
     @PriceRange NVARCHAR(20) = NULL
 AS
 BEGIN
+    WITH FirstImage AS (
+        SELECT 
+            ri.post_id, 
+            ri.image_url,
+            ROW_NUMBER() OVER (PARTITION BY ri.post_id ORDER BY ri.image_url) AS RowNum
+        FROM Room_Image ri
+    )
     SELECT 
         rp.post_id AS PostId,  
         rp.room_name AS RoomName,
         rp.quantity AS Quantity,
         rp.room_description AS RoomDescription,
-        ri.image_url AS RoomImage,
+        fi.image_url AS RoomImage,
         rp.room_price AS RoomPrice,
         rp.room_size AS RoomSize,
-		rp.user_id AS UserId,
+        rp.user_id AS UserId,
         -- Cắt tên phường, giữ lại tên đường và quận
         REPLACE(rp.address, 
                 SUBSTRING(rp.address, 
@@ -104,7 +109,7 @@ BEGIN
                 '') AS RoomAddress,
         rt.type_name AS RoomType
     FROM Room_Post rp
-    JOIN Room_Image ri ON rp.post_id = ri.post_id
+    LEFT JOIN FirstImage fi ON rp.post_id = fi.post_id AND fi.RowNum = 1 -- Thay đổi INNER JOIN thành LEFT JOIN
     JOIN Room_Type rt ON rp.room_type_id = rt.room_type_id
     JOIN Room_Status rs ON rp.status_id = rs.room_status_id
     WHERE rs.room_status_id = 1  
@@ -123,24 +128,3 @@ BEGIN
       AND (@Ward IS NULL OR rp.address LIKE '%' + @Ward + '%')  -- Ward filtering
 END
 
-
-select * from Room_Post
-select * from Room_Type
-
-EXEC SearchRoom 
-    @RoomTypeId = 2, 
-    @District = N'Quận 3', 
-    @Ward = N'Phường 1', 
-    @Adult = 2, 
-    @PriceRange = 'over-7m';
-
-select * from Room_Post
-EXEC GetRoomDetail @PostID = 1031;
-
-SELECT 
-    ri.image_url AS RoomImage
-FROM Room_Image ri
-WHERE ri.post_id = 1
-  AND ri.image_type_id IN (1, 6);
-
-EXEC GetRoomPosts @RoomTypeId = 1

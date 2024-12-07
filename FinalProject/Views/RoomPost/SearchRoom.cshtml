@@ -32,7 +32,7 @@
                 </h2>
             </div>
         </div>
-        @await Html.PartialAsync("~/Views/Shared/_SliderPartial.cshtml")
+        @await Component.InvokeAsync("RoomTop", new { serviceId = 1 })
     </div>
 </div>
 
@@ -103,12 +103,10 @@
 
             <div class="row align-items-center py-5">
                 <div class="col-lg-3">
-                    <!-- Hiển thị trang hiện tại và tổng số trang -->
                     Pagination (@Model.CurrentPage of @Model.TotalPages)
                 </div>
                 <div class="col-lg-6 text-center">
                     <div class="custom-pagination">
-                        <!-- Tạo liên kết phân trang -->
                         @for (int i = 1; i <= Model.TotalPages; i++)
                         {
                             <a asp-action="SearchRoom" asp-route-page="@i" class="@(i == Model.CurrentPage ? "active" : "")">
